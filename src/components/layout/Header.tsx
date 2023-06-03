@@ -30,23 +30,26 @@ const Header = () => {
               key={name}
               className="font-medium text-gray-600"
             >
-              <Link href={link}>
-                <a className="rounded-md p-3 hover:bg-gray-100 hover:text-black">{name}</a>
+              <Link
+                className="rounded-md p-3 hover:bg-gray-100 hover:text-black"
+                href={link}
+              >
+                {name}
               </Link>
             </li>
           ))}
           <li>
             <Link href="/search">
-              <a>
-                <IconButton
-                  icon={
-                    <AiOutlineSearch
-                      size="1.5rem"
-                      color="white"
-                    />
-                  }
-                />
-              </a>
+              <IconButton
+                icon={
+                  <AiOutlineSearch
+                    size="1.5rem"
+                    color="white"
+                  />
+                }
+              />
+              {/* <a>
+              </a> */}
             </Link>
           </li>
         </ul>
