@@ -1,19 +1,5 @@
-import {
-  PageObjectResponse,
-  MultiSelectPropertyItemObjectResponse,
-} from '@notionhq/client/build/src/api-endpoints';
-
+import { Item } from '@/interfaces';
 import { getNotionDBItems } from '@/utils';
-
-export interface Item {
-  id: string;
-  cover: string;
-  icon: PageObjectResponse['icon'];
-  tags: MultiSelectPropertyItemObjectResponse['multi_select'];
-  published: string;
-  description: string;
-  title: string;
-}
 
 const parseItems = (items: Awaited<ReturnType<typeof getNotionDBItems>>) => {
   const parsedItems = items.reduce<Item[]>((acc, item) => {

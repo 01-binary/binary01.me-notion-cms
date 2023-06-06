@@ -2,22 +2,21 @@ import React from 'react';
 
 import { GetStaticProps } from 'next';
 
+import { Item } from '@/interfaces';
 import { parseItems, getNotionDBItems } from '@/utils';
 
-import Intro from '@/components/intro';
-
-import { Item } from '@/utils/parseItems';
+import Intro from '@/components/home/Intro';
+import List from '@/components/home/List';
 
 interface HomeProps {
-  databaseItems: Item[];
+  items: Item[];
 }
 
-const Home = ({ databaseItems }: HomeProps) => {
-  console.log('databaseItems :>> ', databaseItems);
-
+const Home = ({ items }: HomeProps) => {
   return (
     <div>
       <Intro />
+      <List items={items} />
     </div>
   );
 };
@@ -27,11 +26,11 @@ export default Home;
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   if (!process.env.DATABASE_ID) throw new Error('DATABASE_ID is not defined');
   const databaseItems = await getNotionDBItems(process.env.DATABASE_ID);
-  const parsedDatabaseItems = parseItems(databaseItems);
+  const items = parseItems(databaseItems);
 
   return {
     props: {
-      databaseItems: parsedDatabaseItems,
+      items,
     },
   };
 };
