@@ -4,6 +4,8 @@ import { GetStaticProps } from 'next';
 
 import { parseItems, getNotionDBItems } from '@/utils';
 
+import Intro from '@/components/intro';
+
 import { Item } from '@/utils/parseItems';
 
 interface HomeProps {
@@ -13,7 +15,11 @@ interface HomeProps {
 const Home = ({ databaseItems }: HomeProps) => {
   console.log('databaseItems :>> ', databaseItems);
 
-  return <div>Home</div>;
+  return (
+    <div>
+      <Intro />
+    </div>
+  );
 };
 
 export default Home;
