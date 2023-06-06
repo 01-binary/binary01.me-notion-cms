@@ -2,22 +2,30 @@ import React from 'react';
 
 import { GetStaticProps } from 'next';
 
-import { getDatabaseItems } from '@/utils/notionClient';
+import { parseItems, getNotionDBItems } from '@/utils';
 
-const Home = () => {
+import { Item } from '@/utils/parseItems';
+
+interface HomeProps {
+  databaseItems: Item[];
+}
+
+const Home = ({ databaseItems }: HomeProps) => {
+  console.log('databaseItems :>> ', databaseItems);
+
   return <div>Home</div>;
 };
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   if (!process.env.DATABASE_ID) throw new Error('DATABASE_ID is not defined');
-
-  const databaseItems = await getDatabaseItems(process.env.DATABASE_ID);
-
-  console.log('databaseItems :>> ', databaseItems);
+  const databaseItems = await getNotionDBItems(process.env.DATABASE_ID);
+  const parsedDatabaseItems = parseItems(databaseItems);
 
   return {
-    props: {},
+    props: {
+      databaseItems: parsedDatabaseItems,
+    },
   };
 };
