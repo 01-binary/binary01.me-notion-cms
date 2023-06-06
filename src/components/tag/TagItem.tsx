@@ -6,18 +6,18 @@ import { Item } from '@/interfaces';
 
 import { COLOR_TABLE } from '@/assets/constants';
 
-interface TagItemProps {
+interface Props {
   tagItem: Item['tags'][number];
 }
 
-const TagItem = ({ tagItem }: TagItemProps) => {
+const TagItem = ({ tagItem }: Props) => {
   const { name, color } = tagItem;
 
   return (
     <li>
       <Link
         href={`tag/${name.toLowerCase()}`}
-        className="rounded-full px-2 py-1 font-light hover:underline"
+        className="block rounded-full px-2 py-1 text-sm font-light text-gray-800 transition-all hover:-translate-y-1 hover:underline hover:shadow-md"
         style={{
           backgroundColor: COLOR_TABLE[color],
         }}

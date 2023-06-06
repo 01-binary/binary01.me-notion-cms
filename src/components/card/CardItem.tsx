@@ -8,11 +8,11 @@ import { Item } from '@/interfaces';
 import IconRenderer from '@/components/card/IconRenderer';
 import TagList from '@/components/tag/TagList';
 
-interface CardItemProps {
+interface Props {
   cardItem: Item;
 }
 
-const CardItem = ({ cardItem }: CardItemProps) => {
+const CardItem = ({ cardItem }: Props) => {
   const { cover, description, icon, id, published, tags, title } = cardItem;
 
   return (
@@ -36,7 +36,7 @@ const CardItem = ({ cardItem }: CardItemProps) => {
             {title}
           </h4>
           {description ? <p className="font-medium text-gray-600">{description}</p> : null}
-          <time className="font-medium text-gray-700">{published}</time>
+          <time className="text-sm font-light text-gray-700">{published}</time>
         </div>
       </Link>
       {tags.length > 0 ? <TagList tags={tags} /> : null}

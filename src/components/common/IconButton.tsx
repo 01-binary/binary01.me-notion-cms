@@ -1,10 +1,10 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
-interface IconButtonProps {
-  icon: React.ReactNode;
+interface Props {
+  icon: ReactNode;
 }
 
-const IconButton = ({ icon }: IconButtonProps) => {
+const IconButton = ({ icon }: Props) => {
   return (
     <button
       type="button"

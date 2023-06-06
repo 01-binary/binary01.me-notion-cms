@@ -2,11 +2,11 @@ import Image from 'next/image';
 
 import { Item } from '@/interfaces';
 
-interface IconRendererProps {
+interface Props {
   icon: Item['icon'];
 }
 
-const IconRenderer = ({ icon }: IconRendererProps) => {
+const IconRenderer = ({ icon }: Props) => {
   if (!icon) return null;
 
   if (icon.type === 'emoji') return <span>{icon.emoji}</span>;
