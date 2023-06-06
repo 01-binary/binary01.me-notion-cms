@@ -32,5 +32,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     props: {
       items,
     },
+    revalidate: 300,
   };
 };
