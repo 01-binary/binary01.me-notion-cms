@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Item } from '@/interfaces';
 
 import IconRenderer from '@/components/card/IconRenderer';
+import TagList from '@/components/tag/TagList';
 
 interface CardItemProps {
   cardItem: Item;
@@ -15,8 +16,11 @@ const CardItem = ({ cardItem }: CardItemProps) => {
   const { cover, description, icon, id, published, tags, title } = cardItem;
 
   return (
-    <li className="group overflow-hidden rounded-2xl shadow-lg">
-      <Link href={`blog/${id}`}>
+    <li className="group flex flex-col overflow-hidden rounded-2xl shadow-lg">
+      <Link
+        href={`posts/${id}`}
+        className="grow"
+      >
         <div className="relative aspect-[1.3/1]">
           <Image
             src={cover}
@@ -35,7 +39,7 @@ const CardItem = ({ cardItem }: CardItemProps) => {
           <time className="font-medium text-gray-700">{published}</time>
         </div>
       </Link>
-      {/* tags */}
+      {tags.length > 0 ? <TagList tags={tags} /> : null}
     </li>
   );
 };

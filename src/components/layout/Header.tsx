@@ -22,7 +22,7 @@ const Header = () => {
       <header className="fixed top-0 z-50 w-full bg-white">
         <nav className="mx-auto flex max-w-5xl flex-row justify-between p-4">
           <h1 className="text-4xl font-black">
-            <Link href={'/'}>MN</Link>
+            <Link href={'/'}>BINARY</Link>
           </h1>
 
           <ul className="flex flex-row items-center gap-2">

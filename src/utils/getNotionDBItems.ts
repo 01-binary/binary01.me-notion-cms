@@ -9,12 +9,12 @@ const getNotionDBItems = async (databaseId: string) => {
         equals: true,
       },
     },
-    // sorts: [
-    //   {
-    //     property: '작성일',
-    //     direction: 'descending',
-    //   },
-    // ],
+    sorts: [
+      {
+        property: 'Date',
+        direction: 'descending',
+      },
+    ],
   });
 
   return response.results;
