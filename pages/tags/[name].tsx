@@ -40,7 +40,6 @@ export const getStaticProps: GetStaticProps<Props, TagsParams> = async ({ params
       tagName,
     },
   });
-  console.log(databaseItems);
 
   const parsedDatabaseItems = parseItems(databaseItems);
 

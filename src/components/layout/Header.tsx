@@ -1,15 +1,9 @@
 import React from 'react';
 
 import Link from 'next/link';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { FcSearch } from 'react-icons/fc';
 
-import IconButton from '@/components/common/IconButton';
-
-const navLinks = [
-  {
-    name: 'Tags',
-    link: '/tags',
-  },
+const navLinkList = [
   {
     name: 'About',
     link: '/about',
@@ -19,42 +13,28 @@ const navLinks = [
 const Header = () => {
   return (
     <>
-      <header className="fixed top-0 z-50 w-full bg-white">
-        <nav className="mx-auto flex max-w-5xl flex-row justify-between p-4">
-          <h1 className="text-4xl font-black">
-            <Link href={'/'}>BINARY</Link>
+      <header className="fixed top-0 z-50 w-full min-w-[360px] bg-[hsla(0,0%,100%,.8)] backdrop-blur-lg">
+        <nav className="mx-auto flex max-w-[1024px] items-center justify-between p-2">
+          <h1 className="text-[20px] font-normal">
+            <Link href={'/'}>binary01.me</Link>
           </h1>
 
-          <ul className="flex flex-row items-center gap-2">
-            {navLinks.map(({ name, link }) => (
+          <ul className="flex items-center gap-2">
+            {navLinkList.map(({ name, link }) => (
               <li
                 key={name}
-                className="font-medium text-gray-600"
+                className="cursor-pointer rounded-xl p-2 text-[18px] font-light hover:bg-gray-100"
               >
-                <Link
-                  className="rounded-md p-3 hover:bg-gray-100 hover:text-black"
-                  href={link}
-                >
-                  {name}
-                </Link>
+                <Link href={link}>{name}</Link>
               </li>
             ))}
-            <li>
-              <Link href={'/search'}>
-                <IconButton
-                  icon={
-                    <AiOutlineSearch
-                      size={'1.5rem'}
-                      color="white"
-                    />
-                  }
-                />
-              </Link>
+            <li className="cursor-pointer rounded-xl p-2 text-[18px] font-light hover:bg-gray-100">
+              <FcSearch size={'22px'} />
             </li>
           </ul>
         </nav>
       </header>
-      <div className="h-[72px]" />
+      <div className="h-[59px]" />
     </>
   );
 };

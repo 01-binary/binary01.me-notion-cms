@@ -5,7 +5,6 @@ import Layout from '@/components/layout';
 import 'react-notion-x/src/styles.css';
 import 'prismjs/themes/prism-tomorrow.css';
 import 'katex/dist/katex.min.css';
-import 'pretendard/dist/web/variable/pretendardvariable.css';
 import '@/assets/styles/index.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
