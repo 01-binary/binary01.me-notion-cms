@@ -1,13 +1,29 @@
 import { notionClient } from '@/utils';
 
-const getNotionDBItems = async (databaseId: string) => {
+interface QueryOption {
+  filter?: {
+    tagName?: string;
+  };
+}
+
+const getNotionDBItems = async (databaseId: string, option?: QueryOption) => {
   const response = await notionClient.databases.query({
     database_id: databaseId,
     filter: {
-      property: 'isPublished',
-      checkbox: {
-        equals: true,
-      },
+      and: [
+        {
+          property: 'isPublished',
+          checkbox: {
+            equals: true,
+          },
+        },
+        {
+          property: 'Tags',
+          multi_select: {
+            contains: option?.filter?.tagName || '',
+          },
+        },
+      ],
     },
     sorts: [
       {
