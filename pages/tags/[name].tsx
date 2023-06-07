@@ -32,21 +32,22 @@ export const getStaticProps: GetStaticProps<Props, TagsParams> = async ({ params
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { name } = params!;
 
-  const pascalTagName = name[0].toUpperCase() + name.slice(1);
+  const tagName = name[0].toUpperCase() + name.slice(1);
 
   if (!process.env.NOTION_DATABASE_ID) throw new Error('NOTION_DATABASE_ID is not defined');
   const databaseItems = await getNotionDBItems(process.env.NOTION_DATABASE_ID, {
     filter: {
-      tagName: name[0].toUpperCase() + name.slice(1),
+      tagName,
     },
   });
+  console.log(databaseItems);
 
   const parsedDatabaseItems = parseItems(databaseItems);
 
   return {
     props: {
       databaseItems: parsedDatabaseItems,
-      name: pascalTagName,
+      name: tagName,
     },
   };
 };
