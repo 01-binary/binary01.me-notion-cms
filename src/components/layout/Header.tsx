@@ -3,6 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { FcSearch } from 'react-icons/fc';
 
+import GitHubCornerButton from '@/components/common/GitHubCornerButton';
+
 const navLinkList = [
   {
     name: 'About',
@@ -35,6 +37,7 @@ const Header = () => {
         </nav>
       </header>
       <div className="h-[59px]" />
+      <GitHubCornerButton />
     </>
   );
 };
