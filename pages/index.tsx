@@ -14,10 +14,10 @@ interface HomeProps {
 
 const Home = ({ items }: HomeProps) => {
   return (
-    <div>
+    <>
       <Intro />
       <List items={items} />
-    </div>
+    </>
   );
 };
 
