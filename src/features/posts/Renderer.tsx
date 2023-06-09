@@ -6,8 +6,6 @@ import nextLink from 'next/link';
 import { ExtendedRecordMap } from 'notion-types';
 import { NotionRenderer } from 'react-notion-x';
 
-import TagItem from '@/components/tag/TagItem';
-
 const Code = dynamic(() => import('react-notion-x/build/third-party/code').then((m) => m.Code), {
   ssr: false,
 });

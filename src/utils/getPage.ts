@@ -2,8 +2,8 @@ import { notionAPI } from '@/utils';
 
 const getPage = async (pageId: string) => {
   try {
-    const response = await notionAPI.getPage(pageId);
-    return response;
+    const res = await notionAPI.getPage(pageId);
+    return res;
   } catch {
     return null;
   }

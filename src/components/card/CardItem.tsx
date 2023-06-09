@@ -3,13 +3,13 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Item } from '@/interfaces';
+import { Post } from '@/interfaces';
 
 import IconRenderer from '@/components/card/IconRenderer';
-import TagList from '@/components/tag/TagList';
+// import TagList from '@/components/tag/TagList';
 
 interface Props {
-  cardItem: Item;
+  cardItem: Post;
 }
 
 const CardItem = ({ cardItem }: Props) => {
@@ -39,7 +39,7 @@ const CardItem = ({ cardItem }: Props) => {
           <time className="text-sm font-light text-gray-700">{published}</time>
         </div>
       </Link>
-      {tags.length > 0 ? <TagList tags={tags} /> : null}
+      {/* {tags.length > 0 ? <TagList tags={tags} /> : null} */}
     </li>
   );
 };

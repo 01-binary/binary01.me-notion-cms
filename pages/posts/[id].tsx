@@ -4,7 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { ExtendedRecordMap } from 'notion-types';
 
 import PostRenderer from '@/features/posts/Renderer';
-import { getNotionDBItems, getPage } from '@/utils';
+import { getNotionPosts, getPage } from '@/utils';
 
 interface Props {
   recordMap: ExtendedRecordMap | null;
@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
 
 export const getStaticPaths: GetStaticPaths = async () => {
   if (!process.env.NOTION_DATABASE_ID) throw new Error('NOTION_DATABASE_ID is not defined');
-  const databaseItems = await getNotionDBItems(process.env.NOTION_DATABASE_ID);
+  const databaseItems = await getNotionPosts(process.env.NOTION_DATABASE_ID);
 
   const paths = databaseItems.map(({ id }) => ({
     params: {

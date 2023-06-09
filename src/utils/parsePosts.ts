@@ -1,31 +1,31 @@
-import { Item } from '@/interfaces';
-import { getNotionDBItems } from '@/utils';
+import { Post } from '@/interfaces';
+import { getNotionPosts } from '@/utils';
 
-const parseItems = (items: Awaited<ReturnType<typeof getNotionDBItems>>) => {
-  const parsedItems = items.reduce<Item[]>((acc, item) => {
+const parsePosts = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
+  const parsedPosts = posts.reduce<Post[]>((acc, item) => {
     if (!('properties' in item)) return acc;
     const { id, icon, cover } = item;
-    const { Name, Tags, Date, Desc } = item.properties;
+    const { Name, Category, Date, Desc } = item.properties;
     const parsedCover = cover?.type === 'file' ? cover.file.url : cover?.external.url ?? '';
     const title = Name?.type === 'title' ? Name?.title[0]?.plain_text : '';
     const description = Desc?.type === 'rich_text' ? Desc?.rich_text[0]?.plain_text : '';
-    const tags = Tags?.type === 'multi_select' ? Tags?.multi_select : [];
+    const category = Category?.type === 'multi_select' ? Category?.multi_select[0] : null;
     const published = (Date.type === 'date' ? Date.date?.start : '') ?? '';
 
-    const parsedResult: Item = {
+    const parsedPost: Post = {
       id,
       icon,
       cover: parsedCover,
       title,
       description,
-      tags,
+      category,
       published,
     };
 
-    return [...acc, parsedResult];
+    return [...acc, parsedPost];
   }, []);
 
-  return parsedItems;
+  return parsedPosts;
 };
 
-export default parseItems;
+export default parsePosts;

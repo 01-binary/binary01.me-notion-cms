@@ -1,9 +1,9 @@
 import Image from 'next/image';
 
-import { Item } from '@/interfaces';
+import { Post } from '@/interfaces';
 
 interface Props {
-  icon: Item['icon'];
+  icon: Post['icon'];
 }
 
 const IconRenderer = ({ icon }: Props) => {

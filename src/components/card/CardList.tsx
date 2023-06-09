@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Item } from '@/interfaces';
+import { Post } from '@/interfaces';
 
 import CardItem from '@/components/card/CardItem';
 
 interface Props {
-  cardItems: Item[];
+  cardItems: Post[];
 }
 
 const CardList = ({ cardItems }: Props) => {

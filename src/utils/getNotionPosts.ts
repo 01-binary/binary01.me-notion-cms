@@ -1,12 +1,6 @@
 import { notionClient } from '@/utils';
 
-interface QueryOption {
-  filter?: {
-    tagName?: string;
-  };
-}
-
-const getNotionDBItems = async (databaseId: string, option?: QueryOption) => {
+const getNotionPosts = async (databaseId: string) => {
   const response = await notionClient.databases.query({
     database_id: databaseId,
     filter: {
@@ -17,12 +11,12 @@ const getNotionDBItems = async (databaseId: string, option?: QueryOption) => {
             equals: true,
           },
         },
-        {
-          property: 'Category',
-          multi_select: {
-            contains: option?.filter?.tagName || '',
-          },
-        },
+        // {
+        //   property: 'Category',
+        //   multi_select: {
+        //     contains: option?.filter?.tagName || '',
+        //   },
+        // },
       ],
     },
     sorts: [
@@ -36,4 +30,4 @@ const getNotionDBItems = async (databaseId: string, option?: QueryOption) => {
   return response.results;
 };
 
-export default getNotionDBItems;
+export default getNotionPosts;
