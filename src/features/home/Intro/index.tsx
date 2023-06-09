@@ -9,7 +9,7 @@ import { GITHUB_ADDR, LINKEDIN_ADDR, MAIL_ADDR } from '@/assets/constants';
 
 const Intro = () => {
   return (
-    <section className="mx-auto max-w-[900px] px-4">
+    <section>
       <article className="flex gap-6">
         <div className="h-[110px] w-[110px]">
           <Image

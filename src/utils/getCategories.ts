@@ -18,7 +18,7 @@ const getCategories = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
 
   const uniqueCategories = uniqBy(categories, (category) => category?.name);
 
-  return uniqueCategories as Category[];
+  return [{ id: 'all', name: 'All' }, ...uniqueCategories] as Category[];
 };
 
 export default getCategories;

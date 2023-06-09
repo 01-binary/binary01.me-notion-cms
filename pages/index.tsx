@@ -2,6 +2,7 @@ import React from 'react';
 
 import { GetStaticProps } from 'next';
 
+import CategoryList from '@/features/home/CategoryList';
 import Intro from '@/features/home/Intro';
 import List from '@/features/home/PostList';
 import { Category, Post } from '@/interfaces';
@@ -14,10 +15,11 @@ interface Props {
 
 const Home = ({ posts, categories }: Props) => {
   return (
-    <>
+    <section className="mx-auto max-w-[900px] px-4">
       <Intro />
+      <CategoryList categories={categories} />
       {/* <List posts={posts} /> */}
-    </>
+    </section>
   );
 };
 
