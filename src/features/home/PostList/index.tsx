@@ -10,9 +10,7 @@ interface Props {
 
 const List = ({ posts }: Props) => {
   return (
-    <section className="mx-auto max-w-[900px]">
-      <CardList cardItems={posts} />
-    </section>
+    <section className="mx-auto max-w-[900px]">{/* <CardList cardItems={posts} /> */}</section>
   );
 };
 

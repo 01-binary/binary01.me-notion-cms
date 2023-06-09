@@ -16,7 +16,7 @@ const Home = ({ posts, categories }: Props) => {
   return (
     <>
       <Intro />
-      <List posts={posts} />
+      {/* <List posts={posts} /> */}
     </>
   );
 };

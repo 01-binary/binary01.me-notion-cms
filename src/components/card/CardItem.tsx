@@ -13,7 +13,7 @@ interface Props {
 }
 
 const CardItem = ({ cardItem }: Props) => {
-  const { cover, description, icon, id, published, tags, title } = cardItem;
+  const { cover, description, icon, id, published, category, title } = cardItem;
 
   return (
     <li className="group flex flex-col overflow-hidden rounded-2xl shadow-lg">
