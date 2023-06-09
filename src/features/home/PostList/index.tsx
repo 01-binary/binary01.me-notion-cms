@@ -1,8 +1,7 @@
 import React from 'react';
 
+import CardItem from '@/features/home/PostList/Post';
 import { Post } from '@/interfaces';
-
-import CardList from '@/components/card/CardList';
 
 interface Props {
   posts: Post[];
@@ -10,7 +9,16 @@ interface Props {
 
 const List = ({ posts }: Props) => {
   return (
-    <section className="mx-auto max-w-[900px]">{/* <CardList cardItems={posts} /> */}</section>
+    <section className="mt-[74px] border-t-[1px] border-[#eee] pt-4">
+      <ul className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {posts.map((post) => (
+          <CardItem
+            key={post.id}
+            cardItem={post}
+          />
+        ))}
+      </ul>
+    </section>
   );
 };
 
