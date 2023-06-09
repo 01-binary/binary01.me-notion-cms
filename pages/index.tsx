@@ -2,11 +2,10 @@ import React from 'react';
 
 import { GetStaticProps } from 'next';
 
+import Intro from '@/features/home/Intro';
+import List from '@/features/home/List';
 import { Item } from '@/interfaces';
 import { parseItems, getNotionDBItems } from '@/utils';
-
-import Intro from '@/components/home/Intro';
-import List from '@/components/home/List';
 
 interface HomeProps {
   items: Item[];

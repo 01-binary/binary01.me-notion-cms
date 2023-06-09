@@ -3,9 +3,8 @@ import { ParsedUrlQuery } from 'querystring';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { ExtendedRecordMap } from 'notion-types';
 
+import PostRenderer from '@/features/posts/Renderer';
 import { getNotionDBItems, getPage } from '@/utils';
-
-import PostRenderer from '@/components/posts/Renderer';
 
 interface Props {
   recordMap: ExtendedRecordMap | null;

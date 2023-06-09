@@ -18,7 +18,7 @@ const getNotionDBItems = async (databaseId: string, option?: QueryOption) => {
           },
         },
         {
-          property: 'Tags',
+          property: 'Category',
           multi_select: {
             contains: option?.filter?.tagName || '',
           },
