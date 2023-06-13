@@ -10,16 +10,16 @@ interface Props {
   recordMap: ExtendedRecordMap | null;
 }
 
-const Post = ({ recordMap }: Props) => {
+const PostPage = ({ recordMap }: Props) => {
   if (!recordMap) return null;
   return (
-    <div>
+    <article>
       <PostRenderer recordMap={recordMap} />
-    </div>
+    </article>
   );
 };
 
-export default Post;
+export default PostPage;
 
 interface PostParams extends ParsedUrlQuery {
   id: string;

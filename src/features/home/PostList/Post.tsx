@@ -5,6 +5,8 @@ import Link from 'next/link';
 
 import { Post } from '@/interfaces';
 
+import { COLOR_TABLE } from '@/assets/constants';
+
 interface Props {
   cardItem: Post;
 }
@@ -30,6 +32,18 @@ const CardItem = ({ cardItem }: Props) => {
             <p className="text-[14px] font-medium text-[#37352F]">{description}</p>
           ) : null}
           <time className="text-[12px] font-normal text-[#37352F]">{published}</time>
+          <div className="mt-2 flex items-center">
+            <span
+              className="rounded px-[6px] text-[12px]"
+              style={{
+                backgroundColor: category
+                  ? COLOR_TABLE[category.color as keyof typeof COLOR_TABLE]
+                  : COLOR_TABLE.default,
+              }}
+            >
+              {category?.name}
+            </span>
+          </div>
         </section>
       </Link>
     </li>
