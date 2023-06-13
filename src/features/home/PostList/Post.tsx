@@ -31,8 +31,7 @@ const CardItem = ({ cardItem }: Props) => {
           {description ? (
             <p className="text-[14px] font-medium text-[#37352F]">{description}</p>
           ) : null}
-          <time className="text-[12px] font-normal text-[#37352F]">{published}</time>
-          <div className="mt-2 flex items-center">
+          <div className="mt-2 flex items-center gap-2">
             <span
               className="rounded px-[6px] text-[12px]"
               style={{
@@ -43,6 +42,7 @@ const CardItem = ({ cardItem }: Props) => {
             >
               {category?.name}
             </span>
+            <time className="text-[12px] font-normal text-[#37352F]">{published}</time>
           </div>
         </section>
       </Link>
