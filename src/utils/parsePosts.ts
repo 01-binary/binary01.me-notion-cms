@@ -1,5 +1,10 @@
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+
 import { Post } from '@/interfaces';
 import { getNotionPosts } from '@/utils';
+
+dayjs.extend(localizedFormat);
 
 const parsePosts = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
   const parsedPosts = posts.reduce<Post[]>((acc, item) => {
@@ -10,7 +15,7 @@ const parsePosts = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
     const title = Name?.type === 'title' ? Name?.title[0]?.plain_text : '';
     const description = Desc?.type === 'rich_text' ? Desc?.rich_text[0]?.plain_text : '';
     const category = Category?.type === 'multi_select' ? Category?.multi_select[0] : null;
-    const published = (Date.type === 'date' ? Date.date?.start : '') ?? '';
+    const published = (Date.type === 'date' ? dayjs(Date.date?.start).format('LL') : '') ?? '';
 
     const parsedPost: Post = {
       id,

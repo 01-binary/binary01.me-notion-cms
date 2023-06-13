@@ -10,7 +10,7 @@ interface Props {
 }
 
 const CardItem = ({ cardItem }: Props) => {
-  const { cover, description, icon, id, published, category, title } = cardItem;
+  const { cover, description, id, published, category, title } = cardItem;
 
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
