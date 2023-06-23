@@ -11,10 +11,13 @@ interface Props {
 const useHomeData = ({ posts }: Props) => {
   const [seletedCategory, setSeletedCategory] = useState<string>(INITIAL_CATEGORY);
 
-  const filteredPosts = useMemo(() => {
-    if (seletedCategory === INITIAL_CATEGORY) return posts;
-    return posts.filter((post) => post.category?.name === seletedCategory);
-  }, [posts, seletedCategory]);
+  const filteredPosts = useMemo(
+    () =>
+      seletedCategory === INITIAL_CATEGORY
+        ? posts
+        : posts.filter((post) => post.category?.name === seletedCategory),
+    [posts, seletedCategory],
+  );
 
   const handleClickCategory = useCallback(
     (selected: string) => () => {
