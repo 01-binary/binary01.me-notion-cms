@@ -14,3 +14,5 @@ export const COLOR_TABLE = {
 export const GITHUB_ADDR = 'https://github.com/01-binary';
 export const LINKEDIN_ADDR = 'https://www.linkedin.com/in/jinsoo-lee-b9a102188';
 export const MAIL_ADDR = 'mailto:binary01@kakao.com';
+
+export const INITIAL_CATEGORY = 'All';
