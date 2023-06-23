@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import { useInfiniteScroll } from '@/hooks';
 import { Post } from '@/interfaces';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
@@ -10,7 +11,6 @@ interface Props {
 
 const useHomeData = ({ posts }: Props) => {
   const [seletedCategory, setSeletedCategory] = useState<string>(INITIAL_CATEGORY);
-
   const filteredPosts = useMemo(
     () =>
       seletedCategory === INITIAL_CATEGORY
@@ -18,6 +18,7 @@ const useHomeData = ({ posts }: Props) => {
         : posts.filter((post) => post.category?.name === seletedCategory),
     [posts, seletedCategory],
   );
+  const { entries, data } = useInfiniteScroll({ rawData: filteredPosts });
 
   const handleClickCategory = useCallback(
     (selected: string) => () => {
@@ -27,7 +28,8 @@ const useHomeData = ({ posts }: Props) => {
   );
 
   return {
-    filteredPosts,
+    entries,
+    processedPosts: data,
     seletedCategory,
     handleClickCategory,
   };

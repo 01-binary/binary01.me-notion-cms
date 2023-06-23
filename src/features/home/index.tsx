@@ -5,7 +5,7 @@ import PostList from '@/features/home/PostList';
 import { HomeProps } from '@/interfaces';
 
 const Home = ({ posts, categories }: HomeProps) => {
-  const { filteredPosts, seletedCategory, handleClickCategory } = useHomeData({ posts });
+  const { processedPosts, seletedCategory, handleClickCategory, entries } = useHomeData({ posts });
 
   return (
     <section className="mx-auto max-w-[900px] px-4">
@@ -15,7 +15,12 @@ const Home = ({ posts, categories }: HomeProps) => {
         seletedCategory={seletedCategory}
         handleClickCategory={handleClickCategory}
       />
-      <PostList posts={filteredPosts} />
+      <PostList posts={processedPosts} />
+      <div
+        ref={($elem) => {
+          entries.current[0] = $elem as HTMLDivElement;
+        }}
+      />
     </section>
   );
 };

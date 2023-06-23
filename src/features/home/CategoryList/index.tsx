@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Category } from '@/interfaces';
 
 interface Props {
