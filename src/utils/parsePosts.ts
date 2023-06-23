@@ -13,8 +13,8 @@ const parsePosts = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
     const { Name, Category, Date, Desc } = item.properties;
     const parsedCover = cover?.type === 'file' ? cover.file.url : cover?.external.url ?? '';
     const title = Name?.type === 'title' ? Name?.title[0]?.plain_text : '';
-    const description = Desc?.type === 'rich_text' ? Desc?.rich_text[0]?.plain_text : '';
-    const category = Category?.type === 'multi_select' ? Category?.multi_select[0] : null;
+    const description = Desc?.type === 'rich_text' ? Desc?.rich_text[0]?.plain_text || '' : '';
+    const category = Category?.type === 'multi_select' ? Category?.multi_select[0] || null : null;
     const published = (Date.type === 'date' ? dayjs(Date.date?.start).format('LL') : '') ?? '';
 
     const parsedPost: Post = {

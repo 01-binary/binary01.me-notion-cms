@@ -17,6 +17,7 @@ export default HomePage;
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   if (!process.env.NOTION_DATABASE_ID) throw new Error('NOTION_DATABASE_ID is not defined');
+
   const rawPosts = await getNotionPosts(process.env.NOTION_DATABASE_ID);
   const posts = parsePosts(rawPosts);
   const categories = getCategories(rawPosts);
