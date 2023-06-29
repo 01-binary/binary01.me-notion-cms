@@ -3,13 +3,11 @@ import Link from 'next/link';
 
 import { Post } from '@/interfaces';
 
-import { COLOR_TABLE } from '@/assets/constants';
+import { BLOG_NAME, COLOR_TABLE } from '@/assets/constants';
 
 interface Props {
   cardItem: Post;
 }
-
-const BLOG_NAME = 'binary01.me';
 
 const CardItem = ({ cardItem }: Props) => {
   const { cover, description, id, published, category, title } = cardItem;

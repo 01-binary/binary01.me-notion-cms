@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AiOutlineGithub, AiFillLinkedin } from 'react-icons/ai';
 import { HiMail } from 'react-icons/hi';
 
-import { GITHUB_ADDR, LINKEDIN_ADDR, MAIL_ADDR } from '@/assets/constants';
+import { GITHUB_ADDR, LINKEDIN_ADDR, MAIL_ADDR, PROFILE_IMG } from '@/assets/constants';
 
 const Intro = () => {
   return (
@@ -11,7 +11,7 @@ const Intro = () => {
       <article className="flex gap-6">
         <Image
           className="h-[110px] w-[110px] rounded-full object-cover"
-          src={process.env.NEXT_PUBLIC_PROFILE_IMG as string}
+          src={PROFILE_IMG}
           width={110}
           height={110}
           alt={'Intro Picture'}
