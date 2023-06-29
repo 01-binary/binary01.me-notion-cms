@@ -9,15 +9,13 @@ const Intro = () => {
   return (
     <section>
       <article className="flex gap-6">
-        <div className="h-[110px] w-[110px]">
-          <Image
-            className="rounded-full"
-            src={'http://via.placeholder.com/110x110'}
-            width={110}
-            height={110}
-            alt={'Intro Picture'}
-          />
-        </div>
+        <Image
+          className="h-[110px] w-[110px] rounded-full object-cover"
+          src={process.env.NEXT_PUBLIC_PROFILE_IMG as string}
+          width={110}
+          height={110}
+          alt={'Intro Picture'}
+        />
         <section className="flex flex-col justify-around gap-1">
           <section className="flex flex-col gap-2">
             <span className="whitespace-nowrap rounded-lg bg-[#ebeefe] p-1 text-[18px] font-normal text-[#005995]">

@@ -9,19 +9,26 @@ interface Props {
   cardItem: Post;
 }
 
+const BLOG_NAME = 'binary01.me';
+
 const CardItem = ({ cardItem }: Props) => {
   const { cover, description, id, published, category, title } = cardItem;
-
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
       <Link href={`posts/${id}`}>
         <div className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]">
-          <Image
-            src={cover}
-            alt={title}
-            fill
-            className="object-cover transition-transform group-hover:scale-105 group-hover:brightness-125"
-          />
+          {cover ? (
+            <Image
+              src={cover}
+              alt={title}
+              fill
+              className="object-cover transition-transform group-hover:scale-105 group-hover:brightness-125"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <span className="text-[28px] font-bold">{BLOG_NAME}</span>
+            </div>
+          )}
         </div>
 
         <section className="flex flex-col gap-1 p-[10px]">

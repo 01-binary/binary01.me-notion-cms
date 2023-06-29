@@ -39,8 +39,9 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  if (!process.env.NOTION_DATABASE_ID) throw new Error('NOTION_DATABASE_ID is not defined');
-  const databaseItems = await getNotionPosts(process.env.NOTION_DATABASE_ID);
+  if (!process.env.NOTION_POST_DATABASE_ID)
+    throw new Error('NOTION_POST_DATABASE_ID is not defined');
+  const databaseItems = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
 
   const paths = databaseItems.map(({ id }) => ({
     params: {
