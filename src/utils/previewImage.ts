@@ -1,6 +1,8 @@
 import got from 'got';
 import lqip from 'lqip-modern';
-import { PreviewImage } from 'notion-types';
+import { ExtendedRecordMap, PreviewImage, PreviewImageMap } from 'notion-types';
+import { getPageImageUrls } from 'notion-utils';
+import { defaultMapImageUrl } from 'react-notion-x';
 
 import { Post } from '@/interfaces';
 
@@ -40,4 +42,19 @@ export const getPreviewImages = async (posts: Post[]) => {
   );
 
   return previewImage;
+};
+
+export const getPreviewImageFromRecordMap = async (
+  recordMap: ExtendedRecordMap | null,
+): Promise<PreviewImageMap | null> => {
+  if (!recordMap) return null;
+  const urls = getPageImageUrls(recordMap, {
+    mapImageUrl: defaultMapImageUrl,
+  });
+
+  const previewImageMap = await Promise.all(
+    urls.map(async (url) => [url, await makePreviewImage(url)]),
+  );
+
+  return Object.fromEntries(previewImageMap);
 };

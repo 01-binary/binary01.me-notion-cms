@@ -6,6 +6,8 @@ import { ExtendedRecordMap } from 'notion-types';
 import PostRenderer from '@/features/posts/Renderer';
 import { getNotionPosts, getPage } from '@/utils';
 
+import { getPreviewImageFromRecordMap } from '@/utils/previewImage';
+
 interface Props {
   recordMap: ExtendedRecordMap | null;
 }
@@ -29,10 +31,14 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { id } = params!;
   const recordMap = await getPage(id);
+  const previewImages = await getPreviewImageFromRecordMap(recordMap);
 
   return {
     props: {
-      recordMap,
+      recordMap: {
+        ...recordMap,
+        preview_images: previewImages,
+      } as ExtendedRecordMap | null,
     },
     revalidate: 300,
   };

@@ -41,6 +41,7 @@ const PostRenderer = ({ recordMap }: Props) => {
       fullPage
       disableHeader
       showTableOfContents
+      previewImages={!!recordMap?.preview_images}
       components={{
         Code,
         Collection,
