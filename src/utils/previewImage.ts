@@ -45,9 +45,8 @@ export const getPreviewImages = async (posts: Post[]) => {
 };
 
 export const getPreviewImageFromRecordMap = async (
-  recordMap: ExtendedRecordMap | null,
+  recordMap: ExtendedRecordMap,
 ): Promise<PreviewImageMap | null> => {
-  if (!recordMap) return null;
   const urls = getPageImageUrls(recordMap, {
     mapImageUrl: defaultMapImageUrl,
   });

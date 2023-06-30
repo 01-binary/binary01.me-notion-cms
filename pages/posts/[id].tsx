@@ -9,7 +9,7 @@ import { getNotionPosts, getPage } from '@/utils';
 import { getPreviewImageFromRecordMap } from '@/utils/previewImage';
 
 interface Props {
-  recordMap: ExtendedRecordMap | null;
+  recordMap: ExtendedRecordMap;
 }
 
 const PostPage = ({ recordMap }: Props) => {
@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
       recordMap: {
         ...recordMap,
         preview_images: previewImages,
-      } as ExtendedRecordMap | null,
+      } as ExtendedRecordMap,
     },
     revalidate: 300,
   };

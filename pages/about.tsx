@@ -5,12 +5,10 @@ import { NotionRenderer } from 'react-notion-x';
 import { getPage } from '@/utils';
 
 interface Props {
-  recordMap: ExtendedRecordMap | null;
+  recordMap: ExtendedRecordMap;
 }
 
 const AboutPage = ({ recordMap }: Props) => {
-  if (!recordMap) return null;
-
   return (
     <article>
       <NotionRenderer recordMap={recordMap} />
