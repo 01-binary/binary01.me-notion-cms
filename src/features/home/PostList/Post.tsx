@@ -9,7 +9,7 @@ interface Props {
   cardItem: Post;
 }
 
-const CardItem = ({ cardItem }: Props) => {
+const Post = ({ cardItem }: Props) => {
   const { cover, description, id, published, category, title } = cardItem;
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
@@ -53,4 +53,4 @@ const CardItem = ({ cardItem }: Props) => {
   );
 };
 
-export default CardItem;
+export default Post;

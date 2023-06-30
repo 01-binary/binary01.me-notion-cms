@@ -11,12 +11,6 @@ const getNotionPosts = async (databaseId: string) => {
             equals: true,
           },
         },
-        // {
-        //   property: 'Category',
-        //   multi_select: {
-        //     contains: option?.filter?.tagName || '',
-        //   },
-        // },
       ],
     },
     sorts: [

@@ -7,7 +7,7 @@ interface Props {
   posts: Post[];
 }
 
-const List = ({ posts }: Props) => {
+const PostList = ({ posts }: Props) => {
   return (
     <section className="mt-[74px] border-t-[1px] border-[#eee] pt-4">
       <ul className="grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -22,4 +22,4 @@ const List = ({ posts }: Props) => {
   );
 };
 
-export default List;
+export default PostList;

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-// import { FcSearch } from 'react-icons/fc';
 
 import GitHubCornerButton from '@/components/common/GitHubCornerButton';
 
@@ -28,9 +27,6 @@ const Header = () => {
                 <Link href={link}>{name}</Link>
               </li>
             ))}
-            {/* <li className="cursor-pointer rounded-xl p-2 text-[18px] font-normal hover:bg-gray-100">
-              <FcSearch size={'22px'} />
-            </li> */}
           </ul>
         </nav>
       </header>
