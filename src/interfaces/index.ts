@@ -1,4 +1,5 @@
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { PreviewImage } from 'notion-types';
 
 export interface Post {
   id: string;
@@ -8,6 +9,7 @@ export interface Post {
   published: string;
   description: string;
   title: string;
+  previewImage?: PreviewImage;
 }
 
 export interface Category {
