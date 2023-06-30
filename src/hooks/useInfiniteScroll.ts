@@ -14,8 +14,10 @@ const INITIAL_PAGE = 0;
 
 const useInfiniteScroll = ({ rawData, pageSize = 4 }: Props) => {
   const [page, setPage] = useState<number>(INITIAL_PAGE);
-  const data = useMemo(() => rawData.slice(INITIAL_PAGE, page), [page, rawData]);
-
+  const data = useMemo(
+    () => rawData.slice(INITIAL_PAGE, (page + 1) * pageSize),
+    [page, pageSize, rawData],
+  );
   const entries = useIntersectionObserver({
     onIntersect: (entries) => {
       entries.forEach((entry) => {

@@ -18,6 +18,7 @@ const useHomeData = ({ posts }: Props) => {
         : posts.filter((post) => post.category?.name === seletedCategory),
     [posts, seletedCategory],
   );
+
   const { entries, data } = useInfiniteScroll({ rawData: filteredPosts });
 
   const handleClickCategory = useCallback(
