@@ -3,24 +3,26 @@ import Link from 'next/link';
 
 import { Post } from '@/interfaces';
 
-import { BLOG_NAME, COLOR_TABLE } from '@/assets/constants';
+import { BLOG_NAME, COLOR_TABLE, DEFAULT_BLUR_BASE64 } from '@/assets/constants';
 
 interface Props {
   cardItem: Post;
 }
 
 const Post = ({ cardItem }: Props) => {
-  const { cover, description, id, published, category, title } = cardItem;
+  const { cover, description, id, published, category, title, previewImage } = cardItem;
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
       <Link href={`posts/${id}`}>
         <div className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]">
           {cover ? (
             <Image
+              className="object-cover transition-transform group-hover:scale-105 group-hover:brightness-125"
               src={cover}
               alt={title}
               fill
-              className="object-cover transition-transform group-hover:scale-105 group-hover:brightness-125"
+              placeholder="blur"
+              blurDataURL={previewImage?.dataURIBase64 || DEFAULT_BLUR_BASE64}
             />
           ) : (
             <div className="flex h-full items-center justify-center">

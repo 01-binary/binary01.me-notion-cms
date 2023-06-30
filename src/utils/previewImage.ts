@@ -5,19 +5,20 @@ import { PreviewImage } from 'notion-types';
 import { Post } from '@/interfaces';
 
 export const makePreviewImage = async (url: string) => {
-  const buffer = await got(url);
+  const buffer = await got(url, {
+    responseType: 'buffer',
+    resolveBodyOnly: true,
+  });
 
   try {
     const {
       metadata: { dataURIBase64, originalHeight, originalWidth },
     } = await lqip(buffer as unknown as string);
-
     const result: PreviewImage = {
       dataURIBase64,
       originalHeight,
       originalWidth,
     };
-
     return result;
   } catch (error) {
     return null;

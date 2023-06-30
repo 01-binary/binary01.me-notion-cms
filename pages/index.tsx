@@ -4,6 +4,8 @@ import Home from '@/features/home';
 import { HomeProps } from '@/interfaces';
 import { parsePosts, getNotionPosts, getCategories } from '@/utils';
 
+import { getPreviewImages } from '@/utils/previewImage';
+
 const HomePage = ({ posts, categories }: HomeProps) => {
   return (
     <Home
@@ -21,11 +23,12 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 
   const rawPosts = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
   const posts = parsePosts(rawPosts);
+  const postsWithPreview = await getPreviewImages(posts);
   const categories = getCategories(rawPosts);
 
   return {
     props: {
-      posts,
+      posts: postsWithPreview,
       categories,
     },
     revalidate: 300,
