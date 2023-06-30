@@ -9,7 +9,7 @@ export interface Post {
   published: string;
   description: string;
   title: string;
-  previewImage: PreviewImage | null;
+  previewImage?: PreviewImage | null;
 }
 
 export interface Category {

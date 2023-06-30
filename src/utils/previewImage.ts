@@ -7,12 +7,11 @@ import { defaultMapImageUrl } from 'react-notion-x';
 import { Post } from '@/interfaces';
 
 export const makePreviewImage = async (url: string) => {
-  const buffer = await got(url, {
-    responseType: 'buffer',
-    resolveBodyOnly: true,
-  });
-
   try {
+    const buffer = await got(url, {
+      responseType: 'buffer',
+      resolveBodyOnly: true,
+    });
     const {
       metadata: { dataURIBase64, originalHeight, originalWidth },
     } = await lqip(buffer as unknown as string);

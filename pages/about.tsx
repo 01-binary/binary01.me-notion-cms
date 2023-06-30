@@ -4,15 +4,20 @@ import { NotionRenderer } from 'react-notion-x';
 
 import { getPage } from '@/utils';
 
+import PageHead from '@/components/common/PageHead';
+
 interface Props {
   recordMap: ExtendedRecordMap;
 }
 
 const AboutPage = ({ recordMap }: Props) => {
   return (
-    <article>
-      <NotionRenderer recordMap={recordMap} />
-    </article>
+    <>
+      <PageHead title="About" />
+      <article>
+        <NotionRenderer recordMap={recordMap} />
+      </article>
+    </>
   );
 };
 
