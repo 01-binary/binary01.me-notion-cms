@@ -1,4 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useRouter } from 'next/router';
 
 import { useInfiniteScroll } from '@/hooks';
 import { Post } from '@/interfaces';
@@ -10,6 +12,7 @@ interface Props {
 }
 
 const useHomeData = ({ posts }: Props) => {
+  const router = useRouter();
   const [seletedCategory, setSeletedCategory] = useState<string>(INITIAL_CATEGORY);
   const filteredPosts = useMemo(
     () =>
@@ -22,11 +25,18 @@ const useHomeData = ({ posts }: Props) => {
   const { entries, data } = useInfiniteScroll({ rawData: filteredPosts });
 
   const handleClickCategory = useCallback(
-    (selected: string) => () => {
-      setSeletedCategory(selected);
+    (target: string) => () => {
+      router.push(`${target === INITIAL_CATEGORY ? '/' : `?category=${target}`}`, undefined, {
+        shallow: true,
+      });
     },
-    [],
+    [router],
   );
+
+  useEffect(() => {
+    const { category } = router.query;
+    setSeletedCategory((category as string) || INITIAL_CATEGORY);
+  }, [router.query]);
 
   return {
     entries,
