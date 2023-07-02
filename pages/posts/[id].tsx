@@ -1,8 +1,9 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { ExtendedRecordMap } from 'notion-types';
+import { ExtendedRecordMap, PageBlock } from 'notion-types';
 import { getPageProperty, getPageTitle } from 'notion-utils';
+import { defaultMapImageUrl } from 'react-notion-x';
 
 import PostRenderer from '@/features/posts/Renderer';
 import { getNotionPosts, getPage } from '@/utils';
@@ -15,21 +16,21 @@ interface Props {
   recordMap: ExtendedRecordMap;
   seo: {
     title: string;
-    // description: string;
-    // ogImage: string;
-    // keywords: string;
+    description: string;
+    keywords: string;
+    ogImage: string | null;
   };
 }
 
-const PostPage = ({ recordMap, seo: { title } }: Props) => {
+const PostPage = ({ recordMap, seo: { title, description, keywords, ogImage } }: Props) => {
   if (!recordMap) return null;
   return (
     <>
       <PageHead
         title={title}
-        // description={description}
-        // image={ogImage}
-        // keywords={keywords}
+        description={description}
+        keywords={keywords}
+        image={ogImage}
       />
       <article>
         <PostRenderer recordMap={recordMap} />
@@ -50,14 +51,13 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
   const recordMap = await getPage(id);
   const previewImages = await getPreviewImageFromRecordMap(recordMap);
 
-  const block = recordMap?.block?.[0]?.value;
+  const keys = Object.keys(recordMap?.block || {});
+  const block = recordMap?.block?.[keys[0]]?.value;
 
   const title = getPageTitle(recordMap);
-  const keywords = getPageProperty('Desc', block, recordMap);
-  console.log('keywords', block);
-
-  // const description = getPageProperty<string>('Desc', block, recordMap);
-  // console.log('description', description);
+  const description = getPageProperty<string>('Desc', block, recordMap);
+  const keywords = getPageProperty<string>('Desc', block, recordMap);
+  const ogImage = defaultMapImageUrl((block as PageBlock).format?.page_cover as string, block);
 
   return {
     props: {
@@ -67,9 +67,9 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
       } as ExtendedRecordMap,
       seo: {
         title,
-        // description,
-        // ogImage,
-        // keywords,
+        description,
+        keywords,
+        ogImage,
       },
     },
     revalidate: 300,

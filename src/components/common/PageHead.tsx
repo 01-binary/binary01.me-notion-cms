@@ -9,7 +9,7 @@ interface PageHeadProps {
   title?: string;
   description?: string;
   keywords?: string;
-  image?: string;
+  image?: string | null;
 }
 
 const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
