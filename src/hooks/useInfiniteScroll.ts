@@ -18,11 +18,12 @@ const useInfiniteScroll = ({ rawData, pageSize = 4 }: Props) => {
     () => rawData.slice(INITIAL_PAGE, (page + 1) * pageSize),
     [page, pageSize, rawData],
   );
+
   const entries = useIntersectionObserver({
     onIntersect: (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        setPage((prevPage) => prevPage + pageSize);
+        setPage((prevPage) => prevPage + 1);
       });
     },
   });
