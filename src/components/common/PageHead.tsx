@@ -3,7 +3,13 @@ import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { DEFAULT_AUTHOR, DEFAULT_IMAGE, DEFAULT_TITLE, DEFAULT_URL } from '@/assets/constants';
+import {
+  DEFAULT_AUTHOR,
+  DEFAULT_DESC,
+  DEFAULT_IMAGE,
+  DEFAULT_TITLE,
+  DEFAULT_URL,
+} from '@/assets/constants';
 
 interface PageHeadProps {
   title?: string;
@@ -16,7 +22,7 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
   const { asPath } = useRouter();
 
   const pageTitle = title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE;
-  const pageDescription = description || '';
+  const pageDescription = description || DEFAULT_DESC;
   const pageKeywords = keywords || '';
   const pageImage = `${image || DEFAULT_IMAGE}`;
   const pageUrl = `${process.env.DEFAULT_URL || DEFAULT_URL}${asPath}`;

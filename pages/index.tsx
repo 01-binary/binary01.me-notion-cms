@@ -4,14 +4,19 @@ import Home from '@/features/home';
 import { HomeProps } from '@/interfaces';
 import { parsePosts, getNotionPosts, getCategories } from '@/utils';
 
+import PageHead from '@/components/common/PageHead';
+
 import { getPreviewImages } from '@/utils/previewImage';
 
 const HomePage = ({ posts, categories }: HomeProps) => {
   return (
-    <Home
-      posts={posts}
-      categories={categories}
-    />
+    <>
+      <PageHead title="Jinsoo Blog" />
+      <Home
+        posts={posts}
+        categories={categories}
+      />
+    </>
   );
 };
 
