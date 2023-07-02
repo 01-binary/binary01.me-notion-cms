@@ -18,7 +18,7 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
   const pageTitle = title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE;
   const pageDescription = description || '';
   const pageKeywords = keywords || '';
-  const pageImage = `${process.env.SITE_URL || DEFAULT_URL}${image || DEFAULT_IMAGE}`;
+  const pageImage = `${image || DEFAULT_IMAGE}`;
   const pageUrl = `${process.env.SITE_URL || DEFAULT_URL}${asPath}`;
 
   return (
