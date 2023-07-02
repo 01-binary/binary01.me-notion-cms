@@ -19,7 +19,7 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
   const pageDescription = description || '';
   const pageKeywords = keywords || '';
   const pageImage = `${image || DEFAULT_IMAGE}`;
-  const pageUrl = `${process.env.SITE_URL || DEFAULT_URL}${asPath}`;
+  const pageUrl = `${process.env.DEFAULT_URL || DEFAULT_URL}${asPath}`;
 
   return (
     <Head>
