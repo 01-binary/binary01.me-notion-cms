@@ -34,7 +34,7 @@ const Post = ({ cardItem }: Props) => {
         <section className="flex flex-col gap-1 p-[10px]">
           <h4 className="text-[28px] font-bold">{title}</h4>
           {description ? (
-            <p className="text-[14px] font-medium text-[#37352F]">{description}</p>
+            <p className="text-[14px] font-normal text-[#37352F]">{description}</p>
           ) : null}
           <div className="mt-2 flex items-center gap-2">
             <span
