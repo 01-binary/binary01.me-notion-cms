@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <>
       <header className="fixed top-0 z-50 w-full min-w-[360px] bg-[hsla(0,0%,100%,.8)] backdrop-blur-lg">
-        <nav className="mx-auto flex max-w-[1024px] items-center justify-between p-2">
+        <nav className="mx-auto flex max-w-[1024px] items-center justify-between p-3">
           <h1 className="text-[20px] font-medium">
             <Link href={'/'}>binary01.me</Link>
           </h1>

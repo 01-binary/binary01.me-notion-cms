@@ -10,7 +10,7 @@ const CategoryList = ({ categories, seletedCategory, handleClickCategory }: Prop
   return (
     <section className="mt-[28px]">
       <section className="overflow-x-auto rounded-lg bg-[#cccccc] px-[6px]">
-        <section className="flex gap-3 bg-[hsla(0,0%,100%,.9)] p-3">
+        <section className="flex gap-3 overflow-x-auto bg-[hsla(0,0%,100%,.9)] p-3">
           {categories.map((category) => {
             const { id, name, color } = category;
             return (

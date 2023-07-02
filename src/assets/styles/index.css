@@ -35,6 +35,12 @@ body {
   }
 }
 
+@media (min-width: 1300px) and (min-height: 300px) {
+  .notion-page-content-has-aside {
+    width: calc((97vw + var(--notion-max-width)) / 2);
+  }
+}
+
 .notion-page-cover-wrapper {
   box-shadow: 2px 2px 8px 4px rgba(15, 15, 15, 0.1);
 }
