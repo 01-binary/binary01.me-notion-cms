@@ -31,6 +31,10 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
     <Head>
       <title>{pageTitle}</title>
       <meta
+        name="google-site-verification"
+        content="8ASKSU1Tj6Kc3H3qTnlRiVMn6F6PsLVsKU_RqsS0MfA"
+      />
+      <meta
         name="description"
         content={pageDescription}
       />
