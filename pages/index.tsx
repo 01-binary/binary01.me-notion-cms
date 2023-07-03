@@ -11,7 +11,7 @@ import { getPreviewImages } from '@/utils/previewImage';
 const HomePage = ({ posts, categories }: HomeProps) => {
   return (
     <>
-      <PageHead title="Jinsoo Blog" />
+      <PageHead title="Jinsoo's Blog" />
       <Home
         posts={posts}
         categories={categories}

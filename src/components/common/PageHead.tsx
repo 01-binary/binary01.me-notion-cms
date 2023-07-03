@@ -35,6 +35,10 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
         content="8ASKSU1Tj6Kc3H3qTnlRiVMn6F6PsLVsKU_RqsS0MfA"
       />
       <meta
+        name="naver-site-verification"
+        content="c5c5ff5b071ac345b5e4eda384975545289762d6"
+      />
+      <meta
         name="description"
         content={pageDescription}
       />
