@@ -1,12 +1,11 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { ExtendedRecordMap, PageBlock } from 'notion-types';
-import { getPageProperty, getPageTitle } from 'notion-utils';
-import { defaultMapImageUrl } from 'react-notion-x';
+import { ExtendedRecordMap } from 'notion-types';
+import { getPageTitle } from 'notion-utils';
 
 import PostRenderer from '@/features/posts/Renderer';
-import { getNotionPosts, getPage } from '@/utils';
+import { getNotionPosts, getPage, getPageCoverImage, getPageProperties } from '@/utils';
 
 import PageHead from '@/components/common/PageHead';
 
@@ -49,15 +48,11 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { id } = params!;
   const recordMap = await getPage(id);
+  const { description, keywords } = await getPageProperties(id);
   const previewImages = await getPreviewImageFromRecordMap(recordMap);
 
-  const keys = Object.keys(recordMap?.block || {});
-  const block = recordMap?.block?.[keys[0]]?.value;
-
   const title = getPageTitle(recordMap);
-  const description = getPageProperty<string>('Desc', block, recordMap);
-  const keywords = getPageProperty<string>('Desc', block, recordMap);
-  const ogImage = defaultMapImageUrl((block as PageBlock).format?.page_cover as string, block);
+  const ogImage = getPageCoverImage(recordMap);
 
   return {
     props: {
