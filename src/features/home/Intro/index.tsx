@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AiOutlineGithub, AiFillLinkedin } from 'react-icons/ai';
 import { HiMail } from 'react-icons/hi';
 
-import { GITHUB_ADDR, LINKEDIN_ADDR, MAIL_ADDR, PROFILE_IMG } from '@/assets/constants';
+import { siteConfig } from 'site.config';
 
 const Intro = () => {
   return (
@@ -11,7 +11,7 @@ const Intro = () => {
       <article className="flex gap-6">
         <Image
           className="h-[110px] w-[110px] rounded-full object-cover"
-          src={PROFILE_IMG}
+          src={siteConfig.profileImg}
           width={110}
           height={110}
           alt={'Intro Picture'}
@@ -19,24 +19,24 @@ const Intro = () => {
         <section className="flex flex-col justify-around gap-1">
           <section className="flex flex-col gap-2">
             <span className="whitespace-nowrap rounded-lg bg-[#ebeefe] p-1 text-[18px] font-normal text-[#005995]">
-              @Jinsoo Lee(핀다/Web)
+              {siteConfig.introName}
             </span>
-            <span className="text-[16px]">Hi~👋 🧑🏻‍💻</span>
+            <span className="text-[16px]">{siteConfig.introDesc}</span>
           </section>
           <section className="flex items-center gap-3">
             <Link
-              href={GITHUB_ADDR}
+              href={`https://github.com/${siteConfig.github}`}
               target="_blank"
             >
               <AiOutlineGithub size={'26px'} />
             </Link>
             <Link
-              href={LINKEDIN_ADDR}
+              href={`https://www.linkedin.com/in/${siteConfig.linkedIn}`}
               target="_blank"
             >
               <AiFillLinkedin size={'26px'} />
             </Link>
-            <Link href={MAIL_ADDR}>
+            <Link href={`mailto:${siteConfig.mail}`}>
               <HiMail size={'26px'} />
             </Link>
           </section>

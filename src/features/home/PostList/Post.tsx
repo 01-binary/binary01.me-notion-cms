@@ -2,8 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Post } from '@/interfaces';
+import { siteConfig } from 'site.config';
 
-import { BLOG_NAME, COLOR_TABLE, DEFAULT_BLUR_BASE64 } from '@/assets/constants';
+import { COLOR_TABLE, DEFAULT_BLUR_BASE64 } from '@/assets/constants';
 
 interface Props {
   cardItem: Post;
@@ -26,7 +27,7 @@ const Post = ({ cardItem }: Props) => {
             />
           ) : (
             <div className="flex h-full items-center justify-center">
-              <span className="text-[28px] font-bold">{BLOG_NAME}</span>
+              <span className="text-[28px] font-bold">{siteConfig.blogName}</span>
             </div>
           )}
         </div>
