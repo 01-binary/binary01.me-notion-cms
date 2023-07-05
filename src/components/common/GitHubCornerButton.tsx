@@ -1,7 +1,9 @@
+import { siteConfig } from 'site.config';
+
 const GitHubCornerButton = () => {
   return (
     <a
-      href="https://github.com/01-binary"
+      href={`https://github.com/${siteConfig.github}`}
       target="_blank"
       rel="noopener noreferrer"
       className={'hidden xl:block'}

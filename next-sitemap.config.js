@@ -1,7 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
 
 module.exports = {
-  siteUrl: process.env.DEFAULT_URL,
+  siteUrl: process.env.BLOG_URL,
   generateRobotsTxt: true,
   sitemapSize: 7000,
   changefreq: 'daily',

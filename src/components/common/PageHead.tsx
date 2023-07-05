@@ -3,13 +3,7 @@ import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import {
-  DEFAULT_AUTHOR,
-  DEFAULT_DESC,
-  DEFAULT_IMAGE,
-  DEFAULT_TITLE,
-  DEFAULT_URL,
-} from '@/assets/constants';
+import { siteConfig } from 'site.config';
 
 interface PageHeadProps {
   title?: string;
@@ -20,12 +14,11 @@ interface PageHeadProps {
 
 const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
   const { asPath } = useRouter();
-
-  const pageTitle = title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE;
-  const pageDescription = description || DEFAULT_DESC;
+  const pageTitle = title ? `${title} | ${siteConfig.blogName}` : siteConfig.blogName;
+  const pageDescription = description || siteConfig.seoDefaultDesc;
   const pageKeywords = keywords || '';
-  const pageImage = `${image || DEFAULT_IMAGE}`;
-  const pageUrl = `${process.env.DEFAULT_URL || DEFAULT_URL}${asPath}`;
+  const pageImage = `${image || siteConfig.profileImg}`;
+  const pageUrl = `${siteConfig.url}${asPath}`;
 
   return (
     <Head>
@@ -48,7 +41,7 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
       />
       <meta
         name="author"
-        content={DEFAULT_AUTHOR}
+        content={siteConfig.author}
       />
       <link
         rel="canonical"
@@ -101,11 +94,11 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
       />
       <meta
         name="twitter:site"
-        content={DEFAULT_AUTHOR}
+        content={siteConfig.author}
       />
       <meta
         name="twitter:creator"
-        content={DEFAULT_AUTHOR}
+        content={siteConfig.author}
       />
       <meta
         name="twitter:title"
