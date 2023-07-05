@@ -4,7 +4,7 @@ export const siteConfig = {
   introName: '@Jinsoo Lee(핀다/Web)',
   introDesc: 'Hi~👋 🧑🏻‍💻',
   seoDefaultDesc: '웹 프론트엔드 개발자 진수입니다!',
-  url: process.env.BLOG_URL,
+  url: 'https://binary01.me',
   github: '01-binary',
   linkedIn: 'jinsoo-lee-b9a102188',
   mail: 'binary01@kakao.com',
