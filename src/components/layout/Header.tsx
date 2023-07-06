@@ -22,12 +22,14 @@ const Header = () => {
 
           <ul className="flex items-center gap-2">
             {navLinkList.map(({ name, link }) => (
-              <li
+              <Link
                 key={name}
-                className="cursor-pointer rounded-xl p-2 text-[18px] font-normal hover:bg-gray-100"
+                href={link}
               >
-                <Link href={link}>{name}</Link>
-              </li>
+                <li className="cursor-pointer rounded-xl p-2 text-[18px] font-normal hover:bg-gray-100">
+                  {name}
+                </li>
+              </Link>
             ))}
           </ul>
         </nav>
