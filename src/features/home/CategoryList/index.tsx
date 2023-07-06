@@ -15,7 +15,7 @@ const CategoryList = ({ categories, seletedCategory, handleClickCategory }: Prop
             const { id, name, color, count } = category;
             return (
               <section
-                className={`cursor-pointer rounded-xl  border-[2px] border-solid bg-[#fff] py-2 px-4 text-[14px] ${
+                className={`cursor-pointer whitespace-nowrap rounded-xl border-[2px] border-solid bg-[#fff] py-2 px-4 text-[14px] ${
                   seletedCategory === name ? 'border-[#000]' : 'border-transparent'
                 }`}
                 key={id}
