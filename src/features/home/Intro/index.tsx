@@ -8,7 +8,7 @@ import { siteConfig } from 'site.config';
 const Intro = () => {
   return (
     <section>
-      <article className="flex gap-6">
+      <article className="flex gap-4 md:gap-6">
         <Image
           className="h-[110px] w-[110px] rounded-full object-cover"
           src={siteConfig.profileImg}
