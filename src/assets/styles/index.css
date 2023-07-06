@@ -27,6 +27,10 @@ body {
   border-radius: 24px;
 }
 
+.notion-collection-page-properties {
+  display: none;
+}
+
 @media only screen and (max-width: 1200px) {
   .notion-page-cover-wrapper,
   .notion-page-cover-wrapper span,
