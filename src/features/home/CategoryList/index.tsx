@@ -12,7 +12,7 @@ const CategoryList = ({ categories, seletedCategory, handleClickCategory }: Prop
       <section className="overflow-x-auto rounded-lg bg-[#cccccc] px-[6px]">
         <section className="flex gap-3 overflow-x-auto bg-[hsla(0,0%,100%,.9)] p-3">
           {categories.map((category) => {
-            const { id, name, color } = category;
+            const { id, name, color, count } = category;
             return (
               <section
                 className={`cursor-pointer rounded-xl  border-[2px] border-solid bg-[#fff] py-2 px-4 text-[14px] ${
@@ -22,7 +22,7 @@ const CategoryList = ({ categories, seletedCategory, handleClickCategory }: Prop
                 style={{ color: color || '#000' }}
                 onClick={handleClickCategory(name)}
               >
-                {name}
+                {`${name} (${count})`}
               </section>
             );
           })}
