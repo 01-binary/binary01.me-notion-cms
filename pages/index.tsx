@@ -36,6 +36,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       posts: postsWithPreview,
       categories,
     },
-    revalidate: 600,
+    revalidate: 60,
   };
 };

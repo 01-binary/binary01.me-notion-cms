@@ -34,6 +34,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     props: {
       recordMap,
     },
-    revalidate: 600,
+    revalidate: 60,
   };
 };
