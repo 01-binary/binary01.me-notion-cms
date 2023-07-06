@@ -67,7 +67,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
         ogImage,
       },
     },
-    revalidate: 600,
+    revalidate: 60,
   };
 };
 
