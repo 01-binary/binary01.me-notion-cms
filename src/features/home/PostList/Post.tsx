@@ -19,7 +19,7 @@ const Post = ({ cardItem }: Props) => {
           {cover ? (
             <Image
               className="object-cover transition-transform group-hover:scale-105 group-hover:brightness-125"
-              src={cover}
+              src={cover || previewImage?.dataURIBase64 || DEFAULT_BLUR_BASE64}
               alt={title}
               fill
               placeholder="blur"
