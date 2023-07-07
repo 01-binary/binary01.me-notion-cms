@@ -14,6 +14,7 @@ interface Props {
 const useHomeData = ({ posts }: Props) => {
   const router = useRouter();
   const [seletedCategory, setSeletedCategory] = useState<string>(INITIAL_CATEGORY);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const filteredPosts = useMemo(
     () =>
       seletedCategory === INITIAL_CATEGORY
@@ -34,15 +35,18 @@ const useHomeData = ({ posts }: Props) => {
   );
 
   useEffect(() => {
+    if (!router.isReady) return;
     const { category } = router.query;
     setSeletedCategory((category as string) || INITIAL_CATEGORY);
-  }, [router.query]);
+    setIsLoading(false);
+  }, [router, router.query]);
 
   return {
     entries,
     processedPosts: data,
     seletedCategory,
     handleClickCategory,
+    isLoading,
   };
 };
 
