@@ -27,9 +27,13 @@ const useHomeData = ({ posts }: Props) => {
 
   const handleClickCategory = useCallback(
     (target: string) => () => {
-      router.push(`${target === INITIAL_CATEGORY ? '/' : `?category=${target}`}`, undefined, {
-        shallow: true,
-      });
+      if (target === INITIAL_CATEGORY) {
+        router.replace('/', undefined, { shallow: true });
+      } else {
+        router.replace({ query: { ...router.query, category: target } }, undefined, {
+          shallow: true,
+        });
+      }
     },
     [router],
   );
