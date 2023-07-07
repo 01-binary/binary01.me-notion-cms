@@ -12,7 +12,7 @@ interface Props {
 
 const INITIAL_PAGE = 0;
 
-const useInfiniteScroll = ({ rawData, pageSize = 20 }: Props) => {
+const useInfiniteScroll = ({ rawData, pageSize = 4 }: Props) => {
   const [page, setPage] = useState<number>(INITIAL_PAGE);
   const data = useMemo(
     () => rawData.slice(INITIAL_PAGE, (page + 1) * pageSize),
