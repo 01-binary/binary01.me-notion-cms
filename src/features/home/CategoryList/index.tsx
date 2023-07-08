@@ -17,8 +17,8 @@ const CategoryList = ({ isLoading, categories, seletedCategory, handleClickCateg
               const { id, name, color, count } = category;
               return (
                 <section
-                  className={`cursor-pointer whitespace-nowrap rounded-3xl border-[2px] border-solid bg-[#fff] py-2 px-4 text-[14px] ${
-                    seletedCategory === name ? 'border-[#000]' : 'border-transparent'
+                  className={`cursor-pointer whitespace-nowrap rounded-3xl border-[2px] border-solid bg-[#fff] py-2 px-4 text-[14px] shadow-[0_2px_4px_rgba(0,0,0,.1)] ${
+                    seletedCategory === name ? 'border-[#c0c0c0]' : 'border-transparent'
                   }`}
                   key={id}
                   style={{ color: color || '#000' }}
