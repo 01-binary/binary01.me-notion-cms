@@ -32,14 +32,14 @@ const Post = ({ cardItem }: Props) => {
           )}
         </div>
 
-        <section className="flex flex-col gap-1 p-[10px]">
-          <h4 className="text-[28px] font-bold">{title}</h4>
+        <section className="mt-[6px] flex flex-col gap-1 p-[10px]">
+          <h4 className="text-[28px] font-bold leading-[34px]">{title}</h4>
           {description ? (
             <p className="text-[14px] font-normal text-[#37352F]">{description}</p>
           ) : null}
           <div className="mt-2 flex items-center gap-2">
             <span
-              className="rounded px-[6px] text-[12px]"
+              className="rounded px-2 py-[1px] text-[12px]"
               style={{
                 backgroundColor: category
                   ? COLOR_TABLE[category.color as keyof typeof COLOR_TABLE]
