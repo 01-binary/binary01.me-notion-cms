@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -11,12 +13,13 @@ interface Props {
 }
 
 const Post = ({ cardItem }: Props) => {
+  const [onError, setOnError] = useState<boolean>(false);
   const { cover, description, id, published, category, title, previewImage } = cardItem;
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
       <Link href={`posts/${id}`}>
         <div className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]">
-          {cover ? (
+          {!onError ? (
             <Image
               className="object-cover transition-transform group-hover:scale-105 group-hover:brightness-125"
               src={cover}
@@ -24,6 +27,7 @@ const Post = ({ cardItem }: Props) => {
               fill
               placeholder="blur"
               blurDataURL={previewImage?.dataURIBase64 || DEFAULT_BLUR_BASE64}
+              onError={() => setOnError(true)}
             />
           ) : (
             <div className="flex h-full items-center justify-center">
