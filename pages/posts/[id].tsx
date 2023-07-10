@@ -6,6 +6,7 @@ import { getPageTitle } from 'notion-utils';
 
 import PostRenderer from '@/features/posts/Renderer';
 import { getNotionPosts, getPage, getPageProperties } from '@/utils';
+import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
 
@@ -52,7 +53,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
   const previewImages = await getPreviewImageFromRecordMap(recordMap);
 
   const title = getPageTitle(recordMap);
-  const ogImage = `/api/coverImage?pageId=${id}`;
+  const ogImage = `${siteConfig.url}/api/coverImage?pageId=${id}`;
 
   return {
     props: {
