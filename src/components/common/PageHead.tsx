@@ -78,14 +78,14 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
         content={pageTitle}
       />
 
-      <meta
+      {/* <meta
         property="og:image:width"
         content="1200"
       />
       <meta
         property="og:image:height"
         content="630"
-      />
+      /> */}
 
       {/* twitter tags */}
       <meta
