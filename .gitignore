@@ -36,6 +36,5 @@ yarn-error.log*
 next-env.d.ts
 
 # sitemap
-robots.txt
 sitemap.xml
 sitemap-*.xml

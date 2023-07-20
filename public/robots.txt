@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://binary01.me
+
+# Sitemaps
+Sitemap: https://binary01.me/sitemap.xml
