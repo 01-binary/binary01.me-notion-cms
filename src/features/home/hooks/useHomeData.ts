@@ -13,8 +13,9 @@ interface Props {
 
 const useHomeData = ({ posts }: Props) => {
   const router = useRouter();
-  const [seletedCategory, setSeletedCategory] = useState<string>(INITIAL_CATEGORY);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [seletedCategory, setSeletedCategory] = useState<string>(INITIAL_CATEGORY);
+
   const filteredPosts = useMemo(
     () =>
       seletedCategory === INITIAL_CATEGORY
