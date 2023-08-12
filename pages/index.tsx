@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Home from '@/features/home';
 import { HomeProps } from '@/interfaces';
 import { parsePosts, getNotionPosts, getCategories } from '@/utils';
+import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
 
@@ -11,7 +12,7 @@ import { getPreviewImages } from '@/utils/previewImage';
 const HomePage = ({ posts, categories }: HomeProps) => {
   return (
     <>
-      <PageHead title="Jinsoo's Blog" />
+      <PageHead title={siteConfig.homeTitle} />
       <Home
         posts={posts}
         categories={categories}

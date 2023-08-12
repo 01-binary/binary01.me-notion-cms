@@ -25,11 +25,11 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
       <title>{pageTitle}</title>
       <meta
         name="google-site-verification"
-        content="8ASKSU1Tj6Kc3H3qTnlRiVMn6F6PsLVsKU_RqsS0MfA"
+        content={siteConfig.googleSiteVerification}
       />
       <meta
         name="naver-site-verification"
-        content="c5c5ff5b071ac345b5e4eda384975545289762d6"
+        content={siteConfig.naverSiteVerification}
       />
       <meta
         name="description"
