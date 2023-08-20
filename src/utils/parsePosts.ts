@@ -10,12 +10,13 @@ const parsePosts = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
   const parsedPosts = posts.reduce<Post[]>((acc, item) => {
     if (!('properties' in item)) return acc;
     const { id, icon, cover } = item;
-    const { Name, Category, Date, Desc } = item.properties;
+    const { Name, Category, Date, Desc, Slug } = item.properties;
     const parsedCover = cover?.type === 'file' ? cover.file.url : cover?.external.url ?? '';
     const title = Name?.type === 'title' ? Name?.title[0]?.plain_text : '';
     const description = Desc?.type === 'rich_text' ? Desc?.rich_text[0]?.plain_text || '' : '';
     const category = Category?.type === 'multi_select' ? Category?.multi_select[0] || null : null;
     const published = (Date.type === 'date' ? dayjs(Date.date?.start).format('LL') : '') ?? '';
+    const slug = Slug?.type === 'rich_text' ? Slug?.rich_text[0]?.plain_text || '' : '';
 
     const parsedPost: Post = {
       id,
@@ -23,6 +24,7 @@ const parsePosts = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
       cover: parsedCover,
       title,
       description,
+      slug,
       category,
       published,
     };

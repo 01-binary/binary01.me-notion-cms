@@ -14,10 +14,10 @@ interface Props {
 
 const Post = ({ cardItem }: Props) => {
   const [onError, setOnError] = useState<boolean>(false);
-  const { cover, description, id, published, category, title, previewImage } = cardItem;
+  const { cover, description, published, category, title, slug, previewImage } = cardItem;
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
-      <Link href={`posts/${id}`}>
+      <Link href={`posts/${slug}`}>
         <div className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]">
           {!onError ? (
             <Image

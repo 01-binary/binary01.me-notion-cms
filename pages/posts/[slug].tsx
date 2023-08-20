@@ -5,7 +5,7 @@ import { ExtendedRecordMap } from 'notion-types';
 import { getPageTitle } from 'notion-utils';
 
 import PostRenderer from '@/features/posts/Renderer';
-import { getNotionPosts, getPage, getPageProperties } from '@/utils';
+import { getIdBySlug, getNotionPosts, getPage, getPageProperties, getSlugs } from '@/utils';
 import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
@@ -47,7 +47,8 @@ interface PostParams extends ParsedUrlQuery {
 
 export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const { id } = params!;
+  const { slug } = params!;
+  const id = await getIdBySlug(slug as string, process.env.NOTION_POST_DATABASE_ID as string);
   const recordMap = await getPage(id);
   const { description, keywords } = await getPageProperties(id);
   const previewImages = await getPreviewImageFromRecordMap(recordMap);
@@ -76,10 +77,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   if (!process.env.NOTION_POST_DATABASE_ID)
     throw new Error('NOTION_POST_DATABASE_ID is not defined');
   const databaseItems = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
+  const slugs = getSlugs(databaseItems);
 
-  const paths = databaseItems.map(({ id }) => ({
+  const paths = slugs.map((slug) => ({
     params: {
-      id,
+      slug,
     },
   }));
 

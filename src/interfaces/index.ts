@@ -9,6 +9,7 @@ export interface Post {
   published: string;
   description: string;
   title: string;
+  slug: string;
   previewImage?: PreviewImage | null;
 }
 
