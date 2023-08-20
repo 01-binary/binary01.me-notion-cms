@@ -12,7 +12,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const databaseItems = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
   const slugs = getSlugs(databaseItems);
 
-  const paths = slugs.map(({ slug }) => slug);
+  const paths = slugs.map((slug) => slug);
 
   const urlSet = paths
     .map((path) => {
