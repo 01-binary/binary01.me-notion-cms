@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 
-import { getNotionPosts } from '@/utils';
+import { getNotionPosts, getSlugs } from '@/utils';
 
 const Sitemap = () => {
   return null;
@@ -10,8 +10,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   if (!process.env.NOTION_POST_DATABASE_ID)
     throw new Error('NOTION_POST_DATABASE_ID is not defined');
   const databaseItems = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
+  const slugs = getSlugs(databaseItems);
 
-  const paths = databaseItems.map(({ id }) => id);
+  const paths = slugs.map(({ slug }) => slug);
 
   const urlSet = paths
     .map((path) => {
