@@ -42,7 +42,7 @@ const PostPage = ({ recordMap, seo: { title, description, keywords, ogImage } }:
 export default PostPage;
 
 interface PostParams extends ParsedUrlQuery {
-  id: string;
+  slug: string;
 }
 
 export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params }) => {

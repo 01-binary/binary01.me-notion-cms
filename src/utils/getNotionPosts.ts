@@ -13,9 +13,20 @@ const getNotionPosts = async (databaseId: string) => {
                   equals: true,
                 },
               },
+              {
+                property: 'Slug',
+                rich_text: {
+                  is_not_empty: true,
+                },
+              },
             ],
           }
-        : undefined,
+        : {
+            property: 'Slug',
+            rich_text: {
+              is_not_empty: true,
+            },
+          },
     sorts: [
       {
         property: 'Date',
