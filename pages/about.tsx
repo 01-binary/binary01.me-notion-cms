@@ -6,6 +6,8 @@ import { getPage } from '@/utils';
 
 import PageHead from '@/components/common/PageHead';
 
+import { REVALIDATE_TIME } from '@/assets/constants';
+
 interface Props {
   recordMap: ExtendedRecordMap;
 }
@@ -34,6 +36,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     props: {
       recordMap,
     },
-    revalidate: 60,
+    revalidate: REVALIDATE_TIME,
   };
 };

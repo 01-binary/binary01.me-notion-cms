@@ -7,6 +7,8 @@ import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
 
+import { REVALIDATE_TIME } from '@/assets/constants';
+
 import { getPreviewImages } from '@/utils/previewImage';
 
 const HomePage = ({ posts, categories }: HomeProps) => {
@@ -37,6 +39,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       posts: postsWithPreview,
       categories,
     },
-    revalidate: 60,
+    revalidate: REVALIDATE_TIME,
   };
 };

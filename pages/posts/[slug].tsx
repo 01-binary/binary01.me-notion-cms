@@ -10,6 +10,8 @@ import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
 
+import { REVALIDATE_TIME } from '@/assets/constants';
+
 import { getPreviewImageFromRecordMap } from '@/utils/previewImage';
 
 interface Props {
@@ -69,7 +71,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
         ogImage,
       },
     },
-    revalidate: 60,
+    revalidate: REVALIDATE_TIME,
   };
 };
 
