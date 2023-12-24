@@ -1,4 +1,3 @@
-import got from 'got';
 import lqip from 'lqip-modern';
 import { ExtendedRecordMap, PreviewImage, PreviewImageMap } from 'notion-types';
 import { getPageImageUrls } from 'notion-utils';
@@ -8,10 +7,9 @@ import { Post } from '@/interfaces';
 
 export const makePreviewImage = async (url: string) => {
   try {
-    const buffer = await got(url, {
-      responseType: 'buffer',
-      resolveBodyOnly: true,
-    });
+    const response = await fetch(url);
+    const buffer = Buffer.from(await response.arrayBuffer());
+
     const {
       metadata: { dataURIBase64, originalHeight, originalWidth },
     } = await lqip(buffer as unknown as string);
