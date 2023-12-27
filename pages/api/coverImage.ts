@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { getPage, getPageCoverImage } from '@/utils';
 
-import { REVALIDATE_TIME } from '@/assets/constants';
+import { IMAGE_MAX_AGE } from '@/assets/constants';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { pageId } = req.query;
@@ -16,10 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!contentType) throw new Error('content header does not exist');
 
     res.setHeader('Content-Type', contentType);
-    res.setHeader(
-      'Cache-Control',
-      `public, s-maxage=${REVALIDATE_TIME}, max-age=${REVALIDATE_TIME}, stale-while-revalidate=${REVALIDATE_TIME}`,
-    );
+    res.setHeader('Cache-Control', `public, s-maxage=${IMAGE_MAX_AGE}, max-age=${IMAGE_MAX_AGE}`);
 
     res.send(Buffer.from(await response.arrayBuffer()));
   } catch (error) {
