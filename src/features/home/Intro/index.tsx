@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { AiOutlineGithub, AiFillLinkedin } from 'react-icons/ai';
@@ -46,4 +48,4 @@ const Intro = () => {
   );
 };
 
-export default Intro;
+export default memo(Intro);
