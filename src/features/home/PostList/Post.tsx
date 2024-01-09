@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,10 +15,33 @@ interface Props {
 const Post = ({ cardItem }: Props) => {
   const [onError, setOnError] = useState<boolean>(false);
   const { cover, description, published, category, title, slug, previewImage } = cardItem;
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!ref.current) return;
+      const rotateY = calculate(e.offsetX, ref.current.offsetWidth);
+      const rotateX = -calculate(e.offsetY, ref.current.offsetHeight);
+      console.log(rotateY, rotateX);
+
+      ref.current.style = `transform: perspective(350px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    };
+
+    ref.current?.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      ref.current?.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
       <Link href={`posts/${slug}`}>
-        <div className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]">
+        <div
+          className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]"
+          ref={ref}
+        >
           {!onError ? (
             <Image
               className="object-cover transition-transform group-hover:scale-105 group-hover:brightness-125"
@@ -58,6 +81,20 @@ const Post = ({ cardItem }: Props) => {
       </Link>
     </li>
   );
+};
+
+const calculate = (x: number, maxX: number) => {
+  const intercept = 3;
+  const [y1, y2, y3] = [intercept, 0, -intercept];
+
+  const slope1 = (y2 - y1) / (maxX / 2);
+  const slope2 = (y3 - y2) / (maxX / 2);
+
+  if (x <= maxX / 2) {
+    return slope1 * x + (y1 - slope1 * 0);
+  } else {
+    return slope2 * x + (y2 - slope2 * (maxX / 2));
+  }
 };
 
 export default Post;
