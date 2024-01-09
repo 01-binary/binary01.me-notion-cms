@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { calculate } from '@/features/home/PostList/Post/util';
 import { Post } from '@/interfaces';
 import { siteConfig } from 'site.config';
 
@@ -13,8 +14,8 @@ interface Props {
 }
 
 const Post = ({ cardItem }: Props) => {
-  const [onError, setOnError] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
+  const [onError, setOnError] = useState<boolean>(false);
   const { cover, description, published, category, title, slug, previewImage } = cardItem;
 
   useEffect(() => {
@@ -33,12 +34,14 @@ const Post = ({ cardItem }: Props) => {
       ref.current.style.transform = `perspective(350px) rotateX(0deg) rotateY(0deg)`;
     };
 
-    ref.current?.addEventListener('mousemove', handleMouseMove);
-    ref.current?.addEventListener('mouseout', handleMouseOut);
+    const currentRef = ref.current;
+
+    currentRef.addEventListener('mousemove', handleMouseMove);
+    currentRef.addEventListener('mouseout', handleMouseOut);
 
     return () => {
-      ref.current?.removeEventListener('mousemove', handleMouseMove);
-      ref.current?.removeEventListener('mouseout', handleMouseOut);
+      currentRef.removeEventListener('mousemove', handleMouseMove);
+      currentRef.removeEventListener('mouseout', handleMouseOut);
     };
   }, []);
 
@@ -88,20 +91,6 @@ const Post = ({ cardItem }: Props) => {
       </Link>
     </li>
   );
-};
-
-const calculate = (x: number, maxX: number) => {
-  const intercept = 3;
-  const [y1, y2, y3] = [intercept, 0, -intercept];
-
-  const slope1 = (y2 - y1) / (maxX / 2);
-  const slope2 = (y3 - y2) / (maxX / 2);
-
-  if (x <= maxX / 2) {
-    return slope1 * x + (y1 - slope1 * 0);
-  } else {
-    return slope2 * x + (y2 - slope2 * (maxX / 2));
-  }
 };
 
 export default Post;
