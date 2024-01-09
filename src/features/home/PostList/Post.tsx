@@ -14,8 +14,9 @@ interface Props {
 
 const Post = ({ cardItem }: Props) => {
   const [onError, setOnError] = useState<boolean>(false);
-  const { cover, description, published, category, title, slug, previewImage } = cardItem;
   const ref = useRef<HTMLDivElement>(null);
+  const { cover, description, published, category, title, slug, previewImage } = cardItem;
+
   useEffect(() => {
     if (!ref.current) return;
 
