@@ -23,15 +23,21 @@ const Post = ({ cardItem }: Props) => {
       if (!ref.current) return;
       const rotateY = calculate(e.offsetX, ref.current.offsetWidth);
       const rotateX = -calculate(e.offsetY, ref.current.offsetHeight);
-      console.log(rotateY, rotateX);
 
       ref.current.style = `transform: perspective(350px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     };
 
+    const handleMouseOut = () => {
+      if (!ref.current) return;
+      ref.current.style = `transform: perspective(350px) rotateX(0deg) rotateY(0deg)`;
+    };
+
     ref.current?.addEventListener('mousemove', handleMouseMove);
+    ref.current?.addEventListener('mouseout', handleMouseOut);
 
     return () => {
       ref.current?.removeEventListener('mousemove', handleMouseMove);
+      ref.current?.removeEventListener('mouseout', handleMouseOut);
     };
   }, []);
 
