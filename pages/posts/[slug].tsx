@@ -6,13 +6,12 @@ import { getPageTitle } from 'notion-utils';
 
 import PostRenderer from '@/features/posts/Renderer';
 import { getIdBySlug, getNotionPosts, getPage, getPageProperties, getSlugs } from '@/utils';
+import { getPreviewImageFromRecordMap } from '@/utils';
 import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
 
 import { REVALIDATE_TIME } from '@/assets/constants';
-
-import { getPreviewImageFromRecordMap } from '@/utils/previewImage';
 
 interface Props {
   recordMap: ExtendedRecordMap;

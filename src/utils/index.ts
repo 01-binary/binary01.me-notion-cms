@@ -8,3 +8,6 @@ export { default as getPageCoverImage } from './getPageCoverImage';
 export { default as getPageProperties } from './getPageProperties';
 export { default as getSlugs } from './getSlugs';
 export { default as getIdBySlug } from './getIdBySlug';
+export { default as generateRssFeed } from './generateRssFeed';
+export { default as generateSitemap } from './generateSitemap';
+export { getPreviewImageFromRecordMap, getPreviewImages, makePreviewImage } from './previewImage';

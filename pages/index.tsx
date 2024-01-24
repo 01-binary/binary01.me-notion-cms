@@ -3,13 +3,12 @@ import { GetStaticProps } from 'next';
 import Home from '@/features/home';
 import { HomeProps } from '@/interfaces';
 import { parsePosts, getNotionPosts, getCategories } from '@/utils';
+import { getPreviewImages } from '@/utils';
 import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
 
 import { REVALIDATE_TIME } from '@/assets/constants';
-
-import { getPreviewImages } from '@/utils/previewImage';
 
 const HomePage = ({ posts, categories }: HomeProps) => {
   return (

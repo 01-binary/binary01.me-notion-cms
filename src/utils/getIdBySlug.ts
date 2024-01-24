@@ -1,4 +1,4 @@
-import notionClient from '@/utils/notionClient';
+import { notionClient } from '@/utils';
 
 const getIdBySlug = async (slug: string, databaseId: string) => {
   const response = await notionClient.databases.query({

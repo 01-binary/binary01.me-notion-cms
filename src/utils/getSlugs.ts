@@ -1,4 +1,4 @@
-import getNotionPosts from '@/utils/getNotionPosts';
+import { getNotionPosts } from '@/utils';
 
 const getSlugs = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
   const slugs = posts
