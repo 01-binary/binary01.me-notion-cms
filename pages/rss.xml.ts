@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
 
-import { generateSitemap, getNotionPosts } from '@/utils';
+import { generateRssFeed, getNotionPosts } from '@/utils';
 
-const Sitemap = () => {
+const Rss = () => {
   return null;
 };
 
@@ -12,7 +12,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const databaseItems = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
 
   res.setHeader('Content-Type', 'text/xml');
-  res.write(generateSitemap(databaseItems));
+  res.write(generateRssFeed(databaseItems));
   res.end();
 
   return {
@@ -20,4 +20,4 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   };
 };
 
-export default Sitemap;
+export default Rss;

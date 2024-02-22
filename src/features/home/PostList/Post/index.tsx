@@ -1,8 +1,9 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { calculate } from '@/features/home/PostList/Post/util';
 import { Post } from '@/interfaces';
 import { siteConfig } from 'site.config';
 
@@ -13,12 +14,44 @@ interface Props {
 }
 
 const Post = ({ cardItem }: Props) => {
+  const ref = useRef<HTMLDivElement>(null);
   const [onError, setOnError] = useState<boolean>(false);
   const { cover, description, published, category, title, slug, previewImage } = cardItem;
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!ref.current) return;
+      const rotateY = calculate(e.offsetX, ref.current.offsetWidth);
+      const rotateX = -calculate(e.offsetY, ref.current.offsetHeight);
+
+      ref.current.style.transform = `perspective(350px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    };
+
+    const handleMouseOut = () => {
+      if (!ref.current) return;
+      ref.current.style.transform = `perspective(350px) rotateX(0deg) rotateY(0deg)`;
+    };
+
+    const currentRef = ref.current;
+
+    currentRef.addEventListener('mousemove', handleMouseMove);
+    currentRef.addEventListener('mouseout', handleMouseOut);
+
+    return () => {
+      currentRef.removeEventListener('mousemove', handleMouseMove);
+      currentRef.removeEventListener('mouseout', handleMouseOut);
+    };
+  }, []);
+
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
       <Link href={`posts/${slug}`}>
-        <div className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]">
+        <div
+          className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]"
+          ref={ref}
+        >
           {!onError ? (
             <Image
               className="object-cover transition-transform group-hover:scale-105 group-hover:brightness-125"
