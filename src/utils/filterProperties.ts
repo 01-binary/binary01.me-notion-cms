@@ -5,8 +5,12 @@ dayjs.extend(localizedFormat);
 
 import { PageObjectResponse, PageProperties } from '@/interfaces';
 
+import { DEFAULT_CATEGORY_COLOR } from '@/assets/constants';
+
 export const filterCategoryProperties = (target: PageProperties) => {
-  return target.type === 'multi_select' ? target.multi_select[0] : null;
+  return target.type === 'multi_select'
+    ? target.multi_select[0]
+    : { id: '', name: '', color: DEFAULT_CATEGORY_COLOR };
 };
 
 export const filterDescSlugProperties = (target: PageProperties) => {

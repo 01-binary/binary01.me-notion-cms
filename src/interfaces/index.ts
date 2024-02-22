@@ -9,6 +9,7 @@ export {
 import { PreviewImage } from 'notion-types';
 
 export type SelectPropertyResponse = MultiSelectPropertyItemObjectResponse['multi_select'][number];
+export type SelectColor = SelectPropertyResponse['color'];
 
 export type PageProperties = PageObjectResponse['properties'][string];
 

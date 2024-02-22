@@ -1,3 +1,5 @@
+import { SelectColor } from '@/interfaces';
+
 export const COLOR_TABLE = {
   purple: '#e9d5ff',
   yellow: '#fef9c3',
@@ -12,6 +14,8 @@ export const COLOR_TABLE = {
 };
 
 export const INITIAL_CATEGORY = 'All';
+
+export const DEFAULT_CATEGORY_COLOR: SelectColor = 'default';
 
 export const DEFAULT_BLUR_BASE64 =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=';
