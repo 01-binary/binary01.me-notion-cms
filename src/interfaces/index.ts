@@ -25,6 +25,7 @@ export interface Post {
   previewImage?: PreviewImage | null;
 }
 
+export type SlugAndDate = Pick<Post, 'slug' | 'published'>;
 export interface Category extends SelectPropertyResponse {
   count?: number;
 }

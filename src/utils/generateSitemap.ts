@@ -1,18 +1,18 @@
-import { getNotionPosts, getSlugs } from '@/utils';
+import { GetPageResponse } from '@notionhq/client/build/src/api-endpoints';
 
-const generateSitemap = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
-  const slugs = getSlugs(posts);
+import getSlugsAndDates from '@/utils/getSlugsAndDates';
 
-  const paths = slugs.map((slug) => slug);
+const generateSitemap = (notionPostsResponse: GetPageResponse[]) => {
+  const paths = getSlugsAndDates(notionPostsResponse);
 
   const urlSet = paths
     .map((path) => {
       return `
     <url>
-      <loc>${process.env.BLOG_URL}/posts/${path}</loc>
+      <loc>${process.env.BLOG_URL}/posts/${path.slug}</loc>
       <changefreq>daily</changefreq>
       <priority>1</priority>
-      <lastmod>${new Date().toISOString()}</lastmod>
+      <lastmod>${path.published}</lastmod>
     </url>
   `;
     })

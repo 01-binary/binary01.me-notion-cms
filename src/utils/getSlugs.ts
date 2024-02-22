@@ -2,8 +2,8 @@ import { GetPageResponse } from '@/interfaces';
 
 import { filterDescSlugProperties } from '@/utils/filterProperties';
 
-const getSlugs = (posts: GetPageResponse[]) => {
-  const slugs = posts
+const getSlugs = (notionPostsResponse: GetPageResponse[]) => {
+  const slugs = notionPostsResponse
     .map((post) => {
       if (!('properties' in post)) return null;
 

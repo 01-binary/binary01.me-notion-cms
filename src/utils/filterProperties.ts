@@ -28,3 +28,7 @@ export const filterCoverProperties = (target: PageObjectResponse['cover']) => {
 export const filterDateProperties = (target: PageProperties) => {
   return target.type === 'date' ? dayjs(target.date?.start).format('LL') : '';
 };
+
+export const filterDatePropertiesToISOString = (target: PageProperties) => {
+  return target.type === 'date' ? dayjs(target.date?.start).toISOString() : '';
+};
