@@ -29,10 +29,10 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   if (!process.env.NOTION_POST_DATABASE_ID)
     throw new Error('NOTION_POST_DATABASE_ID is not defined');
 
-  const rawPosts = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
-  const posts = parsePosts(rawPosts);
+  const notionPostsResponse = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
+  const posts = parsePosts(notionPostsResponse);
+  const categories = getCategories(notionPostsResponse);
   const postsWithPreview = await getPreviewImages(posts);
-  const categories = getCategories(rawPosts);
 
   return {
     props: {

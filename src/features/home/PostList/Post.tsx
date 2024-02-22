@@ -50,7 +50,7 @@ const Post = ({ cardItem }: Props) => {
                   : COLOR_TABLE.default,
               }}
             >
-              {category?.name}
+              {category.name}
             </span>
             <time className="text-[12px] font-normal text-[#37352F]">{published}</time>
           </div>

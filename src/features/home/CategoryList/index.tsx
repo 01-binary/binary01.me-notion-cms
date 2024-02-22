@@ -21,7 +21,7 @@ const CategoryList = ({ isLoading, categories, seletedCategory, handleClickCateg
                     seletedCategory === name ? 'border-[#c0c0c0]' : 'border-transparent'
                   }`}
                   key={id}
-                  style={{ color: color || '#000' }}
+                  style={{ color }}
                   onClick={handleClickCategory(name)}
                 >
                   {`${name} (${count})`}

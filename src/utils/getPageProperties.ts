@@ -1,16 +1,17 @@
-import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-
+import { PageObjectResponse } from '@/interfaces';
 import { notionClient } from '@/utils';
+
+import { filterCategoryProperties, filterDescSlugProperties } from '@/utils/filterProperties';
 
 const getPageProperties = async (pageId: string) => {
   const pageObj = (await getNotionClientPage(pageId)) as PageObjectResponse;
   const { Category, Desc } = pageObj.properties;
-  const category = Category?.type === 'multi_select' ? Category?.multi_select[0] || null : null;
-  const description = Desc?.type === 'rich_text' ? Desc?.rich_text[0]?.plain_text || '' : '';
+  const category = filterCategoryProperties(Category);
+  const description = filterDescSlugProperties(Desc);
 
   return {
     description,
-    keywords: category?.name || '',
+    keywords: (category && category.name) || '',
   };
 };
 

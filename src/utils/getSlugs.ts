@@ -1,18 +1,20 @@
-import getNotionPosts from '@/utils/getNotionPosts';
+import { GetPageResponse } from '@/interfaces';
 
-const getSlugs = (posts: Awaited<ReturnType<typeof getNotionPosts>>) => {
+import { filterDescSlugProperties } from '@/utils/filterProperties';
+
+const getSlugs = (posts: GetPageResponse[]) => {
   const slugs = posts
     .map((post) => {
       if (!('properties' in post)) return null;
 
       const { Slug } = post.properties;
-      const slug = Slug?.type === 'rich_text' ? Slug?.rich_text[0]?.plain_text || '' : '';
+      const slug = filterDescSlugProperties(Slug);
 
       return slug;
     }, [])
-    .filter(Boolean);
+    .filter((slug): slug is string => slug !== null);
 
-  return slugs as string[];
+  return slugs;
 };
 
 export default getSlugs;

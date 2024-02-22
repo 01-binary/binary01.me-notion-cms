@@ -12,7 +12,7 @@ export const makePreviewImage = async (url: string) => {
 
     const {
       metadata: { dataURIBase64, originalHeight, originalWidth },
-    } = await lqip(buffer as unknown as string);
+    } = await lqip(buffer);
     const result: PreviewImage = {
       dataURIBase64,
       originalHeight,
@@ -44,7 +44,7 @@ export const getPreviewImages = async (posts: Post[]) => {
 
 export const getPreviewImageFromRecordMap = async (
   recordMap: ExtendedRecordMap,
-): Promise<PreviewImageMap | null> => {
+): Promise<PreviewImageMap | undefined> => {
   const urls = getPageImageUrls(recordMap, {
     mapImageUrl: defaultMapImageUrl,
   });

@@ -48,8 +48,7 @@ interface PostParams extends ParsedUrlQuery {
 }
 
 export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params }) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const { slug } = params!;
+  const { slug } = params as PostParams;
   const id = await getIdBySlug(slug as string, process.env.NOTION_POST_DATABASE_ID as string);
   const recordMap = await getPage(id);
   const { description, keywords } = await getPageProperties(id);
@@ -63,7 +62,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
       recordMap: {
         ...recordMap,
         preview_images: previewImages,
-      } as ExtendedRecordMap,
+      },
       seo: {
         title,
         description,

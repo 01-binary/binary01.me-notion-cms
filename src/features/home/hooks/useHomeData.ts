@@ -20,7 +20,7 @@ const useHomeData = ({ posts }: Props) => {
     () =>
       seletedCategory === INITIAL_CATEGORY
         ? posts
-        : posts.filter((post) => post.category?.name === seletedCategory),
+        : posts.filter((post) => post.category.name === seletedCategory),
     [posts, seletedCategory],
   );
 

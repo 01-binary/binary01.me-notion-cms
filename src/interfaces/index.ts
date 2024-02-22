@@ -1,11 +1,22 @@
-import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import {
+  PageObjectResponse,
+  MultiSelectPropertyItemObjectResponse,
+} from '@notionhq/client/build/src/api-endpoints';
+export {
+  type PageObjectResponse,
+  type GetPageResponse,
+} from '@notionhq/client/build/src/api-endpoints';
 import { PreviewImage } from 'notion-types';
+
+export type SelectPropertyResponse = MultiSelectPropertyItemObjectResponse['multi_select'][number];
+
+export type PageProperties = PageObjectResponse['properties'][string];
 
 export interface Post {
   id: string;
   cover: string;
   icon: PageObjectResponse['icon'];
-  category: Category | null;
+  category: Category;
   published: string;
   description: string;
   title: string;
@@ -13,10 +24,7 @@ export interface Post {
   previewImage?: PreviewImage | null;
 }
 
-export interface Category {
-  id: string;
-  name: string;
-  color: string;
+export interface Category extends SelectPropertyResponse {
   count?: number;
 }
 
