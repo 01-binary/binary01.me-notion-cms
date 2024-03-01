@@ -1,9 +1,23 @@
-# *
 User-agent: *
-Allow: /
+Disallow: /
+Allow: /about
+Allow: /posts/v8-dive
+Allow: /posts/retrospect-2023
+Allow: /posts/image-optimiztion
+Allow: /posts/book-frameworkless
+Allow: /posts/state-lib-dive
+Allow: /posts/css-html-i-didnt-know
+Allow: /posts/ssr-hydration-dive
+Allow: /posts/functional-coding-3
+Allow: /posts/functional-coding-2
+Allow: /posts/functional-coding-1
+Allow: /posts/ts-simple-arrangement-4
+Allow: /posts/ts-simple-arrangement-3
+Allow: /posts/ts-simple-arrangement-2
+Allow: /posts/ts-simple-arrangement-1
+Allow: /posts/deep-dive-intersection-observer
+Allow: /posts/retrospect-2021
 
-# Host
 Host: https://binary01.me
 
-# Sitemaps
 Sitemap: https://binary01.me/sitemap.xml
