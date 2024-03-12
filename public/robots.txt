@@ -58,5 +58,6 @@ Allow: /posts/aws-business-professional-3
 Allow: /posts/aws-business-professional-2
 Allow: /posts/aws-business-professional-1
 Allow: /posts/gatsby-blog
+Allow: /sitemap
 
 Sitemap: https://binary01.me/sitemap.xml
