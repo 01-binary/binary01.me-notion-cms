@@ -1,6 +1,8 @@
 User-agent: *
 Disallow: /
+Allow: /$
 Allow: /about
+Allow: /posts/figma-plugin
 Allow: /posts/book-elegant-ts
 Allow: /posts/v8-dive
 Allow: /posts/retrospect-2023
@@ -28,7 +30,33 @@ Allow: /posts/js-es6-4
 Allow: /posts/js-es6-3
 Allow: /posts/js-es6-2
 Allow: /posts/js-es6-1
-
-Host: https://binary01.me
+Allow: /posts/blog-add-letsencrypt
+Allow: /posts/blog-add-disqus
+Allow: /posts/js-concept-5
+Allow: /posts/js-concept-4
+Allow: /posts/aws-developer-associate-5
+Allow: /posts/aws-developer-associate-4
+Allow: /posts/aws-developer-associate-3
+Allow: /posts/aws-developer-associate-2
+Allow: /posts/aws-developer-associate-1
+Allow: /posts/js-concept-3
+Allow: /posts/js-concept-2
+Allow: /posts/js-concept-1
+Allow: /posts/aws-cloud-practitioner-review
+Allow: /posts/aws-cloud-practitioner-6
+Allow: /posts/aws-cloud-practitioner-5
+Allow: /posts/aws-cloud-practitioner-4
+Allow: /posts/aws-cloud-practitioner-3
+Allow: /posts/aws-cloud-practitioner-2
+Allow: /posts/aws-cloud-practitioner-1
+Allow: /posts/blog-add-analytics
+Allow: /posts/blog-deployment
+Allow: /posts/blog-deployment
+Allow: /posts/what-is-graphql-2
+Allow: /posts/what-is-graphql-1
+Allow: /posts/aws-business-professional-3
+Allow: /posts/aws-business-professional-2
+Allow: /posts/aws-business-professional-1
+Allow: /posts/gatsby-blog
 
 Sitemap: https://binary01.me/sitemap.xml
