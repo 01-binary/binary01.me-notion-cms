@@ -1,5 +1,6 @@
 User-agent: *
 Disallow: /
+Allow: /$
 Allow: /about
 Allow: /posts/figma-plugin
 Allow: /posts/book-elegant-ts
