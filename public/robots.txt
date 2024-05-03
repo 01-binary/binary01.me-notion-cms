@@ -2,6 +2,7 @@ User-agent: *
 Disallow: /
 Allow: /$
 Allow: /about
+Allow: /posts/custom-hook-made-by-me
 Allow: /posts/book-front-performance
 Allow: /posts/r3f-with-udemy
 Allow: /posts/figma-plugin
