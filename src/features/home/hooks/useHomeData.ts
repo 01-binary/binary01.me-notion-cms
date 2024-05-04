@@ -1,20 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
-import { useRouter } from 'next/router';
+import { useAtomValue } from 'jotai';
 
+import { selectedCategoryAtom } from '@/atoms/categories';
+import { postsAtom } from '@/atoms/posts';
 import { useInfiniteScroll } from '@/hooks';
-import { Post } from '@/interfaces';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
 
-interface Props {
-  posts: Post[];
-}
+const useHomeData = () => {
+  const posts = useAtomValue(postsAtom);
 
-const useHomeData = ({ posts }: Props) => {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [seletedCategory, setSeletedCategory] = useState<string>(INITIAL_CATEGORY);
+  const seletedCategory = useAtomValue(selectedCategoryAtom);
 
   const filteredPosts = useMemo(
     () =>
@@ -26,32 +23,9 @@ const useHomeData = ({ posts }: Props) => {
 
   const { entries, data } = useInfiniteScroll({ rawData: filteredPosts });
 
-  const handleClickCategory = useCallback(
-    (target: string) => () => {
-      if (target === INITIAL_CATEGORY) {
-        router.replace('/', undefined, { shallow: true });
-      } else {
-        router.replace({ query: { ...router.query, category: target } }, undefined, {
-          shallow: true,
-        });
-      }
-    },
-    [router],
-  );
-
-  useEffect(() => {
-    if (!router.isReady) return;
-    const { category } = router.query;
-    setSeletedCategory((category as string) || INITIAL_CATEGORY);
-    setIsLoading(false);
-  }, [router, router.query]);
-
   return {
     entries,
     processedPosts: data,
-    seletedCategory,
-    handleClickCategory,
-    isLoading,
   };
 };
 
