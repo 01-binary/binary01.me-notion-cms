@@ -4,19 +4,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { calculate } from '@/features/home/PostList/Post/util';
-import { Post } from '@/interfaces';
+import { Post as Item } from '@/interfaces';
 import { siteConfig } from 'site.config';
 
 import { COLOR_TABLE, DEFAULT_BLUR_BASE64 } from '@/assets/constants';
 
 interface Props {
-  cardItem: Post;
+  item: Item;
 }
 
-const Post = ({ cardItem }: Props) => {
+const Post = ({ item }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [onError, setOnError] = useState<boolean>(false);
-  const { cover, description, published, category, title, slug, previewImage } = cardItem;
+  const { cover, description, published, category, title, slug, previewImage } = item;
 
   useEffect(() => {
     if (!ref.current) return;

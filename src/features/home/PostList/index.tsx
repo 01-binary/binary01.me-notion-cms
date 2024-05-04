@@ -1,19 +1,19 @@
 import React, { memo } from 'react';
 
-import { usePostList } from '@/features/home/hooks';
-import CardItem from '@/features/home/PostList/Post';
+import { useInfiniteScrollPostList } from '@/features/home/hooks';
+import Post from '@/features/home/PostList/Post';
 
 const PostList = () => {
-  const { processedPosts, entries } = usePostList();
+  const { pagedPosts, entries } = useInfiniteScrollPostList();
 
   return (
     <>
       <section className="mt-[74px] border-t-[1px] border-[#eee] pt-4">
         <ul className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {processedPosts.map((post) => (
-            <CardItem
+          {pagedPosts.map((post) => (
+            <Post
               key={post.id}
-              cardItem={post}
+              item={post}
             />
           ))}
         </ul>

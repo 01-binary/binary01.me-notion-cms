@@ -4,23 +4,32 @@ import { useIntersectionObserver } from '@/hooks';
 import { Post } from '@/interfaces';
 
 interface Props {
-  rawData: Post[];
+  data: Post[];
+  initFlag?: string | number | boolean;
+  pageSize?: number;
   rootMargin?: string;
   threshold?: number[] | number;
-  pageSize?: number;
 }
 
 const INITIAL_PAGE = 0;
-const DEFAULT_PAGE_SIZE = 4;
+const DEFAULT_PAGE_SIZE = 8;
 
-const useInfiniteScroll = ({ rawData, pageSize = DEFAULT_PAGE_SIZE }: Props) => {
+const useInfiniteScroll = ({
+  data,
+  initFlag,
+  pageSize = DEFAULT_PAGE_SIZE,
+  rootMargin,
+  threshold,
+}: Props) => {
   const [page, setPage] = useState<number>(INITIAL_PAGE);
-  const data = useMemo(
-    () => rawData.slice(INITIAL_PAGE, (page + 1) * pageSize),
-    [page, pageSize, rawData],
+  const pagedData = useMemo(
+    () => data.slice(INITIAL_PAGE, (page + 1) * pageSize),
+    [page, pageSize, data],
   );
 
   const entries = useIntersectionObserver({
+    rootMargin,
+    threshold,
     onIntersect: (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -31,11 +40,11 @@ const useInfiniteScroll = ({ rawData, pageSize = DEFAULT_PAGE_SIZE }: Props) => 
 
   useEffect(() => {
     setPage(INITIAL_PAGE);
-  }, [rawData]);
+  }, [initFlag]);
 
   return {
     entries,
-    data,
+    pagedData,
   };
 };
 
