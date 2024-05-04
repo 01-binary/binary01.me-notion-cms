@@ -29,8 +29,3 @@ export type SlugAndDate = Pick<Post, 'slug' | 'published'>;
 export interface Category extends SelectPropertyResponse {
   count?: number;
 }
-
-export interface HomeProps {
-  posts: Post[];
-  categories: Category[];
-}
