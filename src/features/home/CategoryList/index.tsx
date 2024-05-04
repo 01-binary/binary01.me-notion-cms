@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useAtomValue } from 'jotai';
 
 import { categoriesAtom, selectedCategoryAtom } from '@/atoms/categories';
@@ -6,8 +8,8 @@ import useCategorySelect from '@/features/home/hooks/useCategorySelect';
 const CategoryList = () => {
   const categories = useAtomValue(categoriesAtom);
   const seletedCategory = useAtomValue(selectedCategoryAtom);
-
   const { handleClickCategory } = useCategorySelect();
+
   return (
     <section>
       <div className="h-[28px]" />
@@ -34,4 +36,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default memo(CategoryList);

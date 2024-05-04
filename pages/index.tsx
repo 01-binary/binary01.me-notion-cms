@@ -26,10 +26,7 @@ const HomePage = ({ posts, categories }: Props) => {
   return (
     <>
       <PageHead title={siteConfig.homeTitle} />
-      <Home
-        posts={posts}
-        categories={categories}
-      />
+      <Home />
     </>
   );
 };
