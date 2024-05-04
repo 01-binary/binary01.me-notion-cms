@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 
 import { siteConfig } from 'site.config';
 
+import Favicon from '@/components/common/Favicon';
+
 interface PageHeadProps {
   title?: string;
   description?: string;
@@ -116,6 +118,9 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
         name="twitter:image:alt"
         content={pageTitle}
       />
+
+      {/* favicon tags */}
+      <Favicon />
     </Head>
   );
 };
