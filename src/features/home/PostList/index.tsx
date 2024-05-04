@@ -8,7 +8,8 @@ const PostList = () => {
 
   return (
     <>
-      <section className="mt-[74px] border-t-[1px] border-[#eee] pt-4">
+      <div className="h-[74px]" />
+      <section className="border-t-[1px] border-[#eee] pt-4">
         <ul className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {pagedPosts.map((post) => (
             <Post

@@ -1,27 +1,30 @@
 import { useCallback, useEffect } from 'react';
 
-import { useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
+import { RESET } from 'jotai/utils';
 import { useRouter } from 'next/router';
 
 import { selectedCategoryAtom } from '@/atoms/categories';
+import { postPageResettableAtom } from '@/atoms/posts';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
 
 const useCategorySelect = () => {
   const router = useRouter();
-  const setSeletedCategory = useSetAtom(selectedCategoryAtom);
+  const [selectedCategory, setSeletedCategory] = useAtom(selectedCategoryAtom);
+  const setPostPage = useSetAtom(postPageResettableAtom);
 
   const handleClickCategory = useCallback(
     (target: string) => () => {
-      if (target === INITIAL_CATEGORY) {
-        router.replace('/', undefined, { shallow: true });
-      } else {
-        router.replace({ query: { ...router.query, category: target } }, undefined, {
-          shallow: true,
-        });
-      }
+      if (selectedCategory === target) return;
+      router.replace(
+        target === INITIAL_CATEGORY ? '/' : { query: { ...router.query, category: target } },
+        undefined,
+        { shallow: true },
+      );
+      setPostPage(RESET);
     },
-    [router],
+    [router, selectedCategory, setPostPage],
   );
 
   useEffect(() => {

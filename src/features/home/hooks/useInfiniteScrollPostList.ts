@@ -1,15 +1,20 @@
-import { useAtomValue } from 'jotai';
+import { useCallback } from 'react';
 
-import { selectedCategoryAtom } from '@/atoms/categories';
-import { postsFilterByCategoryAtom } from '@/atoms/posts';
+import { useAtom, useAtomValue } from 'jotai';
+
+import { postPageResettableAtom, postsFilterByCategoryAtom } from '@/atoms/posts';
 import { useInfiniteScroll } from '@/hooks';
 
 const useInfiniteScrollPostList = () => {
   const postsFilterByCategory = useAtomValue(postsFilterByCategoryAtom);
-  const selectedCategory = useAtomValue(selectedCategoryAtom);
+  const [postPage, setPostPage] = useAtom(postPageResettableAtom);
+
   const { entries, pagedData } = useInfiniteScroll({
     data: postsFilterByCategory,
-    initFlag: selectedCategory,
+    page: postPage,
+    intersectCb: useCallback(() => {
+      setPostPage((prev) => prev + 1);
+    }, [setPostPage]),
   });
 
   return {
