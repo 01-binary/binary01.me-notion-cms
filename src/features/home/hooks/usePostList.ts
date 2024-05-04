@@ -8,7 +8,7 @@ import { useInfiniteScroll } from '@/hooks';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
 
-const useHomeData = () => {
+const usePostList = () => {
   const posts = useAtomValue(postsAtom);
 
   const seletedCategory = useAtomValue(selectedCategoryAtom);
@@ -29,4 +29,4 @@ const useHomeData = () => {
   };
 };
 
-export default useHomeData;
+export default usePostList;

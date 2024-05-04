@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { useAtomValue } from 'jotai';
 
 import { categoriesAtom, selectedCategoryAtom } from '@/atoms/categories';
-import useCategorySelect from '@/features/home/hooks/useCategorySelect';
+import { useCategorySelect } from '@/features/home/hooks';
 
 const CategoryList = () => {
   const categories = useAtomValue(categoriesAtom);
