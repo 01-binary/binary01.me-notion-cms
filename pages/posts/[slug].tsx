@@ -9,6 +9,7 @@ import { getIdBySlug, getNotionPosts, getPage, getPageProperties, getSlugs } fro
 import { getPreviewImageFromRecordMap } from '@/utils';
 import { siteConfig } from 'site.config';
 
+import Giscus from '@/components/common/Giscus';
 import PageHead from '@/components/common/PageHead';
 
 import { REVALIDATE_TIME } from '@/assets/constants';
@@ -36,6 +37,9 @@ const PostPage = ({ recordMap, seo: { title, description, keywords, ogImage } }:
       <article>
         <PostRenderer recordMap={recordMap} />
       </article>
+      <div className="mx-auto max-w-[900px] px-4">
+        <Giscus />
+      </div>
     </>
   );
 };
