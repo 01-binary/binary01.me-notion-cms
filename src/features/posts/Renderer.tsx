@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic';
 import nextImage from 'next/image';
 import nextLink from 'next/link';
-import { ExtendedRecordMap } from 'notion-types';
 import { NotionRenderer } from 'react-notion-x';
 
 const Code = dynamic(() => import('react-notion-x/build/third-party/code').then((m) => m.Code), {
@@ -31,7 +30,7 @@ const Modal = dynamic(() => import('react-notion-x/build/third-party/modal').the
 });
 
 interface Props {
-  recordMap: ExtendedRecordMap;
+  recordMap: Parameters<typeof NotionRenderer>[0]['recordMap'];
 }
 
 const PostRenderer = ({ recordMap }: Props) => {

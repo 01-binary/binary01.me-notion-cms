@@ -1,10 +1,10 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { ExtendedRecordMap } from 'notion-types';
-import { getPageTitle } from 'notion-utils';
+import { NotionRenderer } from 'react-notion-x';
 
 import PostRenderer from '@/features/posts/Renderer';
+import { ExtendedRecordMap } from '@/interfaces/notion';
 import { getIdBySlug, getNotionPosts, getPage, getPageProperties, getSlugs } from '@/utils';
 import { getPreviewImageFromRecordMap } from '@/utils';
 import { siteConfig } from 'site.config';
@@ -13,6 +13,8 @@ import Giscus from '@/components/common/Giscus';
 import PageHead from '@/components/common/PageHead';
 
 import { REVALIDATE_TIME } from '@/assets/constants';
+
+import { getPageTitle } from '@/utils/getPageTitle';
 
 interface Props {
   recordMap: ExtendedRecordMap;
@@ -35,7 +37,7 @@ const PostPage = ({ recordMap, seo: { title, description, keywords, ogImage } }:
         image={ogImage}
       />
       <article>
-        <PostRenderer recordMap={recordMap} />
+        <PostRenderer recordMap={recordMap as Parameters<typeof NotionRenderer>[0]['recordMap']} />
       </article>
       <div className="mx-auto max-w-[900px] px-4">
         <Giscus />
@@ -57,7 +59,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
   const { description, keywords } = await getPageProperties(id);
   const previewImages = await getPreviewImageFromRecordMap(recordMap);
 
-  const title = getPageTitle(recordMap);
+  const title = getPageTitle(recordMap) as string;
   const ogImage = `${siteConfig.url}/api/coverImage?pageId=${id}`;
 
   return {
@@ -65,7 +67,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
       recordMap: {
         ...recordMap,
         preview_images: previewImages,
-      },
+      } as ExtendedRecordMap,
       seo: {
         title,
         description,

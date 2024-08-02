@@ -1,4 +1,4 @@
-import { Color, Decoration, ID } from '@/interfaces/notion';
+import { Color, Decoration, ID, Role } from '@/interfaces/notion';
 
 export type BlockType =
   | 'page'

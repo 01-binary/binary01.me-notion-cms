@@ -181,7 +181,7 @@ const getBlocks = (blockIds: string[]) => {
   });
 };
 
-const getBlockCollectionId = (block: Block, recordMap: ExtendedRecordMap): string | null => {
+export const getBlockCollectionId = (block: Block, recordMap: ExtendedRecordMap): string | null => {
   const collectionId =
     (block as any).collection_id || (block as any).format?.collection_pointer?.id;
 
@@ -200,6 +200,31 @@ const getBlockCollectionId = (block: Block, recordMap: ExtendedRecordMap): strin
 
   return null;
 };
+
+type ReducerKey = `${string}:${any}:${any}`;
+
+interface Filter {
+  operator: string;
+  filters: Array<{
+    property: string;
+    filter: {
+      operator: string;
+      value?: {
+        type: string;
+        value: any;
+      };
+    };
+  }>;
+}
+
+interface ReducerProps {
+  filter: Filter;
+  // 다른 필요한 속성들 추가
+}
+
+interface ReducersQuery {
+  [key: string]: ReducerProps;
+}
 
 const getCollectionData = (
   collectionId: string,
@@ -227,7 +252,7 @@ const getCollectionData = (
 
   let filters = [];
   if (collectionView?.format?.property_filters) {
-    filters = collectionView.format?.property_filters.map((filterObj) => {
+    filters = collectionView.format?.property_filters.map((filterObj: any) => {
       //get the inner filter
       return {
         filter: filterObj?.filter?.filter,
@@ -272,9 +297,10 @@ const getCollectionData = (
       multi_select: 'enum_contains',
       created_time: 'date_is_within',
       ['undefined']: 'is_empty',
-    };
+    } as const;
+    type OperatorType = keyof typeof operators;
 
-    const reducersQuery = {};
+    const reducersQuery: ReducersQuery = {};
     for (const group of groups) {
       const {
         property,
@@ -314,7 +340,7 @@ const getCollectionData = (
               {
                 property,
                 filter: {
-                  operator: !isUncategorizedValue ? operators[type] : 'is_empty',
+                  operator: !isUncategorizedValue ? operators[type as OperatorType] : 'is_empty',
                   ...(!isUncategorizedValue && {
                     value: {
                       type: 'exact',
@@ -339,7 +365,7 @@ const getCollectionData = (
           ...(collectionView?.query2?.filter && {
             filter: collectionView?.query2?.filter,
           }),
-          groupSortPreference: groups.map((group) => group?.value),
+          groupSortPreference: groups.map((group: any) => group?.value),
           limit,
         },
         ...reducersQuery,
@@ -591,7 +617,7 @@ const getPage = async (
         } catch (err) {
           // It's possible for public pages to link to private collections, in which case
           // Notion returns a 400 error
-          console.warn('NotionAPI collectionQuery error', pageId, err.message);
+          console.warn('NotionAPI collectionQuery error', pageId);
           console.error(err);
         }
       },

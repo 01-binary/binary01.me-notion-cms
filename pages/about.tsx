@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
-import { ExtendedRecordMap } from 'notion-types';
 import { NotionRenderer } from 'react-notion-x';
 
+import { ExtendedRecordMap as EmbeddedRecordMap } from '@/interfaces/notion';
 import { getPage } from '@/utils';
 
 import PageHead from '@/components/common/PageHead';
@@ -9,7 +9,7 @@ import PageHead from '@/components/common/PageHead';
 import { REVALIDATE_TIME } from '@/assets/constants';
 
 interface Props {
-  recordMap: ExtendedRecordMap;
+  recordMap: EmbeddedRecordMap;
 }
 
 const AboutPage = ({ recordMap }: Props) => {
@@ -17,7 +17,9 @@ const AboutPage = ({ recordMap }: Props) => {
     <>
       <PageHead title="About" />
       <article>
-        <NotionRenderer recordMap={recordMap} />
+        <NotionRenderer
+          recordMap={recordMap as Parameters<typeof NotionRenderer>[0]['recordMap']}
+        />
       </article>
     </>
   );
