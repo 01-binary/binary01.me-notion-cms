@@ -1,5 +1,4 @@
 export { default as notionClient } from './notionClient';
-export { default as notionAPI } from './notionAPI';
 export { default as getNotionPosts } from './getNotionPosts';
 export { default as getPage } from './getPage';
 export { default as getCategories } from './getCategories';
