@@ -152,7 +152,7 @@ export const getPreviewImageFromRecordMap = async (
   return Object.fromEntries(previewImageMap);
 };
 
-const defaultMapImageUrl = (url: string, block: Block): string | null => {
+export const defaultMapImageUrl = (url: string, block: Block): string | null => {
   if (!url) {
     return null;
   }

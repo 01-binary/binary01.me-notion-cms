@@ -1,6 +1,6 @@
-import { defaultMapImageUrl } from 'react-notion-x';
-
 import { ExtendedRecordMap } from '@/interfaces/notion';
+
+import { defaultMapImageUrl } from '@/utils/previewImage';
 
 const getPageCoverImage = (recordMap: ExtendedRecordMap) => {
   const keys = Object.keys(recordMap.block);
