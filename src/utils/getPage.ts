@@ -71,7 +71,6 @@ const notionFetch = async <T>({
     body: JSON.stringify(body),
     headers,
   }).then((res) => {
-    console.log(endpoint, res);
     return res.json();
   });
 };
