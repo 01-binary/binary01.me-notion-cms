@@ -8,12 +8,14 @@ import { HiMail } from 'react-icons/hi';
 import { siteConfig } from 'site.config';
 
 const Intro = () => {
+  const profileImage = `${siteConfig.url}/api/profileImage`;
+
   return (
     <section>
       <article className="flex gap-4 md:gap-6">
         <Image
           className="h-[110px] w-[110px] rounded-full object-cover"
-          src={siteConfig.profileImg}
+          src={profileImage}
           width={110}
           height={110}
           alt={'Intro Picture'}
