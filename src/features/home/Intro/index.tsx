@@ -8,7 +8,7 @@ import { HiMail } from 'react-icons/hi';
 import { siteConfig } from 'site.config';
 
 const Intro = () => {
-  const profileImage = `${siteConfig.url}/api/profileImage`;
+  const profileImage = `/api/profileImage`;
 
   return (
     <section>
