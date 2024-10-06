@@ -7,9 +7,9 @@ import { HiMail } from 'react-icons/hi';
 
 import { siteConfig } from 'site.config';
 
-const Intro = () => {
-  const profileImage = `/api/profileImage`;
+const profileImage = `/api/profileImage`;
 
+const Intro = () => {
   return (
     <section>
       <article className="flex gap-4 md:gap-6">
