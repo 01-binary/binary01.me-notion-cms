@@ -2,7 +2,7 @@ export const siteConfig = {
   blogName: 'binary01.me',
   author: 'Jinsoo Lee',
   homeTitle: "Jinsoo's Blog",
-  introName: '@Jinsoo Lee(핀다/Web)',
+  introName: '@Jinsoo Lee(3o3/Web)',
   introDesc: 'Hi~👋 🧑🏻‍💻',
   seoDefaultDesc: '웹 프론트엔드 개발자 진수입니다!',
   url: 'https://binary01.me',
