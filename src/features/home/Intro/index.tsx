@@ -7,6 +7,8 @@ import { HiMail } from 'react-icons/hi';
 
 import { siteConfig } from 'site.config';
 
+import { DEFAULT_BLUR_BASE64 } from '@/assets/constants';
+
 const profileImage = `/api/profileImage`;
 
 const Intro = () => {
@@ -19,6 +21,8 @@ const Intro = () => {
           width={110}
           height={110}
           alt={'Intro Picture'}
+          placeholder="blur"
+          blurDataURL={DEFAULT_BLUR_BASE64}
         />
         <section className="flex flex-col justify-around gap-1">
           <section className="flex flex-col gap-2">
