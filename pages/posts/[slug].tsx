@@ -60,7 +60,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
   const previewImages = await getPreviewImageFromRecordMap(recordMap);
 
   const title = getPageTitle(recordMap) as string;
-  const ogImage = `${siteConfig.url}/api/coverImage?pageId=${id}`;
+  const ogImage = `${siteConfig.url}/api/cover-image?pageId=${id}`;
 
   return {
     props: {

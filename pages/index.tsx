@@ -39,8 +39,9 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   const notionPostsResponse = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
   const posts = parsePosts(notionPostsResponse);
-  const categories = getCategories(notionPostsResponse);
   const postsWithPreview = await getPreviewImages(posts);
+
+  const categories = getCategories(notionPostsResponse);
 
   return {
     props: {

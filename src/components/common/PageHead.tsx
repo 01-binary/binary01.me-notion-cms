@@ -19,7 +19,7 @@ const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
   const pageTitle = title ? `${title} | ${siteConfig.blogName}` : siteConfig.blogName;
   const pageDescription = description || siteConfig.seoDefaultDesc;
   const pageKeywords = keywords || '';
-  const pageImage = `${image || `${siteConfig.url}/api/profileImage`}`;
+  const pageImage = `${image || `${siteConfig.url}/api/profile-image`}`;
   const pageUrl = `${siteConfig.url}${asPath}`;
 
   return (

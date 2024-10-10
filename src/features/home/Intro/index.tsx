@@ -9,7 +9,7 @@ import { siteConfig } from 'site.config';
 
 import { DEFAULT_BLUR_BASE64 } from '@/assets/constants';
 
-const profileImage = `/api/profileImage`;
+const profileImage = `/api/profile-image`;
 
 const Intro = () => {
   return (

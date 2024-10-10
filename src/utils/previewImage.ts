@@ -126,7 +126,7 @@ export const getPreviewImages = async (posts: Post[]) => {
       const { id, cover } = post;
 
       const previewImage = await makePreviewImage(cover);
-      const coverFromNotion = `/api/coverImage?pageId=${id}`;
+      const coverFromNotion = `/api/cover-image?pageId=${id}`;
       return {
         ...post,
         previewImage,
