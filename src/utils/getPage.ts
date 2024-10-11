@@ -180,7 +180,7 @@ const getBlocks = (blockIds: string[]) => {
   });
 };
 
-export const getBlockCollectionId = (block: Block, recordMap: ExtendedRecordMap): string | null => {
+export const getBlockCollectionId = (block: Block, recordMap: ExtendedRecordMap): string => {
   const collectionId =
     (block as any).collection_id || (block as any).format?.collection_pointer?.id;
 
@@ -197,7 +197,7 @@ export const getBlockCollectionId = (block: Block, recordMap: ExtendedRecordMap)
     }
   }
 
-  return null;
+  return '';
 };
 
 type ReducerKey = `${string}:${any}:${any}`;

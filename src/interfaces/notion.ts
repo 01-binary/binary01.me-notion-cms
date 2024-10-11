@@ -1,3 +1,4 @@
+import { SearchParams, SearchResults } from '@/features/posts/notion-components/header';
 import { Block } from '@/interfaces/notion-block';
 import { Collection, PropertyType } from '@/interfaces/notion-collection';
 import { CollectionView, CollectionViewType } from '@/interfaces/notion-collection-view';
@@ -189,3 +190,53 @@ export interface PermissionRecord {
 export interface SignedUrlResponse {
   signedUrls: string[];
 }
+
+export type ComponentOverrideFn = (props: any, defaultValueFn: () => React.ReactNode) => any;
+
+export interface NotionComponents {
+  // TODO: better typing for arbitrary react components
+  Image: any;
+  Link: any;
+  PageLink: any;
+  Checkbox: React.FC<{ isChecked: boolean; blockId: string | undefined }>;
+
+  // blocks
+  Code: any;
+  Equation: any;
+  Callout?: any;
+
+  // collection
+  Collection: any;
+  Property?: any;
+
+  propertyTextValue: ComponentOverrideFn;
+  propertySelectValue: ComponentOverrideFn;
+  propertyRelationValue: ComponentOverrideFn;
+  propertyFormulaValue: ComponentOverrideFn;
+  propertyTitleValue: ComponentOverrideFn;
+  propertyPersonValue: ComponentOverrideFn;
+  propertyFileValue: ComponentOverrideFn;
+  propertyCheckboxValue: ComponentOverrideFn;
+  propertyUrlValue: ComponentOverrideFn;
+  propertyEmailValue: ComponentOverrideFn;
+  propertyPhoneNumberValue: ComponentOverrideFn;
+  propertyNumberValue: ComponentOverrideFn;
+  propertyLastEditedTimeValue: ComponentOverrideFn;
+  propertyCreatedTimeValue: ComponentOverrideFn;
+  propertyDateValue: ComponentOverrideFn;
+
+  // assets
+  Pdf: any;
+  Tweet: any;
+  Modal: any;
+  Embed: any;
+
+  // page navigation
+  Header: any;
+
+  // optional next.js-specific overrides
+  nextImage?: any;
+  nextLink?: any;
+}
+
+export type SearchNotionFn = (params: SearchParams) => Promise<SearchResults>;

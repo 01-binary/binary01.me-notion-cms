@@ -7,7 +7,7 @@ import { Block, PageBlock } from '@/interfaces/notion-block';
 
 import { getBlockCollectionId } from '@/utils/getPage';
 
-const getBlockIcon = (block: Block, recordMap: ExtendedRecordMap) => {
+export const getBlockIcon = (block: Block, recordMap: ExtendedRecordMap) => {
   if ((block as PageBlock).format?.page_icon) {
     return (block as PageBlock).format?.page_icon;
   }
@@ -31,7 +31,7 @@ const getPageImageUrls = (
   {
     mapImageUrl,
   }: {
-    mapImageUrl: (url: string, block: Block) => string | null;
+    mapImageUrl: (url: string, block: Block) => string | undefined;
   },
 ): string[] => {
   const blockIds = Object.keys(recordMap.block);
@@ -152,9 +152,19 @@ export const getPreviewImageFromRecordMap = async (
   return Object.fromEntries(previewImageMap);
 };
 
-export const defaultMapImageUrl = (url: string, block: Block): string | null => {
+export const defaultMapPageUrl = (rootPageId?: string) => (pageId: string) => {
+  pageId = (pageId || '').replace(/-/g, '');
+
+  if (rootPageId && pageId === rootPageId) {
+    return '/';
+  } else {
+    return `/${pageId}`;
+  }
+};
+
+export const defaultMapImageUrl = (url: string, block: Block): string | undefined => {
   if (!url) {
-    return null;
+    return undefined;
   }
 
   if (url.startsWith('data:')) {

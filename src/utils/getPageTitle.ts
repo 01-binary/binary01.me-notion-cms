@@ -33,7 +33,7 @@ function getBlockTitle(block: Block, recordMap: ExtendedRecordMap) {
   return '';
 }
 
-const getTextContent = (text?: Decoration[]): string => {
+export const getTextContent = (text?: Decoration[]): string => {
   if (!text) {
     return '';
   } else if (Array.isArray(text)) {
