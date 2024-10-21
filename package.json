@@ -11,13 +11,13 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@notionhq/client": "^2.2.5",
     "dayjs": "^1.11.8",
     "is-url-superb": "^6.1.0",
     "jotai": "^2.8.0",
     "lodash": "^4.17.21",
     "lqip-modern": "^2.0.0",
     "next": "^13.4.4",
+    "notion-to-utils": "^0.4.4",
     "p-map": "^7.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

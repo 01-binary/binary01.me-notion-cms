@@ -1,4 +1,4 @@
-import { GetPageResponse } from '@notionhq/client/build/src/api-endpoints';
+import { GetPageResponse } from 'notion-to-utils';
 
 import getSlugsAndDates from '@/utils/getSlugsAndDates';
 
