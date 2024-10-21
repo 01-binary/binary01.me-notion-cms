@@ -2311,10 +2311,10 @@ normalize-url@^7.0.3:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-7.2.0.tgz#5317f78cff95f5fa1e76cc0b5e33245c43781e11"
   integrity sha512-uhXOdZry0L6M2UIo9BTt7FdpBDiAGN/7oItedQwPKh8jh31ZlvC8U9Xl/EJ3aijDHaywXTW3QbZ6LuCocur1YA==
 
-notion-to-utils@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/notion-to-utils/-/notion-to-utils-0.4.4.tgz#d0419a39f14e99b021477e4521c801d3336f8531"
-  integrity sha512-Tp0IORqdT3E3yKpHyuuUXcifb2GLpfc6hpbzwUmpMTRD2LlrTP2GBL0QsiiM6yrLyt+k0X8YWyUEu0zp6KPTzg==
+notion-to-utils@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/notion-to-utils/-/notion-to-utils-0.4.5.tgz#68c36c867e0c309bbe9740f70c5850cfe17f7c19"
+  integrity sha512-dqmDTbj+bQUCp9g6w14UM2KKM0J7tkFYk4u2KCJriSfHpUrcEugaUCdkn1d0PrRE4dgtYAINp/CjdJ8iCIFaNA==
   dependencies:
     "@notionhq/client" "^2.2.15"
 

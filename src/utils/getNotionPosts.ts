@@ -1,3 +1,5 @@
+import { GetPageResponse } from 'notion-to-utils';
+
 import { notionClient } from '@/utils';
 
 const getNotionPosts = async (databaseId: string) => {
@@ -35,7 +37,7 @@ const getNotionPosts = async (databaseId: string) => {
     ],
   });
 
-  return response.results;
+  return response.results as GetPageResponse[];
 };
 
 export default getNotionPosts;

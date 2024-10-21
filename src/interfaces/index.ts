@@ -1,7 +1,12 @@
-import { PageObjectResponse, MultiSelectPropertyItemObjectResponse } from 'notion-to-utils';
+import {
+  PageObjectResponse,
+  MultiSelectPropertyItemObjectResponse,
+  GetPageResponse,
+} from 'notion-to-utils';
 
 import { PreviewImage } from '@/interfaces/notion';
 
+export type { PageObjectResponse, GetPageResponse };
 export type SelectPropertyResponse = MultiSelectPropertyItemObjectResponse['multi_select'][number];
 export type SelectColor = SelectPropertyResponse['color'];
 
