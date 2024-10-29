@@ -17,7 +17,7 @@
     "lodash": "^4.17.21",
     "lqip-modern": "^2.0.0",
     "next": "^13.4.4",
-    "notion-to-utils": "^0.4.6",
+    "notion-to-utils": "^0.4.15",
     "p-map": "^7.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
