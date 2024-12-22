@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /category/
 
 Sitemap: https://binary01.me/sitemap.xml
