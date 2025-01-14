@@ -1,8 +1,8 @@
 import isUrl from 'is-url-superb';
-import lqip from 'lqip-modern';
+import { makePreviewImage } from 'notion-to-utils';
 
 import { Post } from '@/interfaces';
-import { ExtendedRecordMap, PreviewImage, PreviewImageMap } from '@/interfaces/notion';
+import { ExtendedRecordMap, PreviewImageMap } from '@/interfaces/notion';
 import { Block, PageBlock } from '@/interfaces/notion-block';
 
 import { getBlockCollectionId } from '@/utils/getPage';
@@ -99,25 +99,6 @@ const getPageImageUrls = (
     .filter(Boolean) as string[];
 
   return Array.from(new Set(imageUrls));
-};
-
-export const makePreviewImage = async (url: string) => {
-  try {
-    const response = await fetch(url);
-    const buffer = Buffer.from(await response.arrayBuffer());
-
-    const {
-      metadata: { dataURIBase64, originalHeight, originalWidth },
-    } = await lqip(buffer);
-    const result: PreviewImage = {
-      dataURIBase64,
-      originalHeight,
-      originalWidth,
-    };
-    return result;
-  } catch (error) {
-    return null;
-  }
 };
 
 export const getPreviewImages = async (posts: Post[]) => {
