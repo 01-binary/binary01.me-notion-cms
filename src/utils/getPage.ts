@@ -200,8 +200,6 @@ export const getBlockCollectionId = (block: Block, recordMap: ExtendedRecordMap)
   return null;
 };
 
-type ReducerKey = `${string}:${any}:${any}`;
-
 interface Filter {
   operator: string;
   filters: Array<{

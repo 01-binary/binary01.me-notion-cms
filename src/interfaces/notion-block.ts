@@ -245,10 +245,6 @@ export interface DividerBlock extends BaseBlock {
   type: 'divider';
 }
 
-export interface ColumnListBlock extends BaseBlock {
-  type: 'column_list';
-}
-
 export interface ColumnBlock extends BaseBlock {
   type: 'column';
   format: {

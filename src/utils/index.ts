@@ -3,7 +3,6 @@ export { default as getNotionPosts } from './getNotionPosts';
 export { default as getPage } from './getPage';
 export { default as getCategories } from './getCategories';
 export { default as getPageCoverImage } from './getPageCoverImage';
-export { default as getPageProperties } from './getPageProperties';
 export { default as getSlugs } from './getSlugs';
 export { default as getIdBySlug } from './getIdBySlug';
 export { default as parsePosts } from './parsePosts';

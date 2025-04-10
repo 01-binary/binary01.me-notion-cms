@@ -30,13 +30,11 @@ const PostPage = ({ blocks, seo: { title, description, keywords, coverUrl } }: P
         keywords={keywords}
         image={coverUrl}
       />
-      <article>
-        <Renderer
-          title={title}
-          cover={coverUrl}
-          blocks={blocks}
-        />
-      </article>
+      <Renderer
+        title={title}
+        cover={coverUrl}
+        blocks={blocks}
+      />
       <div className="mx-auto max-w-[900px] px-4">
         <Giscus />
       </div>
