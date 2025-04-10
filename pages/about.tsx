@@ -1,26 +1,21 @@
 import { GetStaticProps } from 'next';
-import { NotionRenderer } from 'react-notion-x';
+import { NotionBlock, Renderer } from 'notion-to-jsx';
 
-import { ExtendedRecordMap as EmbeddedRecordMap } from '@/interfaces/notion';
-import { getPage } from '@/utils';
+import { notionClient } from '@/utils';
 
 import PageHead from '@/components/common/PageHead';
 
 import { REVALIDATE_TIME } from '@/assets/constants';
 
 interface Props {
-  recordMap: EmbeddedRecordMap;
+  blocks: NotionBlock[];
 }
 
-const AboutPage = ({ recordMap }: Props) => {
+const AboutPage = ({ blocks }: Props) => {
   return (
     <>
       <PageHead title="About" />
-      <article>
-        <NotionRenderer
-          recordMap={recordMap as Parameters<typeof NotionRenderer>[0]['recordMap']}
-        />
-      </article>
+      <Renderer blocks={blocks} />
     </>
   );
 };
@@ -32,11 +27,10 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   if (!aboutId) throw new Error('NOTION_ABOUT_ID is not defined');
 
-  const recordMap = await getPage(aboutId);
-
+  const blocks = (await notionClient.getPageBlocks(aboutId)) as NotionBlock[];
   return {
     props: {
-      recordMap,
+      blocks,
     },
     revalidate: REVALIDATE_TIME,
   };

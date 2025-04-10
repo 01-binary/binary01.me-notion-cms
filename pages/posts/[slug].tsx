@@ -10,7 +10,6 @@ import PageHead from '@/components/common/PageHead';
 
 import { REVALIDATE_TIME } from '@/assets/constants';
 
-import 'notion-to-jsx/dist/index.css';
 interface Props {
   blocks: NotionBlock[];
   seo: {
