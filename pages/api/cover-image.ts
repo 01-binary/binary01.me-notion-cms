@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { getPage, getPageCoverImage } from '@/utils';
+import { notionClient } from '@/utils';
 
 import { IMAGE_MAX_AGE } from '@/assets/constants';
 
@@ -8,8 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { pageId } = req.query;
 
   try {
-    const recordMap = await getPage(pageId as string);
-    const notionCoverUrl = getPageCoverImage(recordMap) as unknown as URL;
+    const properties = await notionClient.getPageProperties(pageId as string);
+    const notionCoverUrl = properties?.coverUrl || '';
     const response = await fetch(notionCoverUrl);
     const contentType = response.headers.get('content-type');
 
