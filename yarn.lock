@@ -338,6 +338,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.10.tgz#4c64759f3c2343b7e6c4b9caf761c7a3a05cee34"
   integrity sha512-juG3RWMBOqcOuXC643OAdSA525V44cVgGV6dUDuiFtss+8Fk5x1hI93Rsld43VeJVIeqlP9I7Fn9/qaVqoEAuQ==
 
+"@types/prismjs@^1.26.5":
+  version "1.26.5"
+  resolved "https://registry.yarnpkg.com/@types/prismjs/-/prismjs-1.26.5.tgz#72499abbb4c4ec9982446509d2f14fb8483869d6"
+  integrity sha512-AUZTa7hQ2KY5L7AmtSiqxlhWxb4ina0yd8hNbl4TWuqnv/pFP0nDMb3YrfSBf4hJVGLh2YEIBfKaBW/9UEl6IQ==
+
 "@types/prop-types@*":
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
@@ -2190,10 +2195,10 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-notion-to-jsx@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/notion-to-jsx/-/notion-to-jsx-1.2.3.tgz#8aad8d5e55eae1a5ad22a9cec163cb6860b61723"
-  integrity sha512-OsDpsFJSv6aK1E0EsBxZkJGHx7C7omlgwHDARvUH9hF8w9OMJXKqEB7XLDkblEuqFLFb8oQlj/CDGU1YoOwpYw==
+notion-to-jsx@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/notion-to-jsx/-/notion-to-jsx-1.2.4.tgz#be70c8e9668aabecc42ac0ec2d1132ff0b30e5ae"
+  integrity sha512-7goZsc9AIbNzSvmXrDHrK6F/9qP1zzYYuQLrxszDefwV1IA5SAJoxbbQUMrWmr6xozdQ6mt95y2k5ahTScBBPg==
   dependencies:
     "@vanilla-extract/css" "^1.17.1"
     "@vanilla-extract/recipes" "^0.5.5"
@@ -2485,7 +2490,7 @@ prettier@^2.8.0:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.0.tgz#c7df58393c9ba77d6fba3921ae01faf994fb9dc9"
   integrity sha512-9Lmg8hTFZKG0Asr/kW9Bp8tJjRVluO8EJQVfY2T7FMw9T5jy4I/Uvx0Rca/XWf50QQ1/SS48+6IJWnrb+2yemA==
 
-prismjs@^1.29.0:
+prismjs@^1.29.0, prismjs@^1.30.0:
   version "1.30.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.30.0.tgz#d9709969d9d4e16403f6f348c63553b19f0975a9"
   integrity sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==
