@@ -2190,10 +2190,10 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-notion-to-jsx@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/notion-to-jsx/-/notion-to-jsx-1.2.1.tgz#0448cd307a09a75c9ac31b85d9ee5f15f269530a"
-  integrity sha512-RyKNRhpV3Sq56Is5l3bk4+TRC5Y9xx2mifmszx+sfBb2HGDohGsHOmGy2B0OHKwPkTu12qZlqxS72OWDGV5Wlg==
+notion-to-jsx@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/notion-to-jsx/-/notion-to-jsx-1.2.2.tgz#3a7177315d9a8616390a52ce934a4304c856c25f"
+  integrity sha512-TDy9GRxqRIRYn7WlThcDv9jkzAIJjdLubeP8+tnMdrCz/gzg2/9YiWwOln11ia/NK+vstdMaQWaQL9AP35W0Jw==
   dependencies:
     "@vanilla-extract/css" "^1.17.1"
     "@vanilla-extract/recipes" "^0.5.5"
