@@ -2305,20 +2305,20 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-notion-to-jsx@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/notion-to-jsx/-/notion-to-jsx-1.2.6.tgz#75b3cb38ab7a0476c9b85f215179944a91e49f5a"
-  integrity sha512-W0OKxz206k4Mm4KxjEp6a+G5e2zK2eZQ3rEC14zJBPpukKkuQKQWfx9q3hlpaLAqLeUcd4kMF3CoKCHzOC0B0Q==
+notion-to-jsx@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/notion-to-jsx/-/notion-to-jsx-1.2.7.tgz#f222a805df6d8fe7a74a713debc7440beb8171b6"
+  integrity sha512-tOynO64WQuS4lCrdpDnLm+CEH+ioQBG1YNgjWBVox+XeTORnkMPxM0M1XhE6PYDdPRhmF04Gy+LSihyPClS/vQ==
   dependencies:
     "@vanilla-extract/css" "^1.17.1"
     "@vanilla-extract/recipes" "^0.5.5"
     "@vanilla-extract/sprinkles" "^1.6.3"
     prismjs "^1.29.0"
 
-notion-to-utils@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/notion-to-utils/-/notion-to-utils-1.0.1.tgz#3e339b7dd5a02044da357a8c85dc188ea05b93d5"
-  integrity sha512-FeK2XftRUv9U3+xG8NF7l5neAJutigCpz1/RhRFF1sKrRzDb4/JExFfQwfshN/3A3Kltv0BJ91A+cIXh27+6/A==
+notion-to-utils@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/notion-to-utils/-/notion-to-utils-1.0.2.tgz#2ed0c1253cf355eee2910400c8fd8f22ece2cbd6"
+  integrity sha512-NidRkj9/5ARBy/8D7nFpVycX1kTosp8QuhbtGjDLCElWYqCGCRQa84XpsxMexl56k2bSgbLMgq96eFPIyzJ5CA==
   dependencies:
     "@notionhq/client" "^2.2.15"
     lqip-modern "^2.2.1"
