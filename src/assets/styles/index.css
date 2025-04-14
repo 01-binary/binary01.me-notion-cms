@@ -10,3 +10,11 @@ body {
 
   min-width: 360px;
 }
+
+/* Prism.js 스타일 오버라이드 */
+@layer utilities {
+  code[class*='language-'],
+  pre[class*='language-'] {
+    font-size: 0.9em !important;
+  }
+}
