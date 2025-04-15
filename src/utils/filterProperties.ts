@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 
-dayjs.extend(localizedFormat);
-
 import { PageObjectResponse, PageProperties } from '@/interfaces';
 
 import { DEFAULT_CATEGORY_COLOR } from '@/assets/constants';
+
+dayjs.extend(localizedFormat);
 
 export const filterCategoryProperties = (target: PageProperties) => {
   return target.type === 'multi_select'
@@ -27,8 +27,4 @@ export const filterCoverProperties = (target: PageObjectResponse['cover']) => {
 
 export const filterDateProperties = (target: PageProperties) => {
   return target.type === 'date' ? dayjs(target.date?.start).format('LL') : '';
-};
-
-export const filterDatePropertiesToISOString = (target: PageProperties) => {
-  return target.type === 'date' ? dayjs(target.date?.start).toISOString() : '';
 };

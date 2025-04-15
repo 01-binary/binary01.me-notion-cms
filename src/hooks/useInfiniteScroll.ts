@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 
 import { useIntersectionObserver } from '@/hooks';
-import { Post } from '@/interfaces';
+import { PostMeta } from '@/interfaces';
 
 interface Props {
-  data: Post[];
+  data: PostMeta[];
   page: number;
   pageSize?: number;
   intersectCb?: () => void;
