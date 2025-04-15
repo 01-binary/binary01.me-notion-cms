@@ -4,8 +4,6 @@ import {
   GetPageResponse,
 } from 'notion-to-utils';
 
-import { PreviewImage } from '@/interfaces/notion';
-
 export type { PageObjectResponse, GetPageResponse };
 export type SelectPropertyResponse = MultiSelectPropertyItemObjectResponse['multi_select'][number];
 export type SelectColor = SelectPropertyResponse['color'];
@@ -22,6 +20,12 @@ export interface Post {
   title: string;
   slug: string;
   previewImage?: PreviewImage | null;
+}
+
+export interface PreviewImage {
+  originalWidth: number;
+  originalHeight: number;
+  dataURIBase64: string;
 }
 
 export type SlugAndDate = Pick<Post, 'slug' | 'published'>;

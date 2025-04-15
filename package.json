@@ -16,17 +16,19 @@
     "jotai": "^2.8.0",
     "lodash": "^4.17.21",
     "next": "^13.4.4",
-    "notion-to-utils": "^0.4.21",
+    "notion-to-jsx": "^1.2.7",
+    "notion-to-utils": "^1.0.2",
     "p-map": "^7.0.2",
+    "prismjs": "^1.30.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.9.0",
-    "react-notion-x": "^6.16.0",
     "rss": "^1.2.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",
     "@types/node": "18.11.10",
+    "@types/prismjs": "^1.26.5",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
     "@types/rss": "^0.0.32",
@@ -51,5 +53,6 @@
       "prettier --write",
       "eslint --fix"
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.19+sha512.ff4579ab459bb25aa7c0ff75b62acebe576f6084b36aa842971cf250a5d8c6cd3bc9420b22ce63c7f93a0857bc6ef29291db39c3e7a23aab5adfd5a4dd6c5d71"
 }

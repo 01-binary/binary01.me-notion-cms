@@ -1,9 +1,11 @@
 import { GetPageResponse } from 'notion-to-utils';
 
+import { SlugAndDate } from '@/interfaces';
+
 import getSlugsAndDates from '@/utils/getSlugsAndDates';
 
 const generateSitemap = (notionPostsResponse: GetPageResponse[]) => {
-  const paths = getSlugsAndDates(notionPostsResponse);
+  const paths: SlugAndDate[] = getSlugsAndDates(notionPostsResponse);
 
   const urlSet = paths
     .map((path) => {

@@ -6,49 +6,15 @@
 
 body {
   font-family: Spoqa Han Sans Neo, 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui,
-    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif !important;
 
   min-width: 360px;
 }
 
-.notion-page {
-  padding-bottom: calc(max(5vh, 32px)) !important;
-  line-height: 1.65;
-}
-
-.notion-text {
-  padding: 0.5em 2px;
-}
-
-.notion-page-cover-wrapper,
-.notion-page-cover-wrapper span,
-.notion-page-cover-wrapper img {
-  max-width: 1200px !important;
-  border-radius: 24px;
-}
-
-.notion-collection-page-properties {
-  display: none !important;
-}
-
-@media only screen and (max-width: 1200px) {
-  .notion-page-cover-wrapper,
-  .notion-page-cover-wrapper span,
-  .notion-page-cover-wrapper img {
-    border-radius: 0;
+/* Prism.js 스타일 오버라이드 */
+@layer utilities {
+  code[class*='language-'],
+  pre[class*='language-'] {
+    font-size: 0.9em !important;
   }
-}
-
-@media (min-width: 1300px) and (min-height: 300px) {
-  .notion-page-content-has-aside {
-    width: calc((97vw + var(--notion-max-width)) / 2);
-  }
-}
-
-.notion-page-cover-wrapper {
-  box-shadow: 2px 2px 8px 4px rgba(15, 15, 15, 0.1);
-}
-
-.notion-aside-table-of-contents-header {
-  display: none;
 }
