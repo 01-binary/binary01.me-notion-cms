@@ -17,8 +17,5 @@ export const INITIAL_CATEGORY = 'All';
 
 export const DEFAULT_CATEGORY_COLOR: SelectColor = 'default';
 
-export const DEFAULT_BLUR_BASE64 =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=';
-
 export const REVALIDATE_TIME = 60;
 export const IMAGE_MAX_AGE = 60 * 60;

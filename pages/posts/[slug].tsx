@@ -3,7 +3,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { NotionBlock, Renderer } from 'notion-to-jsx';
 
-import { getIdBySlug, getNotionPosts, getSlugs, notionClient } from '@/utils';
+import { fetchIdBySlug, fetchNotionPostsMeta, getSlugs, notionClient } from '@/utils';
 
 import Giscus from '@/components/common/Giscus';
 import PageHead from '@/components/common/PageHead';
@@ -50,7 +50,7 @@ interface PostParams extends ParsedUrlQuery {
 
 export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params }) => {
   const { slug } = params as PostParams;
-  const id = await getIdBySlug(slug as string, process.env.NOTION_POST_DATABASE_ID as string);
+  const id = await fetchIdBySlug(slug as string, process.env.NOTION_POST_DATABASE_ID as string);
   const blocks = (await notionClient.getPageBlocks(id)) as NotionBlock[];
   const properties = await notionClient.getPageProperties(id);
 
@@ -71,7 +71,7 @@ export const getStaticProps: GetStaticProps<Props, PostParams> = async ({ params
 export const getStaticPaths: GetStaticPaths = async () => {
   if (!process.env.NOTION_POST_DATABASE_ID)
     throw new Error('NOTION_POST_DATABASE_ID is not defined');
-  const databaseItems = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
+  const databaseItems = await fetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
   const slugs = getSlugs(databaseItems);
 
   const paths = slugs.map((slug) => ({

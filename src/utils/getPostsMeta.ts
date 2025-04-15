@@ -1,4 +1,6 @@
-import { GetPageResponse, Post } from '@/interfaces';
+import { formatNotionImageUrl } from 'notion-to-utils';
+
+import { GetPageResponse, PostMeta } from '@/interfaces';
 
 import {
   filterCategoryProperties,
@@ -8,16 +10,16 @@ import {
   filterTitleProperties,
 } from '@/utils/filterProperties';
 
-const parsePosts = (notionPostsResponse: GetPageResponse[]) => {
-  const parsedPosts = notionPostsResponse.reduce<Post[]>((acc, item) => {
+const getPostsMeta = (notionPostsResponse: GetPageResponse[]) => {
+  const postsMeta = notionPostsResponse.reduce<PostMeta[]>((acc, item) => {
     if (!('properties' in item)) return acc;
     const { id, icon, cover } = item;
     const { Name, Category, Date, Desc, Slug } = item.properties;
 
-    const parsedPost: Post = {
+    const postMeta: PostMeta = {
       id,
       icon,
-      cover: filterCoverProperties(cover),
+      cover: formatNotionImageUrl(filterCoverProperties(cover), id),
       title: filterTitleProperties(Name),
       description: filterDescSlugProperties(Desc),
       slug: filterDescSlugProperties(Slug),
@@ -25,10 +27,10 @@ const parsePosts = (notionPostsResponse: GetPageResponse[]) => {
       published: filterDateProperties(Date),
     };
 
-    return [...acc, parsedPost];
+    return [...acc, postMeta];
   }, []);
 
-  return parsedPosts;
+  return postsMeta;
 };
 
-export default parsePosts;
+export default getPostsMeta;

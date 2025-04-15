@@ -2,13 +2,13 @@ import { atom } from 'jotai';
 import { atomWithReset } from 'jotai/utils';
 
 import { selectedCategoryAtom } from '@/atoms/categories';
-import { Post } from '@/interfaces';
+import { PostMeta } from '@/interfaces';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
 
-export const postsAtom = atom<Post[]>([]);
+export const postsAtom = atom<PostMeta[]>([]);
 
-export const postsFilterByCategoryAtom = atom<Post[]>((get) => {
+export const postsFilterByCategoryAtom = atom<PostMeta[]>((get) => {
   const posts = get(postsAtom);
   const selectedCategory = get(selectedCategoryAtom);
 

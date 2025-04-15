@@ -4,9 +4,8 @@ import { GetStaticProps } from 'next';
 import { categoriesAtom } from '@/atoms/categories';
 import { postsAtom } from '@/atoms/posts';
 import Home from '@/features/home';
-import { Category, Post } from '@/interfaces';
-import { parsePosts, getNotionPosts, getCategories } from '@/utils';
-import { getPreviewImages } from '@/utils';
+import { Category, PostMeta } from '@/interfaces';
+import { getPostsMeta, fetchNotionPostsMeta, getCategories } from '@/utils';
 import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
@@ -14,7 +13,7 @@ import PageHead from '@/components/common/PageHead';
 import { REVALIDATE_TIME } from '@/assets/constants';
 
 interface Props {
-  posts: Post[];
+  posts: PostMeta[];
   categories: Category[];
 }
 const HomePage = ({ posts, categories }: Props) => {
@@ -37,15 +36,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   if (!process.env.NOTION_POST_DATABASE_ID)
     throw new Error('NOTION_POST_DATABASE_ID is not defined');
 
-  const notionPostsResponse = await getNotionPosts(process.env.NOTION_POST_DATABASE_ID);
-  const posts = parsePosts(notionPostsResponse);
-  const postsWithPreview = await getPreviewImages(posts);
-
+  const notionPostsResponse = await fetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
+  const posts = getPostsMeta(notionPostsResponse);
   const categories = getCategories(notionPostsResponse);
 
   return {
     props: {
-      posts: postsWithPreview,
+      posts,
       categories,
     },
     revalidate: REVALIDATE_TIME,

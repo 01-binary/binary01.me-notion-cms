@@ -1,6 +1,6 @@
 import { notionClient } from '@/utils';
 
-const getIdBySlug = async (slug: string, databaseId: string) => {
+const fetchIdBySlug = async (slug: string, databaseId: string) => {
   const response = await notionClient.databases.query({
     database_id: databaseId,
     filter: {
@@ -18,4 +18,4 @@ const getIdBySlug = async (slug: string, databaseId: string) => {
   return response.results[0].id;
 };
 
-export default getIdBySlug;
+export default fetchIdBySlug;

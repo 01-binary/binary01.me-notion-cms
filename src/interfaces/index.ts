@@ -10,7 +10,7 @@ export type SelectColor = SelectPropertyResponse['color'];
 
 export type PageProperties = PageObjectResponse['properties'][string];
 
-export interface Post {
+export interface PostMeta {
   id: string;
   cover: string;
   icon: PageObjectResponse['icon'];
@@ -19,16 +19,8 @@ export interface Post {
   description: string;
   title: string;
   slug: string;
-  previewImage?: PreviewImage | null;
 }
 
-export interface PreviewImage {
-  originalWidth: number;
-  originalHeight: number;
-  dataURIBase64: string;
-}
-
-export type SlugAndDate = Pick<Post, 'slug' | 'published'>;
 export interface Category extends SelectPropertyResponse {
   count?: number;
 }

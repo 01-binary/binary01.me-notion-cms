@@ -2,7 +2,7 @@ import { GetPageResponse } from 'notion-to-utils';
 
 import { notionClient } from '@/utils';
 
-const getNotionPosts = async (databaseId: string) => {
+const fetchNotionPostsMeta = async (databaseId: string) => {
   const response = await notionClient.databases.query({
     database_id: databaseId,
     filter:
@@ -40,4 +40,4 @@ const getNotionPosts = async (databaseId: string) => {
   return response.results as GetPageResponse[];
 };
 
-export default getNotionPosts;
+export default fetchNotionPostsMeta;
