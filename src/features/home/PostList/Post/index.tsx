@@ -7,7 +7,7 @@ import { calculate } from '@/features/home/PostList/Post/util';
 import { PostMeta as Item } from '@/interfaces';
 import { siteConfig } from 'site.config';
 
-import { COLOR_TABLE } from '@/assets/constants';
+import { COLOR_TABLE, DEFAULT_BLUR_BASE64 } from '@/assets/constants';
 
 interface Props {
   item: Item;
@@ -16,7 +16,7 @@ interface Props {
 const Post = ({ item }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [onError, setOnError] = useState<boolean>(false);
-  const { cover, description, published, category, title, slug } = item;
+  const { cover, description, published, category, title, slug, blurImage } = item;
 
   useEffect(() => {
     if (!ref.current) return;
@@ -58,6 +58,8 @@ const Post = ({ item }: Props) => {
               src={cover}
               alt={title}
               fill
+              placeholder="blur"
+              blurDataURL={blurImage || DEFAULT_BLUR_BASE64}
               onError={() => setOnError(true)}
             />
           ) : (

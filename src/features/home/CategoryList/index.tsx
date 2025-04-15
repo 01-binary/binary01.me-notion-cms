@@ -5,6 +5,8 @@ import { useAtomValue } from 'jotai';
 import { categoriesAtom, selectedCategoryAtom } from '@/atoms/categories';
 import { useCategorySelect } from '@/features/home/hooks';
 
+import { COLOR_TABLE } from '@/assets/constants';
+
 const CategoryList = () => {
   const categories = useAtomValue(categoriesAtom);
   const seletedCategory = useAtomValue(selectedCategoryAtom);
@@ -17,14 +19,14 @@ const CategoryList = () => {
         <section className="flex min-h-[65px] gap-3 overflow-x-auto bg-[hsla(0,0%,100%,.8)] p-3">
           {categories.map((category) => {
             const { id, name, color, count } = category;
+            const selectedColor = COLOR_TABLE[color as keyof typeof COLOR_TABLE];
+
             return (
               <section
-                className={`cursor-pointer whitespace-nowrap rounded-3xl border-[2px] border-solid bg-[#fff] py-2 px-4 text-[14px] shadow-[0_2px_4px_rgba(0,0,0,.1)] ${
-                  seletedCategory === name ? 'border-[#c0c0c0]' : 'border-transparent'
-                }`}
+                className={`cursor-pointer whitespace-nowrap rounded-3xl border-[2px] border-solid bg-[#fff] py-2 px-4 text-[14px] shadow-[0_2px_4px_rgba(0,0,0,.1)]`}
                 key={id}
-                style={{ color }}
                 onClick={handleClickCategory(name)}
+                style={{ borderColor: seletedCategory === name ? selectedColor : 'transparent' }}
               >
                 {`${name} (${count})`}
               </section>

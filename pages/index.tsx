@@ -5,7 +5,7 @@ import { categoriesAtom } from '@/atoms/categories';
 import { postsAtom } from '@/atoms/posts';
 import Home from '@/features/home';
 import { Category, PostMeta } from '@/interfaces';
-import { getPostsMeta, fetchNotionPostsMeta, getCategories } from '@/utils';
+import { getPostsMeta, fetchNotionPostsMeta, getCategories, getBlurImage } from '@/utils';
 import { siteConfig } from 'site.config';
 
 import PageHead from '@/components/common/PageHead';
@@ -37,7 +37,12 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     throw new Error('NOTION_POST_DATABASE_ID is not defined');
 
   const notionPostsResponse = await fetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
-  const posts = getPostsMeta(notionPostsResponse);
+  const posts = await Promise.all(
+    getPostsMeta(notionPostsResponse).map(async (post) => ({
+      ...post,
+      blurImage: await getBlurImage(post.cover),
+    })),
+  );
   const categories = getCategories(notionPostsResponse);
 
   return {

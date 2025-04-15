@@ -19,6 +19,7 @@ export interface PostMeta {
   description: string;
   title: string;
   slug: string;
+  blurImage?: string;
 }
 
 export interface Category extends SelectPropertyResponse {
