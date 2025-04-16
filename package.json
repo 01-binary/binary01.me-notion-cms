@@ -16,7 +16,7 @@
     "jotai": "^2.8.0",
     "lodash": "^4.17.21",
     "next": "^13.4.4",
-    "notion-to-jsx": "^1.2.7",
+    "notion-to-jsx": "^1.2.8",
     "notion-to-utils": "^1.1.0",
     "p-map": "^7.0.2",
     "plaiceholder": "^3.0.0",
