@@ -1,5 +1,6 @@
 import { useHydrateAtoms } from 'jotai/utils';
 import { GetStaticProps } from 'next';
+import pMap from 'p-map';
 
 import { categoriesAtom } from '@/atoms/categories';
 import { postsAtom } from '@/atoms/posts';
@@ -52,11 +53,15 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   const profileUrl = await fetchNotionProfileUrl();
   const notionPostsResponse = await fetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
-  const posts = await Promise.all(
-    getPostsMeta(notionPostsResponse).map(async (post) => ({
-      ...post,
-      blurImage: await getBlurImage(post.cover),
-    })),
+
+  const allPostsMeta = getPostsMeta(notionPostsResponse);
+  const posts = await pMap(
+    allPostsMeta,
+    async (post: PostMeta) => {
+      const blurImage = await getBlurImage(post.cover);
+      return { ...post, blurImage };
+    },
+    { concurrency: 10 },
   );
   const categories = getCategories(notionPostsResponse);
 
