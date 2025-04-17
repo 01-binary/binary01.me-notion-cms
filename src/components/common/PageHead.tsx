@@ -16,10 +16,11 @@ interface PageHeadProps {
 
 const PageHead = ({ title, description, image, keywords }: PageHeadProps) => {
   const { asPath } = useRouter();
+
   const pageTitle = title ? `${title} | ${siteConfig.blogName}` : siteConfig.blogName;
   const pageDescription = description || siteConfig.seoDefaultDesc;
   const pageKeywords = keywords || '';
-  const pageImage = `${image || `${siteConfig.url}/api/profile-image`}`;
+  const pageImage = `${image}`;
   const pageUrl = `${siteConfig.url}${asPath}`;
 
   return (

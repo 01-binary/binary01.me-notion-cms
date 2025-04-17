@@ -1,23 +1,25 @@
 import { memo } from 'react';
 
+import { useAtomValue } from 'jotai';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AiOutlineGithub, AiFillLinkedin } from 'react-icons/ai';
 import { HiMail } from 'react-icons/hi';
 
+import { profileImageAtom } from '@/atoms/profile';
 import { siteConfig } from 'site.config';
 
 import { DEFAULT_BLUR_BASE64 } from '@/assets/constants';
 
-const profileImage = `/api/profile-image`;
-
 const Intro = () => {
+  const profileUrl = useAtomValue(profileImageAtom);
+
   return (
     <section>
       <article className="flex gap-4 md:gap-6">
         <Image
           className="h-[110px] w-[110px] rounded-full object-cover"
-          src={profileImage}
+          src={profileUrl}
           width={110}
           height={110}
           alt={'Intro Picture'}
