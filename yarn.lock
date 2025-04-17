@@ -2333,10 +2333,10 @@ notion-to-jsx@^1.2.8:
     "@vanilla-extract/sprinkles" "^1.6.3"
     prismjs "^1.29.0"
 
-notion-to-utils@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/notion-to-utils/-/notion-to-utils-1.1.0.tgz#8038a98a3e41802581df45d4aa8867cbcd9eb80b"
-  integrity sha512-knopU8WwkAqIgaoEe5UFieiJJM9hCuYyvWPUveErBJVMBGehBTk7nX+1N6UfU0Jp87fhiWfqIglkU8bfq79kQw==
+notion-to-utils@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/notion-to-utils/-/notion-to-utils-1.1.1.tgz#74ce1741fc59cf9afbea1620e05b817358bf8456"
+  integrity sha512-mAOKfa0MLtZIQSX5m16WAZlrAIbWLKL2ZKS2ChRC/AxLs+y6cSu2vu7PaHTXPdGp8Xw8+ukS8Ancn2KMOU3onA==
   dependencies:
     "@notionhq/client" "^2.2.15"
     open-graph-scraper "^6.9.0"
