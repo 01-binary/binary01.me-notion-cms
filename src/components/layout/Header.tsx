@@ -2,8 +2,6 @@ import Link from 'next/link';
 
 import { siteConfig } from 'site.config';
 
-import GitHubCornerButton from '@/components/common/GitHubCornerButton';
-
 const navLinkList = [
   {
     name: 'about',
@@ -15,7 +13,7 @@ const Header = () => {
   return (
     <>
       <header className="fixed top-0 z-50 w-full min-w-[360px] bg-[hsla(0,0%,100%,.8)] backdrop-blur-lg">
-        <nav className="mx-auto flex max-w-[1024px] items-center justify-between p-3">
+        <nav className="mx-auto flex max-w-screen-lg items-center justify-between p-3">
           <h1 className="text-[20px] font-medium">
             <Link href={'/'}>{siteConfig.blogName}</Link>
           </h1>
@@ -34,8 +32,7 @@ const Header = () => {
           </ul>
         </nav>
       </header>
-      <div className="h-[128px]" />
-      <GitHubCornerButton />
+      <div className="h-[90px]" />
     </>
   );
 };

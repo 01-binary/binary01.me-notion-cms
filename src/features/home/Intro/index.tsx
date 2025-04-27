@@ -18,7 +18,7 @@ const Intro = () => {
     <section>
       <article className="flex gap-4 md:gap-6">
         <Image
-          className="h-[110px] w-[110px] rounded-full object-cover"
+          className="size-[110px] rounded-full object-cover"
           src={profileUrl}
           width={110}
           height={110}
