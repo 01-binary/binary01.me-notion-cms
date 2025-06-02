@@ -15,7 +15,7 @@ jobs:
 
       - name: Run Remote Greet Action
         id: greet
-        uses: 01-binary/github-action-test/actions/greet-action@greet-action@1.0.1 # 원격 액션 참조
+        uses: 01-binary/github-action-test/actions/greet-action@greet-action-v1.0.1 # 원격 액션 참조
         with:
           who-to-greet: 'Remote Tester Alice'
 
