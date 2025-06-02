@@ -24,11 +24,3 @@ jobs:
         uses: 01-binary/github-action-test/actions/goodbye-action@main # 원격 액션 참조
         with:
           who-to-say-goodbye: 'Remote Tester Bob'
-
-      - name: Print Greet Action Output
-        run: |
-          echo "Greet action said: ${{ steps.greet.outputs.time }}"
-
-      - name: Print Goodbye Action Output
-        run: |
-          echo "Goodbye action said: ${{ steps.goodbye.outputs.farewell-message }}"
