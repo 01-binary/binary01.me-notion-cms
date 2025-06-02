@@ -1,0 +1,34 @@
+# .github/workflows/test-remote-actions.yml
+name: Test Remote Custom Actions
+
+on:
+  pull_request:
+    branches:
+      - main # 또는 테스트를 원하는 다른 브랜치
+
+jobs:
+  test_actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # 현재 저장소(binary01.me-notion-cms)의 코드를 체크아웃합니다.
+
+      - name: Run Remote Greet Action
+        id: greet
+        uses: 01-binary/github-action-test/actions/greet-action@main # 원격 액션 참조
+        with:
+          who-to-greet: 'Remote Tester Alice'
+
+      - name: Run Remote Goodbye Action
+        id: goodbye
+        uses: 01-binary/github-action-test/actions/goodbye-action@main # 원격 액션 참조
+        with:
+          who-to-say-goodbye: 'Remote Tester Bob'
+
+      - name: Print Greet Action Output
+        run: |
+          echo "Greet action said: ${{ steps.greet.outputs.time }}"
+
+      - name: Print Goodbye Action Output
+        run: |
+          echo "Goodbye action said: ${{ steps.goodbye.outputs.farewell-message }}"
