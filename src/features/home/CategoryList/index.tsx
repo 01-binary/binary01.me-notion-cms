@@ -1,3 +1,5 @@
+'use client';
+
 import { memo } from 'react';
 
 import { useAtomValue } from 'jotai';
@@ -23,7 +25,7 @@ const CategoryList = () => {
 
             return (
               <section
-                className={`cursor-pointer whitespace-nowrap rounded-3xl border-[2px] border-solid bg-[#fff] py-2 px-4 text-[14px] shadow-[0_2px_4px_rgba(0,0,0,.1)]`}
+                className={`cursor-pointer whitespace-nowrap rounded-3xl border-2 border-solid bg-white px-4 py-2 text-[14px] shadow-[0_2px_4px_rgba(0,0,0,.1)]`}
                 key={id}
                 onClick={handleClickCategory(name)}
                 style={{ borderColor: seletedCategory === name ? selectedColor : 'transparent' }}
