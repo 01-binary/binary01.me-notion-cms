@@ -77,7 +77,7 @@ const Post = ({ item }: Props) => {
           <div className="h-2" />
           <div className="flex items-center gap-2">
             <span
-              className="rounded px-2 py-[1px] text-[12px]"
+              className="rounded px-2 py-px text-[12px]"
               style={{
                 backgroundColor: category
                   ? COLOR_TABLE[category.color as keyof typeof COLOR_TABLE]
