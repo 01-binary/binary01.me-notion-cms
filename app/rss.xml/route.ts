@@ -8,7 +8,7 @@ import { siteConfig } from 'site.config';
 import { REVALIDATE_TIME } from '@/assets/constants';
 
 // RSS 피드 경로에 대한 revalidate 설정 (선택 사항, Vercel 캐시 동작에 영향)
-// export const revalidate = REVALIDATE_TIME; // 필요에 따라 주석 해제 또는 값 조정
+export const revalidate = REVALIDATE_TIME;
 
 const generateRssFeed = (notionPostsResponse: GetPageResponse[]) => {
   const feedOptions = {

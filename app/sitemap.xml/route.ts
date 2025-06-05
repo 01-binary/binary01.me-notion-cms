@@ -9,7 +9,7 @@ import { siteConfig } from 'site.config';
 import { REVALIDATE_TIME } from '@/assets/constants';
 
 // sitemap.xml 경로에 대한 revalidate 설정 (선택 사항)
-// export const revalidate = REVALIDATE_TIME * 2; // 예: 하루에 한 번 업데이트
+export const revalidate = REVALIDATE_TIME * 2;
 
 type SitemapPostIdentifier = Pick<PostMeta, 'slug' | 'published'>;
 
