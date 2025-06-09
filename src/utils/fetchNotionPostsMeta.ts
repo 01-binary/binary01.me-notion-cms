@@ -1,8 +1,10 @@
+import { cache } from 'react';
+
 import { GetPageResponse } from 'notion-to-utils';
 
 import { notionClient } from '@/utils';
 
-const fetchNotionPostsMeta = async (databaseId: string) => {
+export const fetchNotionPostsMeta = async (databaseId: string) => {
   const response = await notionClient.databases.query({
     database_id: databaseId,
     filter:
@@ -40,4 +42,4 @@ const fetchNotionPostsMeta = async (databaseId: string) => {
   return response.results as GetPageResponse[];
 };
 
-export default fetchNotionPostsMeta;
+export const cachedFetchNotionPostsMeta = cache(fetchNotionPostsMeta);

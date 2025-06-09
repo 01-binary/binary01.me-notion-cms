@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, Suspense } from 'react';
 
 import CategoryList from '@/features/home/CategoryList';
 import Intro from '@/features/home/Intro';
@@ -8,7 +8,9 @@ const Home = () => {
   return (
     <section className="mx-auto max-w-[900px] px-4">
       <Intro />
-      <CategoryList />
+      <Suspense>
+        <CategoryList />
+      </Suspense>
       <PostList />
     </section>
   );
