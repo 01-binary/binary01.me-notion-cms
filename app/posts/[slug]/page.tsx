@@ -3,7 +3,13 @@ import { notFound } from 'next/navigation';
 import type { NotionBlock } from 'notion-to-jsx';
 
 import PostRenderer from '@/features/posts/PostRenderer';
-import { fetchIdBySlug, fetchNotionPostsMeta, getSlugs, notionClient } from '@/utils';
+import {
+  cachedFetchIdBySlug,
+  cachedFetchNotionPostsMeta,
+  getSlugs,
+  notionClient,
+  cachedFetchNotionPageProperties,
+} from '@/utils';
 import { siteConfig } from 'site.config';
 
 import Giscus from '@/components/common/Giscus';
@@ -25,7 +31,7 @@ export async function generateStaticParams() {
     console.error('NOTION_POST_DATABASE_ID is not defined for generateStaticParams');
     return [];
   }
-  const databaseItems = await fetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
+  const databaseItems = await cachedFetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
   const slugs = getSlugs(databaseItems);
 
   return slugs.map((slug) => ({ slug }));
@@ -40,8 +46,8 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   }
 
   try {
-    const id = await fetchIdBySlug(slug, process.env.NOTION_POST_DATABASE_ID);
-    const properties = await notionClient.getPageProperties(id);
+    const id = await cachedFetchIdBySlug(slug, process.env.NOTION_POST_DATABASE_ID);
+    const properties = await cachedFetchNotionPageProperties(id);
 
     const title = properties?.['Name'] || 'Post';
     const description = properties?.['Desc'] || siteConfig.seoDefaultDesc;
@@ -81,9 +87,9 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   let id, blocks, seo;
   try {
-    id = await fetchIdBySlug(slug, process.env.NOTION_POST_DATABASE_ID);
+    id = await cachedFetchIdBySlug(slug, process.env.NOTION_POST_DATABASE_ID);
     const notionBlocks = (await notionClient.getPageBlocks(id)) as NotionBlock[];
-    const properties = await notionClient.getPageProperties(id);
+    const properties = await cachedFetchNotionPageProperties(id);
     blocks = notionBlocks;
     seo = {
       title: properties?.['Name'] || '',

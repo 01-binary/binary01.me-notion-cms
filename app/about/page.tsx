@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { NotionBlock, Renderer } from 'notion-to-jsx';
 
-import { fetchNotionProfileUrl, notionClient } from '@/utils';
+import { cachedFetchNotionProfileUrl, notionClient } from '@/utils';
 import { siteConfig } from 'site.config';
 
 import { REVALIDATE_TIME } from '@/assets/constants';
@@ -11,7 +11,7 @@ export const revalidate = REVALIDATE_TIME;
 
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
-  const profileUrl = await fetchNotionProfileUrl();
+  const profileUrl = await cachedFetchNotionProfileUrl();
   return {
     title: 'About',
     alternates: {

@@ -1,6 +1,8 @@
+import { cache } from 'react';
+
 import { notionClient } from '@/utils';
 
-const fetchIdBySlug = async (slug: string, databaseId: string) => {
+export const fetchIdBySlug = async (slug: string, databaseId: string) => {
   const response = await notionClient.databases.query({
     database_id: databaseId,
     filter: {
@@ -18,4 +20,4 @@ const fetchIdBySlug = async (slug: string, databaseId: string) => {
   return response.results[0].id;
 };
 
-export default fetchIdBySlug;
+export const cachedFetchIdBySlug = cache(fetchIdBySlug);

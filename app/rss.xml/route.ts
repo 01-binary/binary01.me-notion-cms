@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import RSS from 'rss';
 
 import { GetPageResponse } from '@/interfaces';
-import { fetchNotionPostsMeta, getPostsMeta } from '@/utils';
+import { cachedFetchNotionPostsMeta, getPostsMeta } from '@/utils';
 import { siteConfig } from 'site.config';
 
 import { REVALIDATE_TIME } from '@/assets/constants';
@@ -43,7 +43,7 @@ export async function GET() {
   }
 
   try {
-    const databaseItems = await fetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
+    const databaseItems = await cachedFetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
     const rssXml = generateRssFeed(databaseItems);
 
     return new NextResponse(rssXml, {
