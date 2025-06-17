@@ -1,8 +1,8 @@
-import { cache } from 'react';
+import { unstable_cache } from 'next/cache';
 
 import { notionClient } from '@/utils';
 
-export const fetchIdBySlug = async (slug: string, databaseId: string) => {
+const fetchIdBySlugFn = async (slug: string, databaseId: string) => {
   const response = await notionClient.databases.query({
     database_id: databaseId,
     filter: {
@@ -20,4 +20,8 @@ export const fetchIdBySlug = async (slug: string, databaseId: string) => {
   return response.results[0].id;
 };
 
-export const cachedFetchIdBySlug = cache(fetchIdBySlug);
+export const cachedFetchIdBySlug = unstable_cache(fetchIdBySlugFn, ['id-by-slug'], {
+  revalidate: 3600, // 1 hour
+});
+
+export const fetchIdBySlug = fetchIdBySlugFn;

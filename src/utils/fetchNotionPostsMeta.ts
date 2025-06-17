@@ -1,10 +1,9 @@
-import { cache } from 'react';
-
-import { GetPageResponse } from 'notion-to-utils';
+import type { GetPageResponse } from '@notionhq/client/build/src/api-endpoints';
+import { unstable_cache } from 'next/cache';
 
 import { notionClient } from '@/utils';
 
-export const fetchNotionPostsMeta = async (databaseId: string) => {
+const fetchNotionPostsMetaFn = async (databaseId: string) => {
   const response = await notionClient.databases.query({
     database_id: databaseId,
     filter:
@@ -42,4 +41,10 @@ export const fetchNotionPostsMeta = async (databaseId: string) => {
   return response.results as GetPageResponse[];
 };
 
-export const cachedFetchNotionPostsMeta = cache(fetchNotionPostsMeta);
+export const cachedFetchNotionPostsMeta = unstable_cache(
+  fetchNotionPostsMetaFn,
+  ['posts-meta'],
+  { revalidate: 300 }, // 5 minutes
+);
+
+export const fetchNotionPostsMeta = fetchNotionPostsMetaFn;

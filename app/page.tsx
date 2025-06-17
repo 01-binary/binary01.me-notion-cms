@@ -29,7 +29,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const Page = async () => {
-  console.log(`[ISR DEBUG] Rendering homepage at: ${new Date().toISOString()}`);
   if (!process.env.NOTION_POST_DATABASE_ID)
     throw new Error('NOTION_POST_DATABASE_ID is not defined');
 
