@@ -23,6 +23,7 @@ const Header = () => {
               <Link
                 key={name}
                 href={link}
+                prefetch={false}
               >
                 <li className="cursor-pointer rounded-xl p-2 text-[18px] font-normal hover:bg-gray-100">
                   {name}

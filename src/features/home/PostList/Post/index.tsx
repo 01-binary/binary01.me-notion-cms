@@ -47,7 +47,10 @@ const Post = ({ item }: Props) => {
 
   return (
     <li className="group flex flex-col rounded-2xl hover:bg-[hsla(44,6%,50%,.05)]">
-      <Link href={`posts/${slug}`}>
+      <Link
+        href={`posts/${slug}`}
+        prefetch={false}
+      >
         <div
           className="relative h-[190px] w-full overflow-hidden rounded-2xl shadow-[2px_2px_8px_4px_hsla(0,0%,6%,.1)]"
           ref={ref}
