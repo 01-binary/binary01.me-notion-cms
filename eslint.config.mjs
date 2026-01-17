@@ -37,7 +37,7 @@ export default tseslint.config(
         version: 'detect',
       },
       'better-tailwindcss': {
-        tailwindConfig: 'tailwind.config.js',
+        entryPoint: 'src/assets/styles/index.css',
       },
     },
   },

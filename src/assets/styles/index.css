@@ -1,14 +1,24 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+@import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-  font-family: Spoqa Han Sans Neo, 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui,
-    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif !important;
-
-  min-width: 360px;
+@layer base {
+  body {
+    font-family:
+      Spoqa Han Sans Neo,
+      'Noto Sans KR',
+      -apple-system,
+      BlinkMacSystemFont,
+      system-ui,
+      Segoe UI,
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      Open Sans,
+      Helvetica Neue,
+      sans-serif;
+    min-width: 360px;
+  }
 }
 
 /* Prism.js 스타일 오버라이드 */

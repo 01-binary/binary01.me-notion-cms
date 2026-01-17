@@ -82,14 +82,14 @@ const Post = ({ item }: Props) => {
         </div>
         <div className="h-[6px]" />
         <section className="flex flex-col gap-1 p-[10px]">
-          <h4 className="text-[28px] font-bold leading-[34px]">{title}</h4>
+          <h4 className="text-[28px] leading-[34px] font-bold">{title}</h4>
           {description ? (
             <p className="text-[14px] font-normal text-[#37352F]">{description}</p>
           ) : null}
           <div className="h-2" />
           <div className="flex items-center gap-2">
             <span
-              className="rounded px-2 py-px text-[12px]"
+              className="rounded-sm px-2 py-px text-[12px]"
               style={{
                 backgroundColor: category
                   ? COLOR_TABLE[category.color as keyof typeof COLOR_TABLE]

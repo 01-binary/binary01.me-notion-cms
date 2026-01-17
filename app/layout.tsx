@@ -1,7 +1,7 @@
-// Global Styles
+// Global Styles - order matters: external first, then Tailwind
 import 'notion-to-jsx/dist/index.css';
-import '@/assets/styles/index.css';
 import 'prismjs/themes/prism-tomorrow.css';
+import '@/assets/styles/index.css';
 
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
