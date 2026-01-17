@@ -33,7 +33,7 @@ const AboutPage = async () => {
     throw new Error('NOTION_ABOUT_ID is not defined. This page cannot be rendered.');
   }
 
-  const blocks = (await notionClient.getPageBlocks(aboutId)) as NotionBlock[];
+  const blocks = (await notionClient.getPageBlocks(aboutId)) as unknown as NotionBlock[];
 
   return (
     <article>

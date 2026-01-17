@@ -1,10 +1,7 @@
-export { cachedFetchIdBySlug, fetchIdBySlug } from './fetchIdBySlug';
-export {
-  cachedFetchNotionPageProperties,
-  fetchNotionPageProperties,
-} from './fetchNotionPageProperties';
-export { cachedFetchNotionPostsMeta, fetchNotionPostsMeta } from './fetchNotionPostsMeta';
-export { cachedFetchNotionProfileUrl, fetchNotionProfileUrl } from './fetchNotionProfileUrl';
+export { cachedFetchIdBySlug } from './fetchIdBySlug';
+export { cachedFetchNotionPageProperties } from './fetchNotionPageProperties';
+export { cachedFetchNotionPostsMeta } from './fetchNotionPostsMeta';
+export { cachedFetchNotionProfileUrl } from './fetchNotionProfileUrl';
 export { default as getBlurImage } from './getBlurImage';
 export { default as getCategories } from './getCategories';
 export { default as getPostsMeta } from './getPostsMeta';

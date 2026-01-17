@@ -21,11 +21,11 @@ importers:
         specifier: ^16.1.1
         version: 16.1.1(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       notion-to-jsx:
-        specifier: ^1.2.16
-        version: 1.2.16(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: ^1.3.0
+        version: 1.3.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       notion-to-utils:
-        specifier: ^1.1.3
-        version: 1.1.3
+        specifier: ^1.2.0
+        version: 1.2.0
       p-map:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1882,14 +1882,14 @@ packages:
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
 
-  notion-to-jsx@1.2.16:
-    resolution: {integrity: sha512-TWBrsdPFQash4BdDGK/R3rtwrVxaHD6YVqK93CPVzSZlNGDWevDDWoJsr0/8lVGXZSTlW9k/ICdJ6KDVxU86ng==}
+  notion-to-jsx@1.3.0:
+    resolution: {integrity: sha512-wQ31sNPxJX+RV3lMR6Noa+PJ7LbUhFCg44hQAfyfUa3k08fAqvQwY/kQeqsKrctMg9dWMakBJovMZtUrlkrFAw==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
 
-  notion-to-utils@1.1.3:
-    resolution: {integrity: sha512-4jylnmNGdnZELfytiuBFxu3sUno01V9DNVjVHa0akTZHFvgd+s3JzqmBDcMNvUFdftmrRy2gC/PVjDP7UNKeVQ==}
+  notion-to-utils@1.2.0:
+    resolution: {integrity: sha512-gSIIsvgp2FOoRvQBqWjBfjfqCPpi0eHAGTo3M1I5+IalAG6DxX0acgjxU9STH9Om8HMPhw1gm+Dlknd2NwQXCg==}
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -4361,7 +4361,7 @@ snapshots:
 
   node-releases@2.0.19: {}
 
-  notion-to-jsx@1.2.16(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  notion-to-jsx@1.3.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@vanilla-extract/css': 1.18.0
       '@vanilla-extract/recipes': 0.5.7(@vanilla-extract/css@1.18.0)
@@ -4372,7 +4372,7 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  notion-to-utils@1.1.3:
+  notion-to-utils@1.2.0:
     dependencies:
       '@notionhq/client': 5.7.0
       open-graph-scraper: 6.11.0
