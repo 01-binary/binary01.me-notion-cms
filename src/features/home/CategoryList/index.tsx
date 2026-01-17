@@ -28,8 +28,8 @@ const CategoryList = () => {
             return (
               <section
                 className={`
-                  cursor-pointer whitespace-nowrap rounded-3xl border-2
-                  border-solid bg-white px-4 py-2 text-[14px]
+                  cursor-pointer rounded-3xl border-2 border-solid bg-white px-4
+                  py-2 text-[14px] whitespace-nowrap
                   shadow-[0_2px_4px_rgba(0,0,0,.1)]
                 `}
                 key={id}

@@ -19,7 +19,8 @@ const Header = () => {
       >
         <nav
           className="
-            mx-auto flex max-w-screen-lg items-center justify-between p-3
+            mx-auto flex max-w-(--breakpoint-lg) items-center justify-between
+            p-3
           "
         >
           <h1 className="text-[20px] font-medium">

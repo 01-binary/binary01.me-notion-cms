@@ -33,8 +33,8 @@ const Intro = () => {
           <section className="flex flex-col gap-2">
             <span
               className="
-                whitespace-nowrap rounded-lg bg-[#ebeefe] p-1 text-[18px]
-                font-normal text-[#005995]
+                rounded-lg bg-[#ebeefe] p-1 text-[18px] font-normal
+                whitespace-nowrap text-[#005995]
               "
             >
               {siteConfig.introName}

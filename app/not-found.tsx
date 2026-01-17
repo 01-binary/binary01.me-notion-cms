@@ -4,8 +4,8 @@ const NotFoundPage = () => {
   return (
     <section
       className="
-        flex h-[calc(100vh_-_128px_-_115px)] flex-col items-center
-        justify-center gap-4 pb-[120px]
+        flex h-[calc(100vh-128px-115px)] flex-col items-center justify-center
+        gap-4 pb-[120px]
       "
     >
       <div className="text-[60px] font-bold">404</div>
