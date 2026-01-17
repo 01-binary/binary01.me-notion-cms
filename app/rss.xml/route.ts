@@ -5,10 +5,7 @@ import { GetPageResponse } from '@/interfaces';
 import { cachedFetchNotionPostsMeta, getPostsMeta } from '@/utils';
 import { siteConfig } from 'site.config';
 
-import { REVALIDATE_TIME } from '@/assets/constants';
-
-// RSS 피드 경로에 대한 revalidate 설정 (선택 사항, Vercel 캐시 동작에 영향)
-export const revalidate = REVALIDATE_TIME;
+export const revalidate = 300; // 5 minutes
 
 const generateRssFeed = (notionPostsResponse: GetPageResponse[]) => {
   const feedOptions = {
@@ -53,9 +50,7 @@ export async function GET() {
         // Vercel의 Edge Caching을 활용하기 위한 Cache-Control 헤더
         // s-maxage: CDN에서 캐시할 시간 (초)
         // stale-while-revalidate: 캐시가 만료된 후에도 백그라운드에서 새로운 데이터를 가져오는 동안 이전 캐시된 데이터를 제공
-        'Cache-Control': `public, s-maxage=${REVALIDATE_TIME}, stale-while-revalidate=${
-          REVALIDATE_TIME * 2
-        }`,
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
       },
     });
   } catch (error) {

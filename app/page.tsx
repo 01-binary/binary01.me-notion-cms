@@ -11,9 +11,8 @@ import {
   cachedFetchNotionProfileUrl,
 } from '@/utils';
 
-import { REVALIDATE_TIME } from '@/assets/constants';
-
-export const revalidate = REVALIDATE_TIME;
+// Next.js 16: revalidate는 리터럴 값만 허용
+export const revalidate = 300; // 5 minutes
 
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
