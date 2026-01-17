@@ -9,7 +9,7 @@ import { useCategorySelect } from '@/features/home/hooks';
 
 const CategoryList = () => {
   const categories = useAtomValue(categoriesAtom);
-  const seletedCategory = useAtomValue(selectedCategoryAtom);
+  const selectedCategory = useAtomValue(selectedCategoryAtom);
   const { handleClickCategory } = useCategorySelect();
 
   return (
@@ -34,7 +34,7 @@ const CategoryList = () => {
                 `}
                 key={id}
                 onClick={handleClickCategory(name)}
-                style={{ borderColor: seletedCategory === name ? selectedColor : 'transparent' }}
+                style={{ borderColor: selectedCategory === name ? selectedColor : 'transparent' }}
               >
                 {`${name} (${count})`}
               </section>

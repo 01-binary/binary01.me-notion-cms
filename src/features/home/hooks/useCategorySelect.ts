@@ -11,7 +11,7 @@ const useCategorySelect = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [selectedCategory, setSeletedCategory] = useAtom(selectedCategoryAtom);
+  const [selectedCategory, setSelectedCategory] = useAtom(selectedCategoryAtom);
   const setPostPage = useSetAtom(postPageResettableAtom);
 
   const handleClickCategory = useCallback(
@@ -34,8 +34,8 @@ const useCategorySelect = () => {
     // searchParams가 null이면 아직 초기 렌더링 중이거나 사용할 수 없는 상태
     if (searchParams === null) return;
     const categoryFromQuery = searchParams.get('category');
-    setSeletedCategory(categoryFromQuery || INITIAL_CATEGORY);
-  }, [searchParams, setSeletedCategory]);
+    setSelectedCategory(categoryFromQuery || INITIAL_CATEGORY);
+  }, [searchParams, setSelectedCategory]);
 
   return { handleClickCategory };
 };
