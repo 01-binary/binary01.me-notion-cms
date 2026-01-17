@@ -3,8 +3,8 @@ import { unstable_cache } from 'next/cache';
 import { notionClient } from '@/utils';
 
 const fetchIdBySlugFn = async (slug: string, databaseId: string) => {
-  const response = await notionClient.databases.query({
-    database_id: databaseId,
+  const response = await notionClient.dataSources.query({
+    data_source_id: databaseId,
     filter: {
       and: [
         {

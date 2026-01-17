@@ -1,11 +1,11 @@
-import type { GetPageResponse } from '@notionhq/client/build/src/api-endpoints';
 import { unstable_cache } from 'next/cache';
+import type { GetPageResponse } from 'notion-to-utils';
 
 import { notionClient } from '@/utils';
 
 const fetchNotionPostsMetaFn = async (databaseId: string) => {
-  const response = await notionClient.databases.query({
-    database_id: databaseId,
+  const response = await notionClient.dataSources.query({
+    data_source_id: databaseId,
     filter:
       process.env.NODE_ENV === 'production'
         ? {
