@@ -33,7 +33,8 @@ const useIntersectionObserver = ({
     return () => {
       observer.disconnect();
     };
-  }, [entries, isLoading, onIntersect, root, rootMargin, threshold]);
+     
+  }, [entries, isLoading]);
 
   return entries;
 };
