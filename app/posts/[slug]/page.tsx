@@ -44,10 +44,11 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     const id = await cachedFetchIdBySlug(slug, process.env.NOTION_POST_DATABASE_ID);
     const properties = await cachedFetchNotionPageProperties(id);
 
-    const title = properties?.['Name'] || 'Post';
-    const description = properties?.['Desc'] || siteConfig.seoDefaultDesc;
-    const coverUrl = properties?.['coverUrl'] || '';
-    const keywords = properties?.['Category']?.['name'] || '';
+    const title = (properties?.['Name'] as string) || 'Post';
+    const description = (properties?.['Desc'] as string) || siteConfig.seoDefaultDesc;
+    const coverUrl = (properties?.['coverUrl'] as string) || '';
+    const category = properties?.['Category'] as { name?: string } | undefined;
+    const keywords = category?.name || '';
     return {
       title,
       description,
@@ -83,14 +84,15 @@ const PostPage = async ({ params }: PostPageProps) => {
   let id, blocks, seo;
   try {
     id = await cachedFetchIdBySlug(slug, process.env.NOTION_POST_DATABASE_ID);
-    const notionBlocks = (await notionClient.getPageBlocks(id)) as NotionBlock[];
+    const notionBlocks = (await notionClient.getPageBlocks(id)) as unknown as NotionBlock[];
     const properties = await cachedFetchNotionPageProperties(id);
     blocks = notionBlocks;
+    const category = properties?.['Category'] as { name?: string } | undefined;
     seo = {
-      title: properties?.['Name'] || '',
-      description: properties?.['Desc'] || '',
-      keywords: properties?.['Category']?.['name'] || '',
-      coverUrl: properties?.['coverUrl'] || '',
+      title: (properties?.['Name'] as string) || '',
+      description: (properties?.['Desc'] as string) || '',
+      keywords: category?.name || '',
+      coverUrl: (properties?.['coverUrl'] as string) || '',
     };
 
     if (!blocks || blocks.length === 0) {
