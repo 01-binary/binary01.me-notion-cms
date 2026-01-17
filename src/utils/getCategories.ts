@@ -2,7 +2,6 @@ import countBy from 'lodash/countBy';
 import uniqBy from 'lodash/uniqBy';
 
 import { Category, GetPageResponse, SelectPropertyResponse } from '@/interfaces';
-
 import { filterCategoryProperties } from '@/utils/filterProperties';
 
 const getCategories = (notionPostsResponse: GetPageResponse[]): Category[] => {

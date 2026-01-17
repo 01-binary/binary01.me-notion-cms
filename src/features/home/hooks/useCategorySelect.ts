@@ -1,13 +1,11 @@
-import { useCallback, useEffect } from 'react';
-
 import { useAtom, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-
-import { selectedCategoryAtom } from '@/atoms/categories';
-import { postPageResettableAtom } from '@/atoms/posts';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
+import { selectedCategoryAtom } from '@/atoms/categories';
+import { postPageResettableAtom } from '@/atoms/posts';
 
 const useCategorySelect = () => {
   const router = useRouter();

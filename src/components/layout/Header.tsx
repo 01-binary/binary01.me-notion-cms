@@ -1,5 +1,4 @@
 import Link from 'next/link';
-
 import { siteConfig } from 'site.config';
 
 const navLinkList = [
@@ -12,8 +11,17 @@ const navLinkList = [
 const Header = () => {
   return (
     <>
-      <header className="fixed top-0 z-50 w-full min-w-[360px] bg-[hsla(0,0%,100%,.8)] backdrop-blur-lg">
-        <nav className="mx-auto flex max-w-screen-lg items-center justify-between p-3">
+      <header
+        className="
+          fixed top-0 z-50 w-full min-w-[360px] bg-[hsla(0,0%,100%,.8)]
+          backdrop-blur-lg
+        "
+      >
+        <nav
+          className="
+            mx-auto flex max-w-screen-lg items-center justify-between p-3
+          "
+        >
           <h1 className="text-[20px] font-medium">
             <Link href={'/'}>{siteConfig.blogName}</Link>
           </h1>
@@ -25,7 +33,12 @@ const Header = () => {
                 href={link}
                 prefetch={false}
               >
-                <li className="cursor-pointer rounded-xl p-2 text-[18px] font-normal hover:bg-gray-100">
+                <li
+                  className="
+                    cursor-pointer rounded-xl p-2 text-[18px] font-normal
+                    hover:bg-gray-100
+                  "
+                >
                   {name}
                 </li>
               </Link>

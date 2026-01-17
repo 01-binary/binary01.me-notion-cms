@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import { NextResponse } from 'next/server';
 import { GetPageResponse } from 'notion-to-utils';
+import { siteConfig } from 'site.config';
 
 import { PostMeta } from '@/interfaces';
 import { cachedFetchNotionPostsMeta, getPostsMeta } from '@/utils';
-import { siteConfig } from 'site.config';
 
 export const revalidate = 600; // 10 minutes
 

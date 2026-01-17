@@ -1,15 +1,13 @@
-import { ReactNode } from 'react';
-
-import type { Metadata } from 'next';
-
-import { siteConfig } from 'site.config';
-
-import SiteLayout from '@/components/layout';
-
 // Global Styles
 import 'notion-to-jsx/dist/index.css';
 import '@/assets/styles/index.css';
 import 'prismjs/themes/prism-tomorrow.css';
+
+import type { Metadata } from 'next';
+import { ReactNode } from 'react';
+import { siteConfig } from 'site.config';
+
+import SiteLayout from '@/components/layout';
 
 export const metadata: Metadata = {
   title: {

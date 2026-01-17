@@ -4,11 +4,11 @@ import pMap from 'p-map';
 import HomePageClient from '@/features/home/HomePageClient';
 import type { PostMeta } from '@/interfaces';
 import {
-  getPostsMeta,
   cachedFetchNotionPostsMeta,
-  getCategories,
-  getBlurImage,
   cachedFetchNotionProfileUrl,
+  getBlurImage,
+  getCategories,
+  getPostsMeta,
 } from '@/utils';
 
 // Next.js 16: revalidate는 리터럴 값만 허용

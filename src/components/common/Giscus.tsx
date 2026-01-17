@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-
 import { siteConfig } from 'site.config';
 
 const Giscus = () => {

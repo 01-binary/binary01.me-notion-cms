@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { NotionBlock, Renderer } from 'notion-to-jsx';
+import { siteConfig } from 'site.config';
 
 import { cachedFetchNotionProfileUrl, notionClient } from '@/utils';
-import { siteConfig } from 'site.config';
 
 // 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
 export const revalidate = 300; // 5 minutes
