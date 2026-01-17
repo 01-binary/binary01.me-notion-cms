@@ -14,15 +14,11 @@ import { siteConfig } from 'site.config';
 
 import Giscus from '@/components/common/Giscus';
 
-import { REVALIDATE_TIME } from '@/assets/constants';
-
-// 페이지 단위 revalidation 설정
-export const revalidate = REVALIDATE_TIME;
+// 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
+export const revalidate = 300; // 5 minutes
 
 interface PostPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 }
 
 // 빌드 시점에 정적 경로 생성
@@ -39,7 +35,7 @@ export async function generateStaticParams() {
 
 // 페이지 메타데이터 동적 생성
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   if (!process.env.NOTION_POST_DATABASE_ID) {
     console.error('NOTION_POST_DATABASE_ID is not defined for generateMetadata');
     return { title: 'Error', description: 'Configuration error.' };
@@ -78,7 +74,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
-  const { slug } = params;
+  const { slug } = await params;
 
   if (!process.env.NOTION_POST_DATABASE_ID) {
     console.error('NOTION_POST_DATABASE_ID is not defined for PostPage');

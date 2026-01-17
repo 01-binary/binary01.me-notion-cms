@@ -6,10 +6,7 @@ import { PostMeta } from '@/interfaces';
 import { cachedFetchNotionPostsMeta, getPostsMeta } from '@/utils';
 import { siteConfig } from 'site.config';
 
-import { REVALIDATE_TIME } from '@/assets/constants';
-
-// sitemap.xml 경로에 대한 revalidate 설정 (선택 사항)
-export const revalidate = REVALIDATE_TIME * 2;
+export const revalidate = 600; // 10 minutes
 
 type SitemapPostIdentifier = Pick<PostMeta, 'slug' | 'published'>;
 
@@ -80,9 +77,7 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': `public, s-maxage=${REVALIDATE_TIME}, stale-while-revalidate=${
-          REVALIDATE_TIME * 2
-        }`,
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
       },
     });
   } catch (error) {

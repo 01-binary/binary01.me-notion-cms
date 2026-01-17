@@ -4,10 +4,8 @@ import { NotionBlock, Renderer } from 'notion-to-jsx';
 import { cachedFetchNotionProfileUrl, notionClient } from '@/utils';
 import { siteConfig } from 'site.config';
 
-import { REVALIDATE_TIME } from '@/assets/constants';
-
-// 페이지 단위 revalidation 설정
-export const revalidate = REVALIDATE_TIME;
+// 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
+export const revalidate = 300; // 5 minutes
 
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
