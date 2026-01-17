@@ -34,7 +34,7 @@ const useInfiniteScroll = ({
     onIntersect: (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        typeof intersectCb === 'function' && intersectCb();
+        if (typeof intersectCb === 'function') intersectCb();
       });
     },
   });
