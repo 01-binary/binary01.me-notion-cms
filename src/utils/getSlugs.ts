@@ -1,5 +1,4 @@
 import { GetPageResponse } from '@/interfaces';
-
 import { filterDescSlugProperties } from '@/utils/filterProperties';
 
 const getSlugs = (notionPostsResponse: GetPageResponse[]) => {

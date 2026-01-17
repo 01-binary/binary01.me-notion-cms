@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 
-import { PageObjectResponse, PageProperties } from '@/interfaces';
-
 import { DEFAULT_CATEGORY_COLOR } from '@/assets/constants';
+import { PageObjectResponse, PageProperties } from '@/interfaces';
 
 dayjs.extend(localizedFormat);
 

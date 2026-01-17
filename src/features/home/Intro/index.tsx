@@ -1,22 +1,25 @@
-import { memo } from 'react';
-
 import { useAtomValue } from 'jotai';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AiOutlineGithub, AiFillLinkedin } from 'react-icons/ai';
+import { memo } from 'react';
+import { AiFillLinkedin, AiOutlineGithub } from 'react-icons/ai';
 import { HiMail } from 'react-icons/hi';
-
-import { profileImageAtom } from '@/atoms/profile';
 import { siteConfig } from 'site.config';
 
 import { DEFAULT_BLUR_BASE64 } from '@/assets/constants';
+import { profileImageAtom } from '@/atoms/profile';
 
 const Intro = () => {
   const profileUrl = useAtomValue(profileImageAtom);
 
   return (
     <section>
-      <article className="flex gap-4 md:gap-6">
+      <article
+        className="
+          flex gap-4
+          md:gap-6
+        "
+      >
         <Image
           className="size-[110px] rounded-full object-cover"
           src={profileUrl}
@@ -28,7 +31,12 @@ const Intro = () => {
         />
         <section className="flex flex-col justify-around gap-1">
           <section className="flex flex-col gap-2">
-            <span className="whitespace-nowrap rounded-lg bg-[#ebeefe] p-1 text-[18px] font-normal text-[#005995]">
+            <span
+              className="
+                whitespace-nowrap rounded-lg bg-[#ebeefe] p-1 text-[18px]
+                font-normal text-[#005995]
+              "
+            >
               {siteConfig.introName}
             </span>
             <span className="text-[16px]">{siteConfig.introDesc}</span>

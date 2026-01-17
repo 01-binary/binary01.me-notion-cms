@@ -1,13 +1,11 @@
 'use client';
 
+import { useAtomValue } from 'jotai';
 import { memo } from 'react';
 
-import { useAtomValue } from 'jotai';
-
+import { COLOR_TABLE } from '@/assets/constants';
 import { categoriesAtom, selectedCategoryAtom } from '@/atoms/categories';
 import { useCategorySelect } from '@/features/home/hooks';
-
-import { COLOR_TABLE } from '@/assets/constants';
 
 const CategoryList = () => {
   const categories = useAtomValue(categoriesAtom);
@@ -18,14 +16,22 @@ const CategoryList = () => {
     <section>
       <div className="h-[28px]" />
       <section className="overflow-x-auto rounded-lg bg-[#ebe8e8] px-[6px]">
-        <section className="flex min-h-[65px] gap-3 overflow-x-auto bg-[hsla(0,0%,100%,.8)] p-3">
+        <section
+          className="
+            flex min-h-[65px] gap-3 overflow-x-auto bg-[hsla(0,0%,100%,.8)] p-3
+          "
+        >
           {categories.map((category) => {
             const { id, name, color, count } = category;
             const selectedColor = COLOR_TABLE[color as keyof typeof COLOR_TABLE];
 
             return (
               <section
-                className={`cursor-pointer whitespace-nowrap rounded-3xl border-2 border-solid bg-white px-4 py-2 text-[14px] shadow-[0_2px_4px_rgba(0,0,0,.1)]`}
+                className={`
+                  cursor-pointer whitespace-nowrap rounded-3xl border-2
+                  border-solid bg-white px-4 py-2 text-[14px]
+                  shadow-[0_2px_4px_rgba(0,0,0,.1)]
+                `}
                 key={id}
                 onClick={handleClickCategory(name)}
                 style={{ borderColor: seletedCategory === name ? selectedColor : 'transparent' }}

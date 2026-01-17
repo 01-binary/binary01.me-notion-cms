@@ -9,7 +9,7 @@ const getBlurImage = unstable_cache(
       const buffer = Buffer.from(await res.arrayBuffer());
       const { base64 } = await getPlaiceholder(buffer, { size: 10 });
       return base64;
-    } catch (e) {
+    } catch {
       console.log(`[getBlurImage] 오류 발생: ${imgSrc}`);
       return '';
     }

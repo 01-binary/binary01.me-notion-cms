@@ -33,7 +33,7 @@ const useIntersectionObserver = ({
     return () => {
       observer.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [entries, isLoading]);
 
   return entries;

@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-
 import { siteConfig } from 'site.config';
 
 const Footer = () => {

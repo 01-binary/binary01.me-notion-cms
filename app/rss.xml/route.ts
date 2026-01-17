@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import RSS from 'rss';
+import { siteConfig } from 'site.config';
 
 import { GetPageResponse } from '@/interfaces';
 import { cachedFetchNotionPostsMeta, getPostsMeta } from '@/utils';
-import { siteConfig } from 'site.config';
 
 export const revalidate = 300; // 5 minutes
 
