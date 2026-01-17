@@ -3,6 +3,7 @@ import pMap from 'p-map';
 
 import HomePageClient from '@/features/home/HomePageClient';
 import type { PostMeta } from '@/interfaces';
+import { env } from '@/lib/env';
 import {
   cachedFetchNotionPostsMeta,
   cachedFetchNotionProfileUrl,
@@ -28,13 +29,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const Page = async () => {
-  if (!process.env.NOTION_POST_DATABASE_ID)
-    throw new Error('NOTION_POST_DATABASE_ID is not defined');
-
-  if (!process.env.NOTION_PROFILE_ID) throw new Error('NOTION_PROFILE_ID is not defined');
-
-  const profileUrl = await cachedFetchNotionProfileUrl();
-  const notionPostsResponse = await cachedFetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
+  // 병렬 실행으로 waterfall 제거
+  const [profileUrl, notionPostsResponse] = await Promise.all([
+    cachedFetchNotionProfileUrl(),
+    cachedFetchNotionPostsMeta(env.notionPostDatabaseId),
+  ]);
 
   const allPostsMeta = getPostsMeta(notionPostsResponse);
   const posts = await pMap(

@@ -8,6 +8,7 @@ import { ReactNode } from 'react';
 import { siteConfig } from 'site.config';
 
 import SiteLayout from '@/components/layout';
+import JotaiProvider from '@/providers/JotaiProvider';
 
 export const metadata: Metadata = {
   title: {
@@ -47,7 +48,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ko">
       <body>
-        <SiteLayout>{children}</SiteLayout>
+        <JotaiProvider>
+          <SiteLayout>{children}</SiteLayout>
+        </JotaiProvider>
       </body>
     </html>
   );
