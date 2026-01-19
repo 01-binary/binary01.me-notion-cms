@@ -14,6 +14,7 @@ import {
 
 import Giscus from './Giscus';
 import PostRenderer from './PostRenderer';
+import { extractPostMetadata, type PostSEOData } from './utils';
 
 // 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
 export const revalidate = 300; // 5 minutes
@@ -37,25 +38,21 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   try {
     const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
     const properties = await cachedFetchNotionPageProperties(id);
+    const seo = extractPostMetadata(properties);
 
-    const title = (properties?.['Name'] as string) || 'Post';
-    const description = (properties?.['Desc'] as string) || siteConfig.seoDefaultDesc;
-    const coverUrl = (properties?.['coverUrl'] as string) || '';
-    const category = properties?.['Category'] as { name?: string } | undefined;
-    const keywords = category?.name || '';
     return {
-      title,
-      description,
-      keywords,
+      title: seo.title,
+      description: seo.description,
+      keywords: seo.keywords,
       alternates: {
         canonical: `${siteConfig.url}/posts/${slug}`,
       },
       openGraph: {
-        images: coverUrl ? [{ url: coverUrl }] : [],
+        images: seo.coverUrl ? [{ url: seo.coverUrl }] : [],
         url: `${siteConfig.url}/posts/${slug}`,
       },
       twitter: {
-        images: coverUrl ? [coverUrl] : [],
+        images: seo.coverUrl ? [seo.coverUrl] : [],
       },
     };
   } catch (error) {
@@ -67,33 +64,44 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   }
 }
 
-const PostPage = async ({ params }: PostPageProps) => {
-  const { slug } = await params;
-
-  let id, blocks, seo;
+/**
+ * 포스트 데이터를 병렬로 가져옵니다.
+ */
+async function fetchPostData(
+  slug: string,
+): Promise<{ blocks: NotionBlock[]; seo: PostSEOData } | null> {
   try {
-    id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
-    // 병렬 실행으로 waterfall 제거
-    const [notionBlocks, properties] = await Promise.all([
+    const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
+
+    const [blocks, properties] = await Promise.all([
       notionClient.getPageBlocks(id) as unknown as Promise<NotionBlock[]>,
       cachedFetchNotionPageProperties(id),
     ]);
-    blocks = notionBlocks;
-    const category = properties?.['Category'] as { name?: string } | undefined;
-    seo = {
-      title: (properties?.['Name'] as string) || '',
-      description: (properties?.['Desc'] as string) || '',
-      keywords: category?.name || '',
-      coverUrl: (properties?.['coverUrl'] as string) || '',
-    };
 
     if (!blocks || blocks.length === 0) {
-      notFound();
+      return null;
     }
+
+    return {
+      blocks,
+      seo: extractPostMetadata(properties, ''),
+    };
   } catch (error) {
     console.error(`Error fetching post data for slug ${slug}:`, error);
+    return null;
+  }
+}
+
+const PostPage = async ({ params }: PostPageProps) => {
+  const { slug } = await params;
+
+  const postData = await fetchPostData(slug);
+
+  if (!postData) {
     notFound();
   }
+
+  const { blocks, seo } = postData;
 
   return (
     <article>
