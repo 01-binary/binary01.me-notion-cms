@@ -4,9 +4,6 @@ import { atomWithReset } from 'jotai/utils';
 import { INITIAL_CATEGORY } from '@/assets/constants';
 import type { Category, PostMeta } from '@/interfaces';
 
-// Profile
-export const profileImageAtom = atom<string>('');
-
 // Categories
 export const categoriesAtom = atom<Category[]>([]);
 export const selectedCategoryAtom = atom<string>('');
