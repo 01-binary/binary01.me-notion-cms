@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache';
 
-import { notionClient } from '@/utils';
+import notionClient from '@/utils/notionClient';
 
 const fetchIdBySlugFn = async (slug: string, databaseId: string) => {
   const response = await notionClient.dataSources.query({

@@ -4,13 +4,11 @@ import type { NotionBlock } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
-import {
-  cachedFetchIdBySlug,
-  cachedFetchNotionPageProperties,
-  cachedFetchNotionPostsMeta,
-  getSlugs,
-  notionClient,
-} from '@/utils';
+import { cachedFetchIdBySlug } from '@/utils/fetchIdBySlug';
+import { cachedFetchNotionPageProperties } from '@/utils/fetchNotionPageProperties';
+import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
+import getSlugs from '@/utils/getSlugs';
+import notionClient from '@/utils/notionClient';
 
 import Giscus from './Giscus';
 import PostRenderer from './PostRenderer';

@@ -3,25 +3,37 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
 
 import { postPageResettableAtom, selectedCategoryAtom } from '../atoms';
 
 /**
- * 카테고리 클릭 핸들러를 제공합니다.
- * URL 쿼리를 업데이트하고 포스트 페이지를 리셋합니다.
+ * URL 쿼리 파라미터와 카테고리 상태를 양방향으로 동기화합니다.
  *
- * 참고: URL → atom 동기화는 useSyncCategoryFromUrl에서 처리합니다.
+ * - URL → Atom: URL의 category 쿼리가 변경되면 selectedCategoryAtom을 업데이트
+ * - Atom → URL: handleClickCategory로 카테고리 클릭 시 URL 업데이트
+ *
+ * URL을 Single Source of Truth로 사용합니다.
  */
-const useCategorySelect = () => {
+const useCategoryQueryParam = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const selectedCategory = useAtomValue(selectedCategoryAtom);
+  const setSelectedCategory = useSetAtom(selectedCategoryAtom);
   const setPostPage = useSetAtom(postPageResettableAtom);
 
+  // URL → Atom 동기화
+  useEffect(() => {
+    if (searchParams === null) return;
+    const categoryFromQuery = searchParams.get('category');
+    setSelectedCategory(categoryFromQuery || INITIAL_CATEGORY);
+  }, [searchParams, setSelectedCategory]);
+
+  // Atom → URL 업데이트
   const handleClickCategory = useCallback(
     (target: string) => () => {
       if (selectedCategory === target) return;
@@ -44,4 +56,4 @@ const useCategorySelect = () => {
   return { handleClickCategory };
 };
 
-export default useCategorySelect;
+export default useCategoryQueryParam;

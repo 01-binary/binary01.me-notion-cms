@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
-import { useIntersectionObserver } from '@/hooks';
+import { DEFAULT_PAGE_SIZE, INITIAL_PAGE } from '@/assets/constants';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 
 interface UseInfiniteScrollProps<T> {
   data: T[];
@@ -15,9 +16,6 @@ interface UseInfiniteScrollReturn<T> {
   sentinelRef: (node: HTMLElement | null) => void;
   pagedData: T[];
 }
-
-const INITIAL_PAGE = 0;
-const DEFAULT_PAGE_SIZE = 8;
 
 /**
  * 무한 스크롤을 위한 페이지네이션 및 IntersectionObserver를 제공합니다.

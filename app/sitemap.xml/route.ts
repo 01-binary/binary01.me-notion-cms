@@ -4,7 +4,9 @@ import { GetPageResponse } from 'notion-to-utils';
 import { siteConfig } from 'site.config';
 
 import { PostMeta } from '@/interfaces';
-import { cachedFetchNotionPostsMeta, getPostsMeta } from '@/utils';
+import { env } from '@/lib/env';
+import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
+import getPostsMeta from '@/utils/getPostsMeta';
 
 export const revalidate = 600; // 10 minutes
 
@@ -61,16 +63,8 @@ const generateSitemapXml = (notionPostsResponse: GetPageResponse[]): string => {
 };
 
 export async function GET() {
-  if (!process.env.NOTION_POST_DATABASE_ID) {
-    console.error('NOTION_POST_DATABASE_ID is not defined for sitemap generation.');
-    return new NextResponse('Internal Server Error: Configuration missing.', {
-      status: 500,
-      headers: { 'Content-Type': 'text/plain' },
-    });
-  }
-
   try {
-    const databaseItems = await cachedFetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
+    const databaseItems = await cachedFetchNotionPostsMeta(env.notionPostDatabaseId);
     const sitemapXml = generateSitemapXml(databaseItems);
 
     return new NextResponse(sitemapXml, {

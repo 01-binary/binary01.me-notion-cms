@@ -1,12 +1,12 @@
 import { unstable_cache } from 'next/cache';
 import { formatNotionImageUrl } from 'notion-to-utils';
 
+import { env } from '@/lib/env';
 import notionClient from '@/utils/notionClient';
 
 const fetchNotionProfileUrlFn = async () => {
-  if (!process.env.NOTION_PROFILE_ID) throw new Error('NOTION_PROFILE_ID is not defined');
-  const url = await notionClient.getFileUrl(process.env.NOTION_PROFILE_ID, 'media');
-  const formattedUrl = formatNotionImageUrl(url, process.env.NOTION_PROFILE_ID);
+  const url = await notionClient.getFileUrl(env.notionProfileId, 'media');
+  const formattedUrl = formatNotionImageUrl(url, env.notionProfileId);
   return formattedUrl;
 };
 

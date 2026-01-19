@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import { NotionBlock, Renderer } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
-import { cachedFetchNotionProfileUrl, notionClient } from '@/utils';
+import { env } from '@/lib/env';
+import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
+import notionClient from '@/utils/notionClient';
 
 // 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
 export const revalidate = 300; // 5 minutes
@@ -26,14 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const AboutPage = async () => {
-  const aboutId = process.env.NOTION_ABOUT_ID;
-
-  if (!aboutId) {
-    console.error('NOTION_ABOUT_ID is not defined');
-    throw new Error('NOTION_ABOUT_ID is not defined. This page cannot be rendered.');
-  }
-
-  const blocks = (await notionClient.getPageBlocks(aboutId)) as unknown as NotionBlock[];
+  const blocks = (await notionClient.getPageBlocks(env.notionAboutId)) as unknown as NotionBlock[];
 
   return (
     <article>

@@ -3,13 +3,11 @@ import pMap from 'p-map';
 
 import type { PostMeta } from '@/interfaces';
 import { env } from '@/lib/env';
-import {
-  cachedFetchNotionPostsMeta,
-  cachedFetchNotionProfileUrl,
-  getBlurImage,
-  getCategories,
-  getPostsMeta,
-} from '@/utils';
+import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
+import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
+import getBlurImage from '@/utils/getBlurImage';
+import getCategories from '@/utils/getCategories';
+import getPostsMeta from '@/utils/getPostsMeta';
 
 import HomePageClient from './(home)/HomePageClient';
 import Intro from './(home)/Intro';

@@ -1,7 +1,9 @@
 import { Client } from 'notion-to-utils';
 
+import { env } from '@/lib/env';
+
 const notionClient = new Client({
-  auth: process.env.NOTION_TOKEN,
+  auth: env.notionToken,
 });
 
 export default notionClient;
