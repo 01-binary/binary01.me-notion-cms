@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import type { NotionBlock } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
+import { env } from '@/lib/env';
 import {
   cachedFetchIdBySlug,
   cachedFetchNotionPageProperties,
@@ -23,11 +24,7 @@ interface PostPageProps {
 
 // 빌드 시점에 정적 경로 생성
 export async function generateStaticParams() {
-  if (!process.env.NOTION_POST_DATABASE_ID) {
-    console.error('NOTION_POST_DATABASE_ID is not defined for generateStaticParams');
-    return [];
-  }
-  const databaseItems = await cachedFetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
+  const databaseItems = await cachedFetchNotionPostsMeta(env.notionPostDatabaseId);
   const slugs = getSlugs(databaseItems);
 
   return slugs.map((slug) => ({ slug }));
@@ -36,13 +33,9 @@ export async function generateStaticParams() {
 // 페이지 메타데이터 동적 생성
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  if (!process.env.NOTION_POST_DATABASE_ID) {
-    console.error('NOTION_POST_DATABASE_ID is not defined for generateMetadata');
-    return { title: 'Error', description: 'Configuration error.' };
-  }
 
   try {
-    const id = await cachedFetchIdBySlug(slug, process.env.NOTION_POST_DATABASE_ID);
+    const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
     const properties = await cachedFetchNotionPageProperties(id);
 
     const title = (properties?.['Name'] as string) || 'Post';
@@ -77,14 +70,9 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
 
-  if (!process.env.NOTION_POST_DATABASE_ID) {
-    console.error('NOTION_POST_DATABASE_ID is not defined for PostPage');
-    return <div>Configuration error: NOTION_POST_DATABASE_ID is not set.</div>;
-  }
-
   let id, blocks, seo;
   try {
-    id = await cachedFetchIdBySlug(slug, process.env.NOTION_POST_DATABASE_ID);
+    id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
     const notionBlocks = (await notionClient.getPageBlocks(id)) as unknown as NotionBlock[];
     const properties = await cachedFetchNotionPageProperties(id);
     blocks = notionBlocks;

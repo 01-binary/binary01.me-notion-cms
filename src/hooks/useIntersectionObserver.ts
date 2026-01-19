@@ -15,26 +15,32 @@ const useIntersectionObserver = ({
   rootMargin = '0px 0px',
   isLoading = false,
 }: IntersectionObserverProps) => {
-  const entries = useRef<HTMLDivElement[] | []>([]);
+  const entries = useRef<HTMLDivElement[]>([]);
+  const onIntersectRef = useRef(onIntersect);
+
+  // 콜백 ref를 최신 상태로 유지 (effect 재실행 없이)
+  useEffect(() => {
+    onIntersectRef.current = onIntersect;
+  }, [onIntersect]);
 
   useEffect(() => {
-    if (!entries || isLoading) {
+    if (!entries.current.length || isLoading) {
       return undefined;
     }
-    const observer: IntersectionObserver = new IntersectionObserver(onIntersect, {
-      root,
-      rootMargin,
-      threshold,
-    });
-    entries.current?.forEach((target) => {
-      observer.observe(target);
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => onIntersectRef.current(entries, observer),
+      { root, rootMargin, threshold },
+    );
+
+    entries.current.forEach((target) => {
+      if (target) observer.observe(target);
     });
 
     return () => {
       observer.disconnect();
     };
-     
-  }, [entries, isLoading]);
+  }, [root, rootMargin, threshold, isLoading]);
 
   return entries;
 };
