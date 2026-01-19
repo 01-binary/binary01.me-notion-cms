@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useIntersectionObserver } from '@/hooks';
 
-interface Props<T> {
+interface UseInfiniteScrollProps<T> {
   data: T[];
   page: number;
   pageSize?: number;
@@ -11,9 +11,31 @@ interface Props<T> {
   threshold?: number[] | number;
 }
 
+interface UseInfiniteScrollReturn<T> {
+  sentinelRef: (node: HTMLElement | null) => void;
+  pagedData: T[];
+}
+
 const INITIAL_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 8;
 
+/**
+ * 무한 스크롤을 위한 페이지네이션 및 IntersectionObserver를 제공합니다.
+ *
+ * @example
+ * const { sentinelRef, pagedData } = useInfiniteScroll({
+ *   data: posts,
+ *   page: currentPage,
+ *   intersectCb: () => setCurrentPage(prev => prev + 1),
+ * });
+ *
+ * return (
+ *   <>
+ *     {pagedData.map(item => <Item key={item.id} />)}
+ *     <div ref={sentinelRef} />
+ *   </>
+ * );
+ */
 const useInfiniteScroll = <T>({
   data,
   page,
@@ -21,13 +43,13 @@ const useInfiniteScroll = <T>({
   intersectCb,
   rootMargin,
   threshold,
-}: Props<T>) => {
+}: UseInfiniteScrollProps<T>): UseInfiniteScrollReturn<T> => {
   const pagedData = useMemo(
     () => data.slice(INITIAL_PAGE, (page + 1) * pageSize),
     [page, pageSize, data],
   );
 
-  const entries = useIntersectionObserver({
+  const { sentinelRef } = useIntersectionObserver({
     rootMargin,
     threshold,
     onIntersect: (entries) => {
@@ -39,7 +61,7 @@ const useInfiniteScroll = <T>({
   });
 
   return {
-    entries,
+    sentinelRef,
     pagedData,
   };
 };

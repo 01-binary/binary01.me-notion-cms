@@ -6,16 +6,16 @@ import { memo, useState } from 'react';
 import { siteConfig } from 'site.config';
 
 import { DEFAULT_BLUR_BASE64, getCategoryColor } from '@/assets/constants';
-import { PostMeta as Item } from '@/interfaces';
+import type { PostMeta } from '@/interfaces';
 
 import { useTiltEffect } from './hooks';
 
-interface Props {
-  item: Item;
+interface PostProps {
+  item: PostMeta;
 }
 
-const Post = ({ item }: Props) => {
-  const [onError, setOnError] = useState<boolean>(false);
+const Post = ({ item }: PostProps) => {
+  const [hasImageLoadError, setHasImageLoadError] = useState(false);
   const { cover, description, published, category, title, slug, blurImage } = item;
   const { handleMouseMove, handleMouseLeave } = useTiltEffect();
 
@@ -38,7 +38,7 @@ const Post = ({ item }: Props) => {
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
-          {!onError ? (
+          {!hasImageLoadError ? (
             <Image
               className="
                 object-cover transition-transform
@@ -49,7 +49,7 @@ const Post = ({ item }: Props) => {
               fill
               placeholder="blur"
               blurDataURL={blurImage || DEFAULT_BLUR_BASE64}
-              onError={() => setOnError(true)}
+              onError={() => setHasImageLoadError(true)}
             />
           ) : (
             <div className="flex h-full items-center justify-center">

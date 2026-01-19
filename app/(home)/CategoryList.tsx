@@ -6,9 +6,10 @@ import { memo } from 'react';
 import { getCategoryColor } from '@/assets/constants';
 
 import { categoriesAtom, selectedCategoryAtom } from './atoms';
-import { useCategorySelect } from './hooks';
+import { useCategorySelect, useSyncCategoryFromUrl } from './hooks';
 
 const CategoryList = () => {
+  useSyncCategoryFromUrl(); // URL 쿼리 → atom 상태 동기화
   const categories = useAtomValue(categoriesAtom);
   const selectedCategory = useAtomValue(selectedCategoryAtom);
   const { handleClickCategory } = useCategorySelect();
