@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { siteConfig } from 'site.config';
 
 const Giscus = () => {
@@ -8,6 +8,7 @@ const Giscus = () => {
 
   useEffect(() => {
     if (!ref.current || ref.current.hasChildNodes()) return;
+
     const scriptElem = document.createElement('script');
     scriptElem.src = 'https://giscus.app/client.js';
     scriptElem.async = true;
@@ -24,14 +25,6 @@ const Giscus = () => {
     scriptElem.setAttribute('data-theme', siteConfig.giscus.theme);
     scriptElem.setAttribute('data-lang', 'ko');
     ref.current.appendChild(scriptElem);
-  }, []);
-
-  useEffect(() => {
-    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
-    iframe?.contentWindow?.postMessage(
-      { giscus: { setConfig: { theme: siteConfig.giscus.theme } } },
-      'https://giscus.app',
-    );
   }, []);
 
   return <section ref={ref} />;
