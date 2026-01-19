@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache';
 import type { GetPageResponse } from 'notion-to-utils';
 
-import { notionClient } from '@/utils';
+import notionClient from '@/utils/notionClient';
 
 const fetchNotionPostsMetaFn = async (databaseId: string) => {
   const response = await notionClient.dataSources.query({

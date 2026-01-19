@@ -3,7 +3,9 @@ import RSS from 'rss';
 import { siteConfig } from 'site.config';
 
 import { GetPageResponse } from '@/interfaces';
-import { cachedFetchNotionPostsMeta, getPostsMeta } from '@/utils';
+import { env } from '@/lib/env';
+import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
+import getPostsMeta from '@/utils/getPostsMeta';
 
 export const revalidate = 300; // 5 minutes
 
@@ -31,16 +33,8 @@ const generateRssFeed = (notionPostsResponse: GetPageResponse[]) => {
 };
 
 export async function GET() {
-  if (!process.env.NOTION_POST_DATABASE_ID) {
-    console.error('NOTION_POST_DATABASE_ID is not defined for RSS feed generation.');
-    return new NextResponse('Internal Server Error: Configuration missing.', {
-      status: 500,
-      headers: { 'Content-Type': 'text/plain' },
-    });
-  }
-
   try {
-    const databaseItems = await cachedFetchNotionPostsMeta(process.env.NOTION_POST_DATABASE_ID);
+    const databaseItems = await cachedFetchNotionPostsMeta(env.notionPostDatabaseId);
     const rssXml = generateRssFeed(databaseItems);
 
     return new NextResponse(rssXml, {

@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomWithReset } from 'jotai/utils';
 
-import { INITIAL_CATEGORY } from '@/assets/constants';
+import { INITIAL_CATEGORY, INITIAL_PAGE } from '@/assets/constants';
 import type { Category, PostMeta } from '@/interfaces';
 
 // Categories
@@ -19,7 +19,5 @@ export const postsFilterByCategoryAtom = atom<PostMeta[]>((get) => {
     ? posts
     : posts.filter((post) => post.category.name === selectedCategory);
 });
-
-const INITIAL_PAGE = 0;
 
 export const postPageResettableAtom = atomWithReset<number>(INITIAL_PAGE);

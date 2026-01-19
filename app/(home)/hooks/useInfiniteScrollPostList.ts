@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { useCallback } from 'react';
 
-import { useInfiniteScroll } from '@/hooks';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 import { postPageResettableAtom, postsFilterByCategoryAtom } from '../atoms';
 

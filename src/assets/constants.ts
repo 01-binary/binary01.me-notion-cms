@@ -23,5 +23,9 @@ export const INITIAL_CATEGORY = 'All';
 
 export const DEFAULT_CATEGORY_COLOR: SelectColor = 'default';
 
+// Pagination
+export const INITIAL_PAGE = 0;
+export const DEFAULT_PAGE_SIZE = 8;
+
 export const DEFAULT_BLUR_BASE64 =
   'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNGM0Y0RjYiLz48L3N2Zz4=';

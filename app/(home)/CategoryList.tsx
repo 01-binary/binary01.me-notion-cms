@@ -4,15 +4,45 @@ import { useAtomValue } from 'jotai';
 import { memo } from 'react';
 
 import { getCategoryColor } from '@/assets/constants';
+import type { Category } from '@/interfaces';
 
 import { categoriesAtom, selectedCategoryAtom } from './atoms';
-import { useCategorySelect, useSyncCategoryFromUrl } from './hooks';
+import { useCategoryQueryParam } from './hooks';
+
+interface CategoryButtonProps {
+  category: Category;
+  isSelected: boolean;
+  onClick: () => void;
+}
+
+const CategoryButton = memo(({ category, isSelected, onClick }: CategoryButtonProps) => {
+  const { name, color, count } = category;
+  const borderColor = isSelected ? getCategoryColor(color) : 'transparent';
+
+  return (
+    <li>
+      <button
+        type="button"
+        className={`
+          cursor-pointer rounded-3xl border-2 border-solid bg-white px-4 py-2
+          text-[14px] whitespace-nowrap shadow-[0_2px_4px_rgba(0,0,0,.1)]
+        `}
+        onClick={onClick}
+        style={{ borderColor }}
+        aria-pressed={isSelected}
+      >
+        {`${name} (${count})`}
+      </button>
+    </li>
+  );
+});
+
+CategoryButton.displayName = 'CategoryButton';
 
 const CategoryList = () => {
-  useSyncCategoryFromUrl(); // URL 쿼리 → atom 상태 동기화
+  const { handleClickCategory } = useCategoryQueryParam();
   const categories = useAtomValue(categoriesAtom);
   const selectedCategory = useAtomValue(selectedCategoryAtom);
-  const { handleClickCategory } = useCategorySelect();
 
   return (
     <nav aria-label="카테고리 필터">
@@ -24,29 +54,14 @@ const CategoryList = () => {
             bg-[hsla(0,0%,100%,.8)] p-3
           "
         >
-          {categories.map((category) => {
-            const { id, name, color, count } = category;
-            const selectedColor = getCategoryColor(color);
-            const isSelected = selectedCategory === name;
-
-            return (
-              <li key={id}>
-                <button
-                  type="button"
-                  className={`
-                    cursor-pointer rounded-3xl border-2 border-solid bg-white
-                    px-4 py-2 text-[14px] whitespace-nowrap
-                    shadow-[0_2px_4px_rgba(0,0,0,.1)]
-                  `}
-                  onClick={handleClickCategory(name)}
-                  style={{ borderColor: isSelected ? selectedColor : 'transparent' }}
-                  aria-pressed={isSelected}
-                >
-                  {`${name} (${count})`}
-                </button>
-              </li>
-            );
-          })}
+          {categories.map((category) => (
+            <CategoryButton
+              key={category.id}
+              category={category}
+              isSelected={selectedCategory === category.name}
+              onClick={handleClickCategory(category.name)}
+            />
+          ))}
         </ul>
       </div>
     </nav>
