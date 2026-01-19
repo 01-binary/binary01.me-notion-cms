@@ -1,10 +1,10 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import { useInfiniteScrollPostList } from './hooks';
 import Post from './Post';
 
 const PostList = () => {
-  const { pagedPosts, entries } = useInfiniteScrollPostList();
+  const { pagedPosts, sentinelRef } = useInfiniteScrollPostList();
 
   return (
     <>
@@ -24,11 +24,7 @@ const PostList = () => {
           ))}
         </ul>
       </section>
-      <div
-        ref={($elem) => {
-          entries.current[0] = $elem as HTMLDivElement;
-        }}
-      />
+      <div ref={sentinelRef} />
     </>
   );
 };

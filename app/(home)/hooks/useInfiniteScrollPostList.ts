@@ -9,7 +9,7 @@ const useInfiniteScrollPostList = () => {
   const postsFilterByCategory = useAtomValue(postsFilterByCategoryAtom);
   const [postPage, setPostPage] = useAtom(postPageResettableAtom);
 
-  const { entries, pagedData } = useInfiniteScroll({
+  const { sentinelRef, pagedData } = useInfiniteScroll({
     data: postsFilterByCategory,
     page: postPage,
     intersectCb: useCallback(() => {
@@ -18,7 +18,7 @@ const useInfiniteScrollPostList = () => {
   });
 
   return {
-    entries,
+    sentinelRef,
     pagedPosts: pagedData,
   };
 };

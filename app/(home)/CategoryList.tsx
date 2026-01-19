@@ -6,9 +6,10 @@ import { memo } from 'react';
 import { COLOR_TABLE } from '@/assets/constants';
 
 import { categoriesAtom, selectedCategoryAtom } from './atoms';
-import { useCategorySelect } from './hooks';
+import { useCategorySelect, useSyncCategoryFromUrl } from './hooks';
 
 const CategoryList = () => {
+  useSyncCategoryFromUrl(); // URL 쿼리 → atom 상태 동기화
   const categories = useAtomValue(categoriesAtom);
   const selectedCategory = useAtomValue(selectedCategoryAtom);
   const { handleClickCategory } = useCategorySelect();
@@ -24,21 +25,27 @@ const CategoryList = () => {
         >
           {categories.map((category) => {
             const { id, name, color, count } = category;
-            const selectedColor = COLOR_TABLE[color as keyof typeof COLOR_TABLE];
+            const categoryColor = COLOR_TABLE[color as keyof typeof COLOR_TABLE];
+            const isSelected = selectedCategory === name;
 
             return (
-              <section
+              <button
+                type="button"
                 className={`
                   cursor-pointer rounded-3xl border-2 border-solid bg-white px-4
                   py-2 text-[14px] whitespace-nowrap
                   shadow-[0_2px_4px_rgba(0,0,0,.1)]
+                  ${isSelected ? 'border-(--category-color)' : `
+                    border-transparent
+                  `}
                 `}
+                style={{ '--category-color': categoryColor } as React.CSSProperties}
                 key={id}
                 onClick={handleClickCategory(name)}
-                style={{ borderColor: selectedCategory === name ? selectedColor : 'transparent' }}
+                aria-pressed={isSelected}
               >
                 {`${name} (${count})`}
-              </section>
+              </button>
             );
           })}
         </section>
