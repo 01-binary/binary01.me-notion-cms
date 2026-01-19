@@ -4,8 +4,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
-import { selectedCategoryAtom } from '@/atoms/categories';
-import { postPageResettableAtom } from '@/atoms/posts';
+
+import { postPageResettableAtom, selectedCategoryAtom } from '../atoms';
 
 const useCategorySelect = () => {
   const router = useRouter();

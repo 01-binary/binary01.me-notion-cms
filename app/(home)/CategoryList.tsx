@@ -4,8 +4,9 @@ import { useAtomValue } from 'jotai';
 import { memo } from 'react';
 
 import { COLOR_TABLE } from '@/assets/constants';
-import { categoriesAtom, selectedCategoryAtom } from '@/atoms/categories';
-import { useCategorySelect } from '@/features/home/hooks';
+
+import { categoriesAtom, selectedCategoryAtom } from './atoms';
+import { useCategorySelect } from './hooks';
 
 const CategoryList = () => {
   const categories = useAtomValue(categoriesAtom);

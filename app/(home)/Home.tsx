@@ -1,8 +1,8 @@
 import { memo, Suspense } from 'react';
 
-import CategoryList from '@/features/home/CategoryList';
-import Intro from '@/features/home/Intro';
-import PostList from '@/features/home/PostList';
+import CategoryList from './CategoryList';
+import Intro from './Intro';
+import PostList from './PostList';
 
 const Home = () => {
   return (

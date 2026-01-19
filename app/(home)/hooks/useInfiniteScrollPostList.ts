@@ -1,8 +1,9 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { useCallback } from 'react';
 
-import { postPageResettableAtom, postsFilterByCategoryAtom } from '@/atoms/posts';
 import { useInfiniteScroll } from '@/hooks';
+
+import { postPageResettableAtom, postsFilterByCategoryAtom } from '../atoms';
 
 const useInfiniteScrollPostList = () => {
   const postsFilterByCategory = useAtomValue(postsFilterByCategoryAtom);

@@ -4,8 +4,25 @@ import { memo, useCallback, useState } from 'react';
 import { siteConfig } from 'site.config';
 
 import { COLOR_TABLE, DEFAULT_BLUR_BASE64 } from '@/assets/constants';
-import { calculateTiltAngle } from '@/features/home/PostList/Post/util';
 import { PostMeta as Item } from '@/interfaces';
+
+/** 최대 틸트 각도 (degrees) */
+const MAX_TILT_ANGLE = 3;
+
+/**
+ * 마우스 위치에 따른 3D 틸트 회전 각도를 계산합니다.
+ */
+const calculateTiltAngle = (mousePosition: number, containerSize: number): number => {
+  const halfSize = containerSize / 2;
+  const leftSlope = -MAX_TILT_ANGLE / halfSize;
+  const rightSlope = -MAX_TILT_ANGLE / halfSize;
+
+  if (mousePosition <= halfSize) {
+    return MAX_TILT_ANGLE + leftSlope * mousePosition;
+  } else {
+    return rightSlope * (mousePosition - halfSize);
+  }
+};
 
 /** 3D 카드 효과를 위한 perspective 값 (px) */
 const CARD_PERSPECTIVE = 350;

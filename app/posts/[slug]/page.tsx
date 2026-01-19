@@ -3,8 +3,6 @@ import { notFound } from 'next/navigation';
 import type { NotionBlock } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
-import Giscus from '@/components/common/Giscus';
-import PostRenderer from '@/features/posts/PostRenderer';
 import {
   cachedFetchIdBySlug,
   cachedFetchNotionPageProperties,
@@ -12,6 +10,9 @@ import {
   getSlugs,
   notionClient,
 } from '@/utils';
+
+import Giscus from './Giscus';
+import PostRenderer from './PostRenderer';
 
 // 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
 export const revalidate = 300; // 5 minutes

@@ -7,7 +7,8 @@ import { HiMail } from 'react-icons/hi';
 import { siteConfig } from 'site.config';
 
 import { DEFAULT_BLUR_BASE64 } from '@/assets/constants';
-import { profileImageAtom } from '@/atoms/profile';
+
+import { profileImageAtom } from './atoms';
 
 const Intro = () => {
   const profileUrl = useAtomValue(profileImageAtom);

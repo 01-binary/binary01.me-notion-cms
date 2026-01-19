@@ -2,11 +2,10 @@
 
 import { useHydrateAtoms } from 'jotai/utils';
 
-import { categoriesAtom } from '@/atoms/categories';
-import { postsAtom } from '@/atoms/posts';
-import { profileImageAtom } from '@/atoms/profile';
-import Home from '@/features/home';
 import type { Category, PostMeta } from '@/interfaces';
+
+import { categoriesAtom, postsAtom, profileImageAtom } from './atoms';
+import Home from './Home';
 
 interface HomePageClientProps {
   profileUrl: string;
