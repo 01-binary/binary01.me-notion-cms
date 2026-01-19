@@ -11,7 +11,13 @@ export const COLOR_TABLE = {
   orange: '#fed7aa',
   gray: '#f3f4f6',
   default: '#c8d6e5',
-};
+} as const;
+
+export type CategoryColor = keyof typeof COLOR_TABLE;
+
+/** 카테고리 색상을 안전하게 가져옵니다 */
+export const getCategoryColor = (color: string | undefined): string =>
+  COLOR_TABLE[color as CategoryColor] ?? COLOR_TABLE.default;
 
 export const INITIAL_CATEGORY = 'All';
 

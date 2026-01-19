@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
 
 import { useIntersectionObserver } from '@/hooks';
-import { PostMeta } from '@/interfaces';
 
-interface Props {
-  data: PostMeta[];
+interface Props<T> {
+  data: T[];
   page: number;
   pageSize?: number;
   intersectCb?: () => void;
@@ -15,14 +14,14 @@ interface Props {
 const INITIAL_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 8;
 
-const useInfiniteScroll = ({
+const useInfiniteScroll = <T>({
   data,
   page,
   pageSize = DEFAULT_PAGE_SIZE,
   intersectCb,
   rootMargin,
   threshold,
-}: Props) => {
+}: Props<T>) => {
   const pagedData = useMemo(
     () => data.slice(INITIAL_PAGE, (page + 1) * pageSize),
     [page, pageSize, data],

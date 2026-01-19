@@ -12,6 +12,7 @@ import {
 } from '@/utils';
 
 import HomePageClient from './(home)/HomePageClient';
+import Intro from './(home)/Intro';
 
 // Next.js 16: revalidate는 리터럴 값만 허용
 export const revalidate = 300; // 5 minutes
@@ -48,11 +49,13 @@ const Page = async () => {
   const categories = getCategories(notionPostsResponse);
 
   return (
-    <HomePageClient
-      profileUrl={profileUrl}
-      posts={posts}
-      categories={categories}
-    />
+    <section className="mx-auto max-w-[900px] px-4">
+      <Intro profileUrl={profileUrl} />
+      <HomePageClient
+        posts={posts}
+        categories={categories}
+      />
+    </section>
   );
 };
 
