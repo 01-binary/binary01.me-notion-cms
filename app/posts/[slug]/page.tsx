@@ -73,8 +73,11 @@ const PostPage = async ({ params }: PostPageProps) => {
   let id, blocks, seo;
   try {
     id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
-    const notionBlocks = (await notionClient.getPageBlocks(id)) as unknown as NotionBlock[];
-    const properties = await cachedFetchNotionPageProperties(id);
+    // 병렬 실행으로 waterfall 제거
+    const [notionBlocks, properties] = await Promise.all([
+      notionClient.getPageBlocks(id) as unknown as Promise<NotionBlock[]>,
+      cachedFetchNotionPageProperties(id),
+    ]);
     blocks = notionBlocks;
     const category = properties?.['Category'] as { name?: string } | undefined;
     seo = {

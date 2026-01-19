@@ -1,7 +1,8 @@
+import { AiFillLinkedin } from '@react-icons/all-files/ai/AiFillLinkedin';
+import { AiOutlineGithub } from '@react-icons/all-files/ai/AiOutlineGithub';
+import { HiMail } from '@react-icons/all-files/hi/HiMail';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AiFillLinkedin, AiOutlineGithub } from 'react-icons/ai';
-import { HiMail } from 'react-icons/hi';
 import { siteConfig } from 'site.config';
 
 import { DEFAULT_BLUR_BASE64 } from '@/assets/constants';
