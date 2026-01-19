@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
-import { useInfiniteScrollPostList } from '@/features/home/hooks';
-import Post from '@/features/home/PostList/Post';
+import { useInfiniteScrollPostList } from './hooks';
+import Post from './Post';
 
 const PostList = () => {
   const { pagedPosts, entries } = useInfiniteScrollPostList();

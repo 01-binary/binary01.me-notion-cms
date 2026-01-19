@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import pMap from 'p-map';
 
-import HomePageClient from '@/features/home/HomePageClient';
 import type { PostMeta } from '@/interfaces';
 import { env } from '@/lib/env';
 import {
@@ -11,6 +10,8 @@ import {
   getCategories,
   getPostsMeta,
 } from '@/utils';
+
+import HomePageClient from './(home)/HomePageClient';
 
 // Next.js 16: revalidate는 리터럴 값만 허용
 export const revalidate = 300; // 5 minutes
