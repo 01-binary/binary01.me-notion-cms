@@ -3,6 +3,7 @@ import pMap from 'p-map';
 
 import type { PostMeta } from '@/interfaces';
 import { env } from '@/lib/env';
+import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
 import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
 import getBlurImage from '@/utils/getBlurImage';
@@ -18,14 +19,7 @@ export const revalidate = 300; // 5 minutes
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
   const profileUrl = await cachedFetchNotionProfileUrl();
-  return {
-    openGraph: {
-      images: profileUrl ? [{ url: profileUrl }] : [],
-    },
-    twitter: {
-      images: profileUrl ? [profileUrl] : [],
-    },
-  };
+  return buildSocialMetadata({ imageUrl: profileUrl });
 }
 
 const Page = async () => {

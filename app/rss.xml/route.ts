@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
 import RSS from 'rss';
 import { siteConfig } from 'site.config';
 
 import { GetPageResponse } from '@/interfaces';
 import { env } from '@/lib/env';
+import { createXmlErrorResponse, createXmlResponse } from '@/utils/createXmlResponse';
 import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import getPostsMeta from '@/utils/getPostsMeta';
 
@@ -36,22 +36,8 @@ export async function GET() {
   try {
     const databaseItems = await cachedFetchNotionPostsMeta(env.notionPostDatabaseId);
     const rssXml = generateRssFeed(databaseItems);
-
-    return new NextResponse(rssXml, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/xml; charset=utf-8',
-        // Vercel의 Edge Caching을 활용하기 위한 Cache-Control 헤더
-        // s-maxage: CDN에서 캐시할 시간 (초)
-        // stale-while-revalidate: 캐시가 만료된 후에도 백그라운드에서 새로운 데이터를 가져오는 동안 이전 캐시된 데이터를 제공
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
-      },
-    });
+    return createXmlResponse(rssXml);
   } catch (error) {
-    console.error('Error generating RSS feed:', error);
-    return new NextResponse('Internal Server Error: Could not generate RSS feed.', {
-      status: 500,
-      headers: { 'Content-Type': 'text/plain' },
-    });
+    return createXmlErrorResponse('Could not generate RSS feed.', error);
   }
 }

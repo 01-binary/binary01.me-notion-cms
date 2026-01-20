@@ -9,6 +9,9 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },
+  experimental: {
+    optimizePackageImports: ['lodash', 'dayjs'],
+  },
 };
 
 export default nextConfig;

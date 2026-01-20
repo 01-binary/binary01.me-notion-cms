@@ -4,6 +4,7 @@ import type { NotionBlock } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
+import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
 import { cachedFetchIdBySlug } from '@/utils/fetchIdBySlug';
 import { cachedFetchNotionPageProperties } from '@/utils/fetchNotionPageProperties';
 import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
@@ -37,21 +38,14 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
     const properties = await cachedFetchNotionPageProperties(id);
     const seo = extractPostMetadata(properties);
+    const pageUrl = `${siteConfig.url}/posts/${slug}`;
 
     return {
       title: seo.title,
       description: seo.description,
       keywords: seo.keywords,
-      alternates: {
-        canonical: `${siteConfig.url}/posts/${slug}`,
-      },
-      openGraph: {
-        images: seo.coverUrl ? [{ url: seo.coverUrl }] : [],
-        url: `${siteConfig.url}/posts/${slug}`,
-      },
-      twitter: {
-        images: seo.coverUrl ? [seo.coverUrl] : [],
-      },
+      alternates: { canonical: pageUrl },
+      ...buildSocialMetadata({ imageUrl: seo.coverUrl, pageUrl }),
     };
   } catch (error) {
     console.error(`Error fetching metadata for slug ${slug}:`, error);
@@ -62,12 +56,17 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   }
 }
 
+type FetchPostDataResult =
+  | { status: 'success'; blocks: NotionBlock[]; seo: PostSEOData }
+  | { status: 'not_found' }
+  | { status: 'error'; message: string };
+
 /**
  * 포스트 데이터를 병렬로 가져옵니다.
+ *
+ * @returns Discriminated union으로 success/not_found/error 상태를 구분합니다.
  */
-async function fetchPostData(
-  slug: string,
-): Promise<{ blocks: NotionBlock[]; seo: PostSEOData } | null> {
+async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
   try {
     const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
 
@@ -77,29 +76,31 @@ async function fetchPostData(
     ]);
 
     if (!blocks || blocks.length === 0) {
-      return null;
+      return { status: 'not_found' };
     }
 
     return {
+      status: 'success',
       blocks,
       seo: extractPostMetadata(properties, ''),
     };
   } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error(`Error fetching post data for slug ${slug}:`, error);
-    return null;
+    return { status: 'error', message };
   }
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
 
-  const postData = await fetchPostData(slug);
+  const result = await fetchPostData(slug);
 
-  if (!postData) {
+  if (result.status !== 'success') {
     notFound();
   }
 
-  const { blocks, seo } = postData;
+  const { blocks, seo } = result;
 
   return (
     <article>

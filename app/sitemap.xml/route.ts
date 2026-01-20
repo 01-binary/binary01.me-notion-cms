@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
-import { NextResponse } from 'next/server';
 import { GetPageResponse } from 'notion-to-utils';
 import { siteConfig } from 'site.config';
 
 import { PostMeta } from '@/interfaces';
 import { env } from '@/lib/env';
+import { createXmlErrorResponse, createXmlResponse } from '@/utils/createXmlResponse';
 import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import getPostsMeta from '@/utils/getPostsMeta';
 
@@ -66,19 +66,8 @@ export async function GET() {
   try {
     const databaseItems = await cachedFetchNotionPostsMeta(env.notionPostDatabaseId);
     const sitemapXml = generateSitemapXml(databaseItems);
-
-    return new NextResponse(sitemapXml, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
-      },
-    });
+    return createXmlResponse(sitemapXml);
   } catch (error) {
-    console.error('Error generating sitemap:', error);
-    return new NextResponse('Internal Server Error: Could not generate sitemap.', {
-      status: 500,
-      headers: { 'Content-Type': 'text/plain' },
-    });
+    return createXmlErrorResponse('Could not generate sitemap.', error);
   }
 }

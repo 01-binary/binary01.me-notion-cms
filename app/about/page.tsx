@@ -3,6 +3,7 @@ import { NotionBlock, Renderer } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
+import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
 import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
 import notionClient from '@/utils/notionClient';
 
@@ -12,18 +13,12 @@ export const revalidate = 300; // 5 minutes
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
   const profileUrl = await cachedFetchNotionProfileUrl();
+  const pageUrl = `${siteConfig.url}/about`;
+
   return {
     title: 'About',
-    alternates: {
-      canonical: `${siteConfig.url}/about`,
-    },
-    openGraph: {
-      images: profileUrl ? [{ url: profileUrl }] : [],
-      url: `${siteConfig.url}/about`,
-    },
-    twitter: {
-      images: profileUrl ? [profileUrl] : [],
-    },
+    alternates: { canonical: pageUrl },
+    ...buildSocialMetadata({ imageUrl: profileUrl, pageUrl }),
   };
 }
 
