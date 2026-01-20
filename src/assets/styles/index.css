@@ -45,9 +45,6 @@
     min-width: 360px;
     background-color: rgb(var(--color-bg-primary));
     color: rgb(var(--color-text-primary));
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
   }
 }
 

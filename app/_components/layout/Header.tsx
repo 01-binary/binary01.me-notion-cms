@@ -16,7 +16,7 @@ const Header = () => {
       <header
         className="
           fixed top-0 z-50 w-full min-w-[360px] bg-[rgb(var(--color-header-bg))]
-          backdrop-blur-lg transition-colors duration-200
+          backdrop-blur-lg
         "
       >
         <nav
@@ -36,11 +36,13 @@ const Header = () => {
                 href={link}
                 prefetch={false}
               >
-                <li className="
-                  cursor-pointer rounded-xl p-2 text-[18px] font-normal
-                  transition-colors
-                  hover:bg-[rgb(var(--color-bg-tertiary))]
-                ">
+                <li
+                  className="
+                    cursor-pointer rounded-xl p-2 text-[18px] font-normal
+                    transition-colors
+                    hover:bg-[rgb(var(--color-bg-tertiary))]
+                  "
+                >
                   {name}
                 </li>
               </Link>
