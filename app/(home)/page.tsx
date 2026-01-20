@@ -6,12 +6,11 @@ import { env } from '@/lib/env';
 import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
 import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
-import getBlurImage from '@/utils/getBlurImage';
-import getCategories from '@/utils/getCategories';
 import getPostsMeta from '@/utils/getPostsMeta';
 
 import HomeHydrator from './_components/HomeHydrator';
 import Intro from './_components/Intro';
+import { getBlurImage, getCategories } from './_utils';
 
 // Next.js 16: revalidate는 리터럴 값만 허용
 export const revalidate = 300; // 5 minutes

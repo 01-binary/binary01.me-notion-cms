@@ -1,5 +1,3 @@
-import { SelectColor } from '@/interfaces';
-
 export const COLOR_TABLE = {
   purple: '#e9d5ff',
   yellow: '#fef9c3',
@@ -20,8 +18,6 @@ export const getCategoryColor = (color: string | undefined): string =>
   COLOR_TABLE[color as CategoryColor] ?? COLOR_TABLE.default;
 
 export const INITIAL_CATEGORY = 'All';
-
-export const DEFAULT_CATEGORY_COLOR: SelectColor = 'default';
 
 // Pagination
 export const INITIAL_PAGE = 0;

@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { memo, useState } from 'react';
 import { siteConfig } from 'site.config';
 
-import { DEFAULT_BLUR_BASE64, getCategoryColor } from '@/assets/constants';
 import type { PostMeta } from '@/interfaces';
 
+import { DEFAULT_BLUR_BASE64, getCategoryColor } from '../_constants';
 import { useTiltEffect } from '../_hooks';
 
 interface PostProps {

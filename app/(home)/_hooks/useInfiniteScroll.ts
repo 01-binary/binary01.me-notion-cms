@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { DEFAULT_PAGE_SIZE, INITIAL_PAGE } from '@/assets/constants';
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import { DEFAULT_PAGE_SIZE, INITIAL_PAGE } from '../_constants';
+import useIntersectionObserver from './useIntersectionObserver';
 
 interface UseInfiniteScrollProps<T> {
   data: T[];

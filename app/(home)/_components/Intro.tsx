@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from 'site.config';
 
-import { DEFAULT_BLUR_BASE64 } from '@/assets/constants';
+import { DEFAULT_BLUR_BASE64 } from '../_constants';
 
 interface IntroProps {
   profileUrl: string;

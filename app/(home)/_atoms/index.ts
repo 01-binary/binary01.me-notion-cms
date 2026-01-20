@@ -1,8 +1,9 @@
 import { atom } from 'jotai';
 import { atomWithReset } from 'jotai/utils';
 
-import { INITIAL_CATEGORY, INITIAL_PAGE } from '@/assets/constants';
 import type { Category, PostMeta } from '@/interfaces';
+
+import { INITIAL_CATEGORY, INITIAL_PAGE } from '../_constants';
 
 // Categories
 export const categoriesAtom = atom<Category[]>([]);
