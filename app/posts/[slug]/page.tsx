@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import type { NotionBlock } from 'notion-to-jsx';
+import type { NotionBlock } from 'notion-to-utils';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
@@ -86,7 +86,7 @@ async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
     }
 
     const [blocks, properties] = await Promise.all([
-      notionClient.getPageBlocks(id) as unknown as Promise<NotionBlock[]>,
+      notionClient.getPageBlocks(id),
       cachedFetchNotionPageProperties(id),
     ]);
 

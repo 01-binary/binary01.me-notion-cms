@@ -24,11 +24,11 @@ importers:
         specifier: ^16.1.1
         version: 16.1.1(@babel/core@7.28.6)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       notion-to-jsx:
-        specifier: ^1.3.1
-        version: 1.3.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: ^2.0.0
+        version: 2.0.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       notion-to-utils:
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^2.0.0
+        version: 2.0.0
       p-map:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1959,14 +1959,14 @@ packages:
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
 
-  notion-to-jsx@1.3.1:
-    resolution: {integrity: sha512-S1yErnIMVsRCDblivAh3rRuN+H+3bnn/JztiGnLH+pp6C8P3cAA36qZv04WgZl1p9hmJ0RXIC2VPlexAu/3ZBw==}
+  notion-to-jsx@2.0.0:
+    resolution: {integrity: sha512-gyuH7pP/fcxR1ACKCbrZrglIa5grMyJy1op9QuRN7TXyV71MyKwM1BUyFuxupi3gYU1uuHbDw39bkVduG+veww==}
     peerDependencies:
-      react: ^18.0.0
-      react-dom: ^18.0.0
+      react: ^19.0.0
+      react-dom: ^19.0.0
 
-  notion-to-utils@1.2.0:
-    resolution: {integrity: sha512-gSIIsvgp2FOoRvQBqWjBfjfqCPpi0eHAGTo3M1I5+IalAG6DxX0acgjxU9STH9Om8HMPhw1gm+Dlknd2NwQXCg==}
+  notion-to-utils@2.0.0:
+    resolution: {integrity: sha512-2jEGz3yLWAL60sVoVm7VMJVQ7Cz9U2sJKzzwurEU+aoxEeT7bEpq7m44lYYXqiCkzSyJTo+XaEwN0QGCbLBn2A==}
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -4548,7 +4548,7 @@ snapshots:
 
   node-releases@2.0.19: {}
 
-  notion-to-jsx@1.3.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  notion-to-jsx@2.0.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@vanilla-extract/css': 1.18.0
       '@vanilla-extract/recipes': 0.5.7(@vanilla-extract/css@1.18.0)
@@ -4559,7 +4559,7 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  notion-to-utils@1.2.0:
+  notion-to-utils@2.0.0:
     dependencies:
       '@notionhq/client': 5.7.0
       open-graph-scraper: 6.11.0

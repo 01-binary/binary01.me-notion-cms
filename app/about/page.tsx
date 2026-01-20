@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { NotionBlock, Renderer } from 'notion-to-jsx';
+import { Renderer } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const AboutPage = async () => {
-  const blocks = (await notionClient.getPageBlocks(env.notionAboutId)) as unknown as NotionBlock[];
+  const blocks = await notionClient.getPageBlocks(env.notionAboutId);
 
   return (
     <article>
