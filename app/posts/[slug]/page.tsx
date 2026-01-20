@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { type NotionBlock, Renderer } from 'notion-to-jsx';
+import type { NotionBlock } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
@@ -12,6 +12,7 @@ import getSlugs from '@/utils/getSlugs';
 import notionClient from '@/utils/notionClient';
 
 import Giscus from './_components/Giscus';
+import PostRenderer from './_components/PostRenderer';
 import { extractPostMetadata, type PostSEOData } from './_utils';
 
 // 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
@@ -103,7 +104,7 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   return (
     <article>
-      <Renderer
+      <PostRenderer
         blocks={blocks}
         title={seo.title}
         cover={seo.coverUrl}
