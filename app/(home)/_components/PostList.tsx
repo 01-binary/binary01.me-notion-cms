@@ -21,7 +21,7 @@ const PostList = () => {
           {pagedPosts.map((post) => (
             <Post
               key={post.id}
-              item={post}
+              post={post}
             />
           ))}
         </ul>

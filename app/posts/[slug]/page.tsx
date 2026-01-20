@@ -39,6 +39,14 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 
   try {
     const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
+
+    if (!id) {
+      return {
+        title: 'Not Found',
+        description: 'This post could not be found.',
+      };
+    }
+
     const properties = await cachedFetchNotionPageProperties(id);
     const seo = extractPostMetadata(properties);
     const pageUrl = `${siteConfig.url}/posts/${slug}`;
@@ -72,6 +80,10 @@ type FetchPostDataResult =
 async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
   try {
     const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
+
+    if (!id) {
+      return { status: 'not_found' };
+    }
 
     const [blocks, properties] = await Promise.all([
       notionClient.getPageBlocks(id) as unknown as Promise<NotionBlock[]>,

@@ -1,5 +1,6 @@
 import nextPlugin from '@next/eslint-plugin-next';
 import reactPlugin from 'eslint-plugin-react';
+import reactCompiler from 'eslint-plugin-react-compiler';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
@@ -16,6 +17,7 @@ export default tseslint.config(
     plugins: {
       '@next/next': nextPlugin,
       react: reactPlugin,
+      'react-compiler': reactCompiler,
       'react-hooks': reactHooksPlugin,
       'simple-import-sort': simpleImportSort,
       'better-tailwindcss': betterTailwindcss,
@@ -24,6 +26,7 @@ export default tseslint.config(
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs['core-web-vitals'].rules,
       ...betterTailwindcss.configs['recommended-warn'].rules,
+      'react-compiler/react-compiler': 'error',
       'react/jsx-props-no-spreading': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',

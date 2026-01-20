@@ -11,12 +11,12 @@ import { DEFAULT_BLUR_BASE64, getCategoryColor } from '../_constants';
 import { useTiltEffect } from '../_hooks';
 
 interface PostProps {
-  item: PostMeta;
+  post: PostMeta;
 }
 
-const Post = ({ item }: PostProps) => {
+const Post = ({ post }: PostProps) => {
   const [hasImageLoadError, setHasImageLoadError] = useState(false);
-  const { cover, description, published, category, title, slug, blurImage } = item;
+  const { cover, description, published, category, title, slug, blurImage } = post;
   const { handleMouseMove, handleMouseLeave } = useTiltEffect();
 
   return (
