@@ -1,7 +1,6 @@
 'use client';
 
 import { useAtomValue } from 'jotai';
-import { memo, useCallback } from 'react';
 
 import type { Category } from '@/interfaces';
 
@@ -15,13 +14,13 @@ interface CategoryButtonProps {
   onSelect: (name: string) => void;
 }
 
-const CategoryButton = memo(({ category, isSelected, onSelect }: CategoryButtonProps) => {
+const CategoryButton = ({ category, isSelected, onSelect }: CategoryButtonProps) => {
   const { name, color, count } = category;
   const borderColor = isSelected ? getCategoryColor(color) : 'transparent';
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     onSelect(name);
-  }, [onSelect, name]);
+  };
 
   return (
     <li>
@@ -39,9 +38,7 @@ const CategoryButton = memo(({ category, isSelected, onSelect }: CategoryButtonP
       </button>
     </li>
   );
-});
-
-CategoryButton.displayName = 'CategoryButton';
+};
 
 const CategoryList = () => {
   const { handleClickCategory } = useCategoryQueryParam();
@@ -72,4 +69,4 @@ const CategoryList = () => {
   );
 };
 
-export default memo(CategoryList);
+export default CategoryList;

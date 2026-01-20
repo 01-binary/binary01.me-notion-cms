@@ -1,7 +1,5 @@
 'use client';
 
-import { memo } from 'react';
-
 import { useInfiniteScrollPostList } from '../_hooks';
 import Post from './Post';
 
@@ -31,4 +29,4 @@ const PostList = () => {
   );
 };
 
-export default memo(PostList);
+export default PostList;

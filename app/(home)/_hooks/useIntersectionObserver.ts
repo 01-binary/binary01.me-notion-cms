@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const DEFAULT_THRESHOLD: number[] = [0.8];
 
@@ -63,7 +63,7 @@ const useIntersectionObserver = ({
     };
   }, [root, rootMargin, threshold, isLoading]);
 
-  const sentinelRef = useCallback((node: HTMLElement | null) => {
+  const sentinelRef = (node: HTMLElement | null) => {
     if (elementRef.current && observerRef.current) {
       observerRef.current.unobserve(elementRef.current);
     }
@@ -73,7 +73,7 @@ const useIntersectionObserver = ({
     if (node && observerRef.current) {
       observerRef.current.observe(node);
     }
-  }, []);
+  };
 
   return { sentinelRef };
 };

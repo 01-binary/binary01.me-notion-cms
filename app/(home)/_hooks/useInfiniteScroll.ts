@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { DEFAULT_PAGE_SIZE, INITIAL_PAGE } from '../_constants';
 import useIntersectionObserver from './useIntersectionObserver';
 
@@ -42,10 +40,7 @@ const useInfiniteScroll = <T>({
   rootMargin,
   threshold,
 }: UseInfiniteScrollProps<T>): UseInfiniteScrollReturn<T> => {
-  const pagedData = useMemo(
-    () => data.slice(INITIAL_PAGE, (page + 1) * pageSize),
-    [page, pageSize, data],
-  );
+  const pagedData = data.slice(INITIAL_PAGE, (page + 1) * pageSize);
 
   const { sentinelRef } = useIntersectionObserver({
     rootMargin,
