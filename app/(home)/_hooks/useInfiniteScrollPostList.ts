@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
-import { postPageResettableAtom, postsFilterByCategoryAtom } from '../atoms';
+import { postPageResettableAtom, postsFilterByCategoryAtom } from '../_atoms';
 
 const useInfiniteScrollPostList = () => {
   const postsFilterByCategory = useAtomValue(postsFilterByCategoryAtom);

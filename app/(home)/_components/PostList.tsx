@@ -2,7 +2,7 @@
 
 import { memo } from 'react';
 
-import { useInfiniteScrollPostList } from './hooks';
+import { useInfiniteScrollPostList } from '../_hooks';
 import Post from './Post';
 
 const PostList = () => {

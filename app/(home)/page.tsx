@@ -10,8 +10,8 @@ import getBlurImage from '@/utils/getBlurImage';
 import getCategories from '@/utils/getCategories';
 import getPostsMeta from '@/utils/getPostsMeta';
 
-import HomePageClient from './(home)/HomePageClient';
-import Intro from './(home)/Intro';
+import HomeHydrator from './_components/HomeHydrator';
+import Intro from './_components/Intro';
 
 // Next.js 16: revalidate는 리터럴 값만 허용
 export const revalidate = 300; // 5 minutes
@@ -43,7 +43,7 @@ const Page = async () => {
   return (
     <section className="mx-auto max-w-[900px] px-4">
       <Intro profileUrl={profileUrl} />
-      <HomePageClient
+      <HomeHydrator
         posts={posts}
         categories={categories}
       />

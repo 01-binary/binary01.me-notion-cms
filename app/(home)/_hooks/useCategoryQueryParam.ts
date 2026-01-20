@@ -7,7 +7,7 @@ import { useCallback, useEffect } from 'react';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
 
-import { postPageResettableAtom, selectedCategoryAtom } from '../atoms';
+import { postPageResettableAtom, selectedCategoryAtom } from '../_atoms';
 
 /**
  * URL 쿼리 파라미터와 카테고리 상태를 양방향으로 동기화합니다.

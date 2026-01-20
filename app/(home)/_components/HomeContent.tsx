@@ -1,11 +1,11 @@
 'use client';
 
-import { memo, Suspense } from 'react';
+import { Suspense } from 'react';
 
 import CategoryList from './CategoryList';
 import PostList from './PostList';
 
-const Home = () => {
+const HomeContent = () => {
   return (
     <>
       <Suspense>
@@ -16,4 +16,4 @@ const Home = () => {
   );
 };
 
-export default memo(Home);
+export default HomeContent;

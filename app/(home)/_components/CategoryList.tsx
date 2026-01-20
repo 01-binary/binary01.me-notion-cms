@@ -6,8 +6,8 @@ import { memo, useCallback } from 'react';
 import { getCategoryColor } from '@/assets/constants';
 import type { Category } from '@/interfaces';
 
-import { categoriesAtom, selectedCategoryAtom } from './atoms';
-import { useCategoryQueryParam } from './hooks';
+import { categoriesAtom, selectedCategoryAtom } from '../_atoms';
+import { useCategoryQueryParam } from '../_hooks';
 
 interface CategoryButtonProps {
   category: Category;

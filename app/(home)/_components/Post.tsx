@@ -8,7 +8,7 @@ import { siteConfig } from 'site.config';
 import { DEFAULT_BLUR_BASE64, getCategoryColor } from '@/assets/constants';
 import type { PostMeta } from '@/interfaces';
 
-import { useTiltEffect } from './hooks';
+import { useTiltEffect } from '../_hooks';
 
 interface PostProps {
   item: PostMeta;
