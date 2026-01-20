@@ -1,5 +1,4 @@
 import { useAtom, useAtomValue } from 'jotai';
-import { useCallback } from 'react';
 
 import { postPageResettableAtom, postsFilterByCategoryAtom } from '../_atoms';
 import useInfiniteScroll from './useInfiniteScroll';
@@ -11,9 +10,9 @@ const useInfiniteScrollPostList = () => {
   const { sentinelRef, pagedData } = useInfiniteScroll({
     data: postsFilterByCategory,
     page: postPage,
-    intersectCb: useCallback(() => {
+    intersectCb: () => {
       setPostPage((prev) => prev + 1);
-    }, [setPostPage]),
+    },
   });
 
   return {

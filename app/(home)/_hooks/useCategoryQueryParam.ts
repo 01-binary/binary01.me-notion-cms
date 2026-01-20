@@ -3,7 +3,7 @@
 import { useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { postPageResettableAtom, selectedCategoryAtom } from '../_atoms';
 import { INITIAL_CATEGORY } from '../_constants';
@@ -33,25 +33,22 @@ const useCategoryQueryParam = () => {
   }, [searchParams, setSelectedCategory]);
 
   // Atom → URL 업데이트 (store.get으로 명령형 읽기하여 불필요한 구독 방지)
-  const handleClickCategory = useCallback(
-    (target: string) => {
-      const currentCategory = store.get(selectedCategoryAtom);
-      if (currentCategory === target) return;
+  const handleClickCategory = (target: string) => {
+    const currentCategory = store.get(selectedCategoryAtom);
+    if (currentCategory === target) return;
 
-      const currentQuery = new URLSearchParams(Array.from(searchParams.entries()));
+    const currentQuery = new URLSearchParams(Array.from(searchParams.entries()));
 
-      if (target === INITIAL_CATEGORY) {
-        currentQuery.delete('category');
-      } else {
-        currentQuery.set('category', target);
-      }
+    if (target === INITIAL_CATEGORY) {
+      currentQuery.delete('category');
+    } else {
+      currentQuery.set('category', target);
+    }
 
-      const queryString = currentQuery.toString();
-      router.replace(`${pathname}${queryString ? `?${queryString}` : ''}`);
-      setPostPage(RESET);
-    },
-    [store, router, pathname, searchParams, setPostPage],
-  );
+    const queryString = currentQuery.toString();
+    router.replace(`${pathname}${queryString ? `?${queryString}` : ''}`);
+    setPostPage(RESET);
+  };
 
   return { handleClickCategory };
 };

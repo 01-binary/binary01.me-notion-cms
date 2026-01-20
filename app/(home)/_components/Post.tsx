@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import { siteConfig } from 'site.config';
 
 import type { PostMeta } from '@/interfaces';
@@ -79,4 +79,4 @@ const Post = ({ post }: PostProps) => {
   );
 };
 
-export default memo(Post);
+export default Post;
