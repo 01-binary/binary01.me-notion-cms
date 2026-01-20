@@ -3,10 +3,10 @@
 import { useAtomValue } from 'jotai';
 import { memo, useCallback } from 'react';
 
-import { getCategoryColor } from '@/assets/constants';
 import type { Category } from '@/interfaces';
 
 import { categoriesAtom, selectedCategoryAtom } from '../_atoms';
+import { getCategoryColor } from '../_constants';
 import { useCategoryQueryParam } from '../_hooks';
 
 interface CategoryButtonProps {

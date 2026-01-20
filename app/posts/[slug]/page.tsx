@@ -5,15 +5,18 @@ import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
 import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
-import { cachedFetchIdBySlug } from '@/utils/fetchIdBySlug';
-import { cachedFetchNotionPageProperties } from '@/utils/fetchNotionPageProperties';
 import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
-import getSlugs from '@/utils/getSlugs';
 import notionClient from '@/utils/notionClient';
 
 import Giscus from './_components/Giscus';
 import PostRenderer from './_components/PostRenderer';
-import { extractPostMetadata, type PostSEOData } from './_utils';
+import {
+  cachedFetchIdBySlug,
+  cachedFetchNotionPageProperties,
+  extractPostMetadata,
+  getSlugs,
+  type PostSEOData,
+} from './_utils';
 
 // 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
 export const revalidate = 300; // 5 minutes

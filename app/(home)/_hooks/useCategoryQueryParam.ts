@@ -5,9 +5,8 @@ import { RESET } from 'jotai/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
-import { INITIAL_CATEGORY } from '@/assets/constants';
-
 import { postPageResettableAtom, selectedCategoryAtom } from '../_atoms';
+import { INITIAL_CATEGORY } from '../_constants';
 
 /**
  * URL 쿼리 파라미터와 카테고리 상태를 양방향으로 동기화합니다.

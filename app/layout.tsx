@@ -7,8 +7,8 @@ import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import { siteConfig } from 'site.config';
 
-import SiteLayout from '@/components/layout';
-import JotaiProvider from '@/providers/JotaiProvider';
+import SiteLayout from './_components/layout';
+import JotaiProvider from './_providers/JotaiProvider';
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       'naver-site-verification': siteConfig.naverSiteVerification,
     },
   },
-  metadataBase: new URL(siteConfig.url), // 상대 경로 OG 이미지를 위해 기본 URL 설정
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
     title: `${siteConfig.blogName} | ${siteConfig.homeTitle}`,
     description: siteConfig.seoDefaultDesc,
