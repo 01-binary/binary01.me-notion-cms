@@ -14,6 +14,13 @@ interface CategoryButtonProps {
   onSelect: (name: string) => void;
 }
 
+const categoryButtonClassName = [
+  'cursor-pointer rounded-3xl border-2 border-solid px-4 py-2',
+  'text-[14px] whitespace-nowrap',
+  'bg-white shadow-[0_2px_4px_rgba(0,0,0,.1)]',
+  'dark:bg-[rgb(var(--color-bg-tertiary))] dark:shadow-[0_2px_4px_rgba(0,0,0,.3)]',
+].join(' ');
+
 const CategoryButton = ({ category, isSelected, onSelect }: CategoryButtonProps) => {
   const { name, color, count } = category;
   const borderColor = isSelected ? getCategoryColor(color) : 'transparent';
@@ -26,10 +33,7 @@ const CategoryButton = ({ category, isSelected, onSelect }: CategoryButtonProps)
     <li>
       <button
         type="button"
-        className={`
-          cursor-pointer rounded-3xl border-2 border-solid bg-white px-4 py-2
-          text-[14px] whitespace-nowrap shadow-[0_2px_4px_rgba(0,0,0,.1)]
-        `}
+        className={categoryButtonClassName}
         onClick={handleClick}
         style={{ borderColor }}
         aria-pressed={isSelected}
@@ -40,6 +44,16 @@ const CategoryButton = ({ category, isSelected, onSelect }: CategoryButtonProps)
   );
 };
 
+const wrapperClassName = [
+  'overflow-x-auto rounded-lg px-[6px]',
+  'bg-[#ebe8e8] dark:bg-[rgb(var(--color-bg-tertiary))]',
+].join(' ');
+
+const listClassName = [
+  'flex min-h-[65px] list-none gap-3 overflow-x-auto p-3',
+  'bg-[hsla(0,0%,100%,.8)] dark:bg-[rgb(var(--color-bg-secondary)/.8)]',
+].join(' ');
+
 const CategoryList = () => {
   const { handleClickCategory } = useCategoryQueryParam();
   const categories = useAtomValue(categoriesAtom);
@@ -48,13 +62,8 @@ const CategoryList = () => {
   return (
     <nav aria-label="카테고리 필터">
       <div className="h-[28px]" />
-      <div className="overflow-x-auto rounded-lg bg-[#ebe8e8] px-[6px]">
-        <ul
-          className="
-            flex min-h-[65px] list-none gap-3 overflow-x-auto
-            bg-[hsla(0,0%,100%,.8)] p-3
-          "
-        >
+      <div className={wrapperClassName}>
+        <ul className={listClassName}>
           {categories.map((category) => (
             <CategoryButton
               key={category.id}

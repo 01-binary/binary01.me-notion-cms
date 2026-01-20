@@ -1,9 +1,19 @@
 'use client';
 
 import GiscusComponent from '@giscus/react';
+import { useAtomValue } from 'jotai';
 import { siteConfig } from 'site.config';
 
+import { themeAtom } from '@/atoms/theme';
+
+const getGiscusTheme = (theme: string) => {
+  if (theme === 'system') return 'preferred_color_scheme';
+  return theme; // 'light' | 'dark'
+};
+
 const Giscus = () => {
+  const theme = useAtomValue(themeAtom);
+
   return (
     <GiscusComponent
       repo={siteConfig.giscus.repo as `${string}/${string}`}
@@ -14,7 +24,7 @@ const Giscus = () => {
       reactionsEnabled="1"
       emitMetadata="0"
       inputPosition="bottom"
-      theme={siteConfig.giscus.theme}
+      theme={getGiscusTheme(theme)}
       lang="ko"
     />
   );

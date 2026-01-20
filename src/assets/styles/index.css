@@ -1,7 +1,32 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 @import 'tailwindcss';
 
+/* Tailwind v4: class 기반 dark mode 활성화 */
+@variant dark (&:where(.dark, .dark *));
+
 @layer base {
+  :root {
+    /* Light theme colors */
+    --color-bg-primary: 255 255 255;
+    --color-bg-secondary: 250 250 250;
+    --color-bg-tertiary: 245 245 245;
+    --color-text-primary: 55 53 47;
+    --color-text-secondary: 120 119 116;
+    --color-border: 235 235 235;
+    --color-header-bg: 255 255 255 / 0.8;
+  }
+
+  .dark {
+    /* Dark theme colors */
+    --color-bg-primary: 25 25 25;
+    --color-bg-secondary: 32 32 32;
+    --color-bg-tertiary: 45 45 45;
+    --color-text-primary: 255 255 255;
+    --color-text-secondary: 155 155 155;
+    --color-border: 55 55 55;
+    --color-header-bg: 25 25 25 / 0.8;
+  }
+
   body {
     font-family:
       Spoqa Han Sans Neo,
@@ -18,6 +43,11 @@
       Helvetica Neue,
       sans-serif;
     min-width: 360px;
+    background-color: rgb(var(--color-bg-primary));
+    color: rgb(var(--color-text-primary));
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
   }
 }
 
