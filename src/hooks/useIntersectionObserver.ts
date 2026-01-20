@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 
+const DEFAULT_THRESHOLD: number[] = [0.8];
+
 interface UseIntersectionObserverProps {
   root?: null | HTMLElement;
   rootMargin?: string;
@@ -34,7 +36,7 @@ interface UseIntersectionObserverReturn {
 const useIntersectionObserver = ({
   root = null,
   onIntersect,
-  threshold = [0.8],
+  threshold = DEFAULT_THRESHOLD,
   rootMargin = '0px 0px',
   isLoading = false,
 }: UseIntersectionObserverProps): UseIntersectionObserverReturn => {

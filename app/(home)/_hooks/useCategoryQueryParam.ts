@@ -1,13 +1,13 @@
 'use client';
 
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useSetAtom, useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
 import { INITIAL_CATEGORY } from '@/assets/constants';
 
-import { postPageResettableAtom, selectedCategoryAtom } from '../atoms';
+import { postPageResettableAtom, selectedCategoryAtom } from '../_atoms';
 
 /**
  * URL 쿼리 파라미터와 카테고리 상태를 양방향으로 동기화합니다.
@@ -21,8 +21,8 @@ const useCategoryQueryParam = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const store = useStore();
 
-  const selectedCategory = useAtomValue(selectedCategoryAtom);
   const setSelectedCategory = useSetAtom(selectedCategoryAtom);
   const setPostPage = useSetAtom(postPageResettableAtom);
 
@@ -33,10 +33,11 @@ const useCategoryQueryParam = () => {
     setSelectedCategory(categoryFromQuery || INITIAL_CATEGORY);
   }, [searchParams, setSelectedCategory]);
 
-  // Atom → URL 업데이트
+  // Atom → URL 업데이트 (store.get으로 명령형 읽기하여 불필요한 구독 방지)
   const handleClickCategory = useCallback(
-    (target: string) => () => {
-      if (selectedCategory === target) return;
+    (target: string) => {
+      const currentCategory = store.get(selectedCategoryAtom);
+      if (currentCategory === target) return;
 
       const currentQuery = new URLSearchParams(Array.from(searchParams.entries()));
 
@@ -50,7 +51,7 @@ const useCategoryQueryParam = () => {
       router.replace(`${pathname}${queryString ? `?${queryString}` : ''}`);
       setPostPage(RESET);
     },
-    [router, pathname, searchParams, selectedCategory, setPostPage],
+    [store, router, pathname, searchParams, setPostPage],
   );
 
   return { handleClickCategory };

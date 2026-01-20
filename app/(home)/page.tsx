@@ -3,14 +3,15 @@ import pMap from 'p-map';
 
 import type { PostMeta } from '@/interfaces';
 import { env } from '@/lib/env';
+import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
 import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
 import getBlurImage from '@/utils/getBlurImage';
 import getCategories from '@/utils/getCategories';
 import getPostsMeta from '@/utils/getPostsMeta';
 
-import HomePageClient from './(home)/HomePageClient';
-import Intro from './(home)/Intro';
+import HomeHydrator from './_components/HomeHydrator';
+import Intro from './_components/Intro';
 
 // Next.js 16: revalidate는 리터럴 값만 허용
 export const revalidate = 300; // 5 minutes
@@ -18,14 +19,7 @@ export const revalidate = 300; // 5 minutes
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
   const profileUrl = await cachedFetchNotionProfileUrl();
-  return {
-    openGraph: {
-      images: profileUrl ? [{ url: profileUrl }] : [],
-    },
-    twitter: {
-      images: profileUrl ? [profileUrl] : [],
-    },
-  };
+  return buildSocialMetadata({ imageUrl: profileUrl });
 }
 
 const Page = async () => {
@@ -49,7 +43,7 @@ const Page = async () => {
   return (
     <section className="mx-auto max-w-[900px] px-4">
       <Intro profileUrl={profileUrl} />
-      <HomePageClient
+      <HomeHydrator
         posts={posts}
         categories={categories}
       />

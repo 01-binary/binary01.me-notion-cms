@@ -1,23 +1,27 @@
 'use client';
 
 import { useAtomValue } from 'jotai';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 import { getCategoryColor } from '@/assets/constants';
 import type { Category } from '@/interfaces';
 
-import { categoriesAtom, selectedCategoryAtom } from './atoms';
-import { useCategoryQueryParam } from './hooks';
+import { categoriesAtom, selectedCategoryAtom } from '../_atoms';
+import { useCategoryQueryParam } from '../_hooks';
 
 interface CategoryButtonProps {
   category: Category;
   isSelected: boolean;
-  onClick: () => void;
+  onSelect: (name: string) => void;
 }
 
-const CategoryButton = memo(({ category, isSelected, onClick }: CategoryButtonProps) => {
+const CategoryButton = memo(({ category, isSelected, onSelect }: CategoryButtonProps) => {
   const { name, color, count } = category;
   const borderColor = isSelected ? getCategoryColor(color) : 'transparent';
+
+  const handleClick = useCallback(() => {
+    onSelect(name);
+  }, [onSelect, name]);
 
   return (
     <li>
@@ -27,7 +31,7 @@ const CategoryButton = memo(({ category, isSelected, onClick }: CategoryButtonPr
           cursor-pointer rounded-3xl border-2 border-solid bg-white px-4 py-2
           text-[14px] whitespace-nowrap shadow-[0_2px_4px_rgba(0,0,0,.1)]
         `}
-        onClick={onClick}
+        onClick={handleClick}
         style={{ borderColor }}
         aria-pressed={isSelected}
       >
@@ -59,7 +63,7 @@ const CategoryList = () => {
               key={category.id}
               category={category}
               isSelected={selectedCategory === category.name}
-              onClick={handleClickCategory(category.name)}
+              onSelect={handleClickCategory}
             />
           ))}
         </ul>

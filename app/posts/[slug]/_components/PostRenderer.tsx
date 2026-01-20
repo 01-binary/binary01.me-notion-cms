@@ -1,6 +1,6 @@
 'use client';
 
-import { NotionBlock, Renderer } from 'notion-to-jsx';
+import { type NotionBlock, Renderer } from 'notion-to-jsx';
 
 interface PostRendererProps {
   blocks: NotionBlock[];
