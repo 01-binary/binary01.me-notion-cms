@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { siteConfig } from 'site.config';
 
+import ThemeSelect from '../ThemeSelect';
+
 const navLinkList = [
   {
     name: 'about',
@@ -13,7 +15,7 @@ const Header = () => {
     <>
       <header
         className="
-          fixed top-0 z-50 w-full min-w-[360px] bg-[hsla(0,0%,100%,.8)]
+          fixed top-0 z-50 w-full min-w-[360px] bg-[rgb(var(--color-header-bg))]
           backdrop-blur-lg
         "
       >
@@ -37,13 +39,17 @@ const Header = () => {
                 <li
                   className="
                     cursor-pointer rounded-xl p-2 text-[18px] font-normal
-                    hover:bg-gray-100
+                    transition-colors
+                    hover:bg-[rgb(var(--color-bg-tertiary))]
                   "
                 >
                   {name}
                 </li>
               </Link>
             ))}
+            <li>
+              <ThemeSelect />
+            </li>
           </ul>
         </nav>
       </header>

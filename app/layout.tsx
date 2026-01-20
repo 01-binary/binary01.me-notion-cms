@@ -9,6 +9,20 @@ import { siteConfig } from 'site.config';
 
 import SiteLayout from './_components/layout';
 import JotaiProvider from './_providers/JotaiProvider';
+import ThemeProvider from './_providers/ThemeProvider';
+
+// FOUC 방지를 위한 인라인 스크립트
+const themeInitScript = `
+  (function() {
+    try {
+      const stored = localStorage.getItem('theme');
+      const theme = stored ? JSON.parse(stored) : 'system';
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = theme === 'dark' || (theme === 'system' && systemDark);
+      if (isDark) document.documentElement.classList.add('dark');
+    } catch (e) {}
+  })();
+`;
 
 export const metadata: Metadata = {
   title: {
@@ -46,10 +60,18 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="ko">
+    <html
+      lang="ko"
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         <JotaiProvider>
-          <SiteLayout>{children}</SiteLayout>
+          <ThemeProvider>
+            <SiteLayout>{children}</SiteLayout>
+          </ThemeProvider>
         </JotaiProvider>
       </body>
     </html>

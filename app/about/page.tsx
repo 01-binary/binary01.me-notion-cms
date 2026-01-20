@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
-import { Renderer } from 'notion-to-jsx';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
 import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
 import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
 import notionClient from '@/utils/notionClient';
+
+import AboutRenderer from './_components/AboutRenderer';
 
 // 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
 export const revalidate = 300; // 5 minutes
@@ -27,7 +28,7 @@ const AboutPage = async () => {
 
   return (
     <article>
-      <Renderer blocks={blocks} />
+      <AboutRenderer blocks={blocks} />
     </article>
   );
 };

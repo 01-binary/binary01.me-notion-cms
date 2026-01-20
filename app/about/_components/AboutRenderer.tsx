@@ -6,13 +6,11 @@ import { useEffect, useState } from 'react';
 
 import { themeAtom } from '@/atoms/theme';
 
-interface PostRendererProps {
+interface AboutRendererProps {
   blocks: NotionBlock[];
-  title?: string;
-  cover?: string;
 }
 
-const PostRenderer = ({ blocks, title, cover }: PostRendererProps) => {
+const AboutRenderer = ({ blocks }: AboutRendererProps) => {
   const theme = useAtomValue(themeAtom);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -34,11 +32,9 @@ const PostRenderer = ({ blocks, title, cover }: PostRendererProps) => {
   return (
     <Renderer
       blocks={blocks}
-      title={title}
-      cover={cover}
       isDarkMode={isDarkMode}
     />
   );
 };
 
-export default PostRenderer;
+export default AboutRenderer;

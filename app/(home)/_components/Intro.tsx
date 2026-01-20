@@ -35,6 +35,7 @@ const Intro = ({ profileUrl }: IntroProps) => {
               className="
                 rounded-lg bg-[#ebeefe] p-1 text-[18px] font-normal
                 whitespace-nowrap text-[#005995]
+                dark:bg-[#1e3a5f] dark:text-[#64b5f6]
               "
             >
               {siteConfig.introName}
