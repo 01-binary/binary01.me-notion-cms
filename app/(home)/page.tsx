@@ -7,7 +7,9 @@ import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
 import CategoryListServer from './_components/CategoryListServer';
 import CategoryListSkeleton from './_components/CategoryListSkeleton';
 import Intro from './_components/Intro';
+import IntroSkeleton from './_components/IntroSkeleton';
 import PostListServer from './_components/PostListServer';
+import PostListSkeleton from './_components/PostListSkeleton';
 
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
@@ -15,16 +17,18 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildSocialMetadata({ imageUrl: profileUrl });
 }
 
-const Page = async () => {
-  const profileUrl = await cachedFetchNotionProfileUrl();
-
+const Page = () => {
   return (
     <section className="mx-auto max-w-[900px] px-4">
-      <Intro profileUrl={profileUrl} />
+      <Suspense fallback={<IntroSkeleton />}>
+        <Intro />
+      </Suspense>
       <Suspense fallback={<CategoryListSkeleton />}>
         <CategoryListServer />
       </Suspense>
-      <PostListServer />
+      <Suspense fallback={<PostListSkeleton />}>
+        <PostListServer />
+      </Suspense>
     </section>
   );
 };
