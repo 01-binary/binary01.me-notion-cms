@@ -1,12 +1,18 @@
 'use client';
 
-import { useInfiniteScrollPostList } from '../_hooks';
+import type { PostMeta } from '@/interfaces';
+
+import { useFilteredPosts } from '../_hooks';
 import Post from './Post';
 
 const ulClassName = ['grid grid-cols-1 gap-8', 'md:grid-cols-2'].join(' ');
 
-const PostList = () => {
-  const { pagedPosts, sentinelRef } = useInfiniteScrollPostList();
+interface PostListClientProps {
+  initialPosts: PostMeta[];
+}
+
+const PostListClient = ({ initialPosts }: PostListClientProps) => {
+  const { pagedPosts, sentinelRef } = useFilteredPosts(initialPosts);
 
   return (
     <>
@@ -26,4 +32,4 @@ const PostList = () => {
   );
 };
 
-export default PostList;
+export default PostListClient;

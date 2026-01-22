@@ -12,6 +12,7 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['dayjs'],
+    useCache: true,
   },
 };
 

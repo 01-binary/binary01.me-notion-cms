@@ -30,6 +30,12 @@ const imageClassName = [
   'group-hover:scale-105 group-hover:brightness-125',
 ].join(' ');
 
+const descriptionClassName = [
+  'text-[14px] font-normal text-[rgb(var(--color-text-secondary))]',
+].join(' ');
+
+const timeClassName = ['text-[12px] font-normal text-[rgb(var(--color-text-secondary))]'].join(' ');
+
 const Post = ({ post }: PostProps) => {
   const [hasImageLoadError, setHasImageLoadError] = useState(false);
   const { cover, description, published, category, title, slug, blurImage } = post;
@@ -65,13 +71,7 @@ const Post = ({ post }: PostProps) => {
         <div className="h-[6px]" />
         <section className="flex flex-col gap-1 p-[10px]">
           <h4 className="text-[28px] leading-[34px] font-bold">{title}</h4>
-          {description ? (
-            <p className="
-              text-[14px] font-normal text-[rgb(var(--color-text-secondary))]
-            ">
-              {description}
-            </p>
-          ) : null}
+          {description ? <p className={descriptionClassName}>{description}</p> : null}
           <div className="h-2" />
           <div className="flex items-center gap-2">
             <span
@@ -80,11 +80,7 @@ const Post = ({ post }: PostProps) => {
             >
               {category.name}
             </span>
-            <time className="
-              text-[12px] font-normal text-[rgb(var(--color-text-secondary))]
-            ">
-              {published}
-            </time>
+            <time className={timeClassName}>{published}</time>
           </div>
         </section>
       </Link>
