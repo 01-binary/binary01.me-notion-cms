@@ -5,6 +5,7 @@ import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
 import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
 
 import CategoryListServer from './_components/CategoryListServer';
+import CategoryListSkeleton from './_components/CategoryListSkeleton';
 import Intro from './_components/Intro';
 import PostListServer from './_components/PostListServer';
 
@@ -20,7 +21,7 @@ const Page = async () => {
   return (
     <section className="mx-auto max-w-[900px] px-4">
       <Intro profileUrl={profileUrl} />
-      <Suspense>
+      <Suspense fallback={<CategoryListSkeleton />}>
         <CategoryListServer />
       </Suspense>
       <PostListServer />
