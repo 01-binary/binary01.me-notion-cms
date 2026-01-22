@@ -1,19 +1,15 @@
 import type { Metadata } from 'next';
-import pMap from 'p-map';
+import { Suspense } from 'react';
 
-import type { PostMeta } from '@/interfaces';
-import { env } from '@/lib/env';
 import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
-import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
-import getPostsMeta from '@/utils/getPostsMeta';
 
-import HomeHydrator from './_components/HomeHydrator';
+import CategoryListServer from './_components/CategoryListServer';
+import CategoryListSkeleton from './_components/CategoryListSkeleton';
 import Intro from './_components/Intro';
-import { getBlurImage, getCategories } from './_utils';
-
-// Next.js 16: revalidate는 리터럴 값만 허용
-export const revalidate = 300; // 5 minutes
+import IntroSkeleton from './_components/IntroSkeleton';
+import PostListServer from './_components/PostListServer';
+import PostListSkeleton from './_components/PostListSkeleton';
 
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,31 +17,18 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildSocialMetadata({ imageUrl: profileUrl });
 }
 
-const Page = async () => {
-  // 병렬 실행으로 waterfall 제거
-  const [profileUrl, notionPostsResponse] = await Promise.all([
-    cachedFetchNotionProfileUrl(),
-    cachedFetchNotionPostsMeta(env.notionPostDatabaseId),
-  ]);
-
-  const allPostsMeta = getPostsMeta(notionPostsResponse);
-  const posts = await pMap(
-    allPostsMeta,
-    async (post: PostMeta) => {
-      const blurImage = await getBlurImage(post.cover);
-      return { ...post, blurImage };
-    },
-    { concurrency: 10 },
-  );
-  const categories = getCategories(notionPostsResponse);
-
+const Page = () => {
   return (
     <section className="mx-auto max-w-[900px] px-4">
-      <Intro profileUrl={profileUrl} />
-      <HomeHydrator
-        posts={posts}
-        categories={categories}
-      />
+      <Suspense fallback={<IntroSkeleton />}>
+        <Intro />
+      </Suspense>
+      <Suspense fallback={<CategoryListSkeleton />}>
+        <CategoryListServer />
+      </Suspense>
+      <Suspense fallback={<PostListSkeleton />}>
+        <PostListServer />
+      </Suspense>
     </section>
   );
 };

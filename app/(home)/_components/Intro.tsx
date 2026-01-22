@@ -5,13 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from 'site.config';
 
+import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
+
 import { DEFAULT_BLUR_BASE64 } from '../_constants';
 
-interface IntroProps {
-  profileUrl: string;
-}
-
-const Intro = ({ profileUrl }: IntroProps) => {
+const Intro = async () => {
+  const profileUrl = await cachedFetchNotionProfileUrl();
   return (
     <section>
       <article

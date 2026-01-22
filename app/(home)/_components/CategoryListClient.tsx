@@ -4,7 +4,7 @@ import { useAtomValue } from 'jotai';
 
 import type { Category } from '@/interfaces';
 
-import { categoriesAtom, selectedCategoryAtom } from '../_atoms';
+import { selectedCategoryAtom } from '../_atoms';
 import { getCategoryColor } from '../_constants';
 import { useCategoryQueryParam } from '../_hooks';
 
@@ -54,9 +54,12 @@ const listClassName = [
   'bg-[hsla(0,0%,100%,.8)] dark:bg-[rgb(var(--color-bg-secondary)/.8)]',
 ].join(' ');
 
-const CategoryList = () => {
+interface CategoryListClientProps {
+  categories: Category[];
+}
+
+const CategoryListClient = ({ categories }: CategoryListClientProps) => {
   const { handleClickCategory } = useCategoryQueryParam();
-  const categories = useAtomValue(categoriesAtom);
   const selectedCategory = useAtomValue(selectedCategoryAtom);
 
   return (
@@ -78,4 +81,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default CategoryListClient;
