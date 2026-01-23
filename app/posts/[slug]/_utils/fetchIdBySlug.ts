@@ -1,8 +1,12 @@
-import { unstable_cache } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 
 import notionClient from '@/utils/notionClient';
 
-const fetchIdBySlugFn = async (slug: string, databaseId: string): Promise<string | null> => {
+export async function getCachedIdBySlug(slug: string, databaseId: string): Promise<string | null> {
+  'use cache';
+  cacheTag('post-id', slug);
+  cacheLife('hours');
+
   const response = await notionClient.dataSources.query({
     data_source_id: databaseId,
     filter: {
@@ -23,10 +27,4 @@ const fetchIdBySlugFn = async (slug: string, databaseId: string): Promise<string
   }
 
   return firstResult.id;
-};
-
-export const cachedFetchIdBySlug = unstable_cache(fetchIdBySlugFn, ['id-by-slug'], {
-  revalidate: 3600, // 1 hour
-});
-
-export const fetchIdBySlug = fetchIdBySlugFn;
+}

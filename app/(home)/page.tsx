@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
-import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
+import { getCachedProfileUrl } from '@/utils/fetchNotionProfileUrl';
 
 import CategoryListServer from './_components/CategoryListServer';
 import CategoryListSkeleton from './_components/CategoryListSkeleton';
@@ -13,7 +13,7 @@ import PostListSkeleton from './_components/PostListSkeleton';
 
 // 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
-  const profileUrl = await cachedFetchNotionProfileUrl();
+  const profileUrl = await getCachedProfileUrl();
   return buildSocialMetadata({ imageUrl: profileUrl });
 }
 

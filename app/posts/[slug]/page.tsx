@@ -1,25 +1,22 @@
 import type { Metadata } from 'next';
+import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
 import type { NotionBlock } from 'notion-to-utils';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
 import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
-import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
+import { getCachedPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import notionClient from '@/utils/notionClient';
 
 import Giscus from './_components/Giscus';
 import PostRenderer from './_components/PostRenderer';
 import {
-  cachedFetchIdBySlug,
-  cachedFetchNotionPageProperties,
   extractPostMetadata,
-  getSlugs,
+  getCachedIdBySlug,
+  getCachedPageProperties,
   type PostSEOData,
 } from './_utils';
-
-// 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
-export const revalidate = 300; // 5 minutes
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -27,10 +24,8 @@ interface PostPageProps {
 
 // 빌드 시점에 정적 경로 생성
 export async function generateStaticParams() {
-  const databaseItems = await cachedFetchNotionPostsMeta(env.notionPostDatabaseId);
-  const slugs = getSlugs(databaseItems);
-
-  return slugs.map((slug) => ({ slug }));
+  const posts = await getCachedPostsMeta();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 // 페이지 메타데이터 동적 생성
@@ -38,7 +33,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   const { slug } = await params;
 
   try {
-    const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
+    const id = await getCachedIdBySlug(slug, env.notionPostDatabaseId);
 
     if (!id) {
       return {
@@ -47,7 +42,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       };
     }
 
-    const properties = await cachedFetchNotionPageProperties(id);
+    const properties = await getCachedPageProperties(id);
     const seo = extractPostMetadata(properties);
     const pageUrl = `${siteConfig.url}/posts/${slug}`;
 
@@ -78,8 +73,12 @@ type FetchPostDataResult =
  * @returns Discriminated union으로 success/not_found/error 상태를 구분합니다.
  */
 async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
+  'use cache';
+  cacheTag('post', slug);
+  cacheLife('minutes');
+
   try {
-    const id = await cachedFetchIdBySlug(slug, env.notionPostDatabaseId);
+    const id = await getCachedIdBySlug(slug, env.notionPostDatabaseId);
 
     if (!id) {
       return { status: 'not_found' };
@@ -87,7 +86,7 @@ async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
 
     const [blocks, properties] = await Promise.all([
       notionClient.getPageBlocks(id),
-      cachedFetchNotionPageProperties(id),
+      getCachedPageProperties(id),
     ]);
 
     if (!blocks || blocks.length === 0) {

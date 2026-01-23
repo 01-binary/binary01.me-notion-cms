@@ -4,7 +4,7 @@ import { siteConfig } from 'site.config';
 import { GetPageResponse } from '@/interfaces';
 import { env } from '@/lib/env';
 import { createXmlErrorResponse, createXmlResponse } from '@/utils/createXmlResponse';
-import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
+import { fetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import getPostsMeta from '@/utils/getPostsMeta';
 
 export const revalidate = 300; // 5 minutes
@@ -34,7 +34,7 @@ const generateRssFeed = (notionPostsResponse: GetPageResponse[]) => {
 
 export async function GET() {
   try {
-    const databaseItems = await cachedFetchNotionPostsMeta(env.notionPostDatabaseId);
+    const databaseItems = await fetchNotionPostsMeta(env.notionPostDatabaseId);
     const rssXml = generateRssFeed(databaseItems);
     return createXmlResponse(rssXml);
   } catch (error) {

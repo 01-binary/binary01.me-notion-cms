@@ -1,21 +1,21 @@
-import { unstable_cache } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import { formatNotionImageUrl } from 'notion-to-utils';
 
 import { env } from '@/lib/env';
 import notionClient from '@/utils/notionClient';
 
-const fetchNotionProfileUrlFn = async () => {
+async function fetchNotionProfileUrlFn() {
   const url = await notionClient.getFileUrl(env.notionProfileId, 'media');
   const formattedUrl = formatNotionImageUrl(url, env.notionProfileId);
   return formattedUrl;
-};
+}
 
-export const cachedFetchNotionProfileUrl = unstable_cache(
-  fetchNotionProfileUrlFn,
-  ['profile-url'],
-  {
-    revalidate: false, // Indefinite cache
-  },
-);
+export async function getCachedProfileUrl(): Promise<string> {
+  'use cache';
+  cacheTag('profile');
+  cacheLife('max');
+
+  return fetchNotionProfileUrlFn();
+}
 
 export const fetchNotionProfileUrl = fetchNotionProfileUrlFn;

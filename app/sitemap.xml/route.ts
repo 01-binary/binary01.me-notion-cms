@@ -5,7 +5,7 @@ import { siteConfig } from 'site.config';
 import { PostMeta } from '@/interfaces';
 import { env } from '@/lib/env';
 import { createXmlErrorResponse, createXmlResponse } from '@/utils/createXmlResponse';
-import { cachedFetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
+import { fetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import getPostsMeta from '@/utils/getPostsMeta';
 
 export const revalidate = 600; // 10 minutes
@@ -64,7 +64,7 @@ const generateSitemapXml = (notionPostsResponse: GetPageResponse[]): string => {
 
 export async function GET() {
   try {
-    const databaseItems = await cachedFetchNotionPostsMeta(env.notionPostDatabaseId);
+    const databaseItems = await fetchNotionPostsMeta(env.notionPostDatabaseId);
     const sitemapXml = generateSitemapXml(databaseItems);
     return createXmlResponse(sitemapXml);
   } catch (error) {

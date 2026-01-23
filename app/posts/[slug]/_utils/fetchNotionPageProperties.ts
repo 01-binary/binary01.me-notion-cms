@@ -1,8 +1,12 @@
-import { unstable_cache } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 
 import notionClient from '@/utils/notionClient';
 
-const fetchNotionPagePropertiesFn = async (pageId: string) => {
+export async function getCachedPageProperties(pageId: string) {
+  'use cache';
+  cacheTag('page-properties', pageId);
+  cacheLife('hours');
+
   if (!pageId) {
     console.error('fetchPageProperties: pageId is undefined or empty');
     return null;
@@ -14,14 +18,4 @@ const fetchNotionPagePropertiesFn = async (pageId: string) => {
     console.error(`Error fetching page properties for ID "${pageId}":`, error);
     return null;
   }
-};
-
-export const cachedFetchNotionPageProperties = unstable_cache(
-  fetchNotionPagePropertiesFn,
-  ['page-properties'],
-  {
-    revalidate: 3600, // 1 hour
-  },
-);
-
-export const fetchNotionPageProperties = fetchNotionPagePropertiesFn;
+}
