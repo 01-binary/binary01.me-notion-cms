@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { cacheLife, cacheTag } from 'next/cache';
 import { notFound } from 'next/navigation';
 import type { NotionBlock } from 'notion-to-utils';
+import { cache } from 'react';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
@@ -18,6 +19,9 @@ import {
   type PostSEOData,
 } from './_utils';
 
+// 요청 레벨 중복제거를 위한 React.cache 래퍼
+const getPostId = cache((slug: string) => getCachedIdBySlug(slug, env.notionPostDatabaseId));
+
 interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -33,7 +37,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   const { slug } = await params;
 
   try {
-    const id = await getCachedIdBySlug(slug, env.notionPostDatabaseId);
+    const id = await getPostId(slug);
 
     if (!id) {
       return {
@@ -78,7 +82,7 @@ async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
   cacheLife('minutes');
 
   try {
-    const id = await getCachedIdBySlug(slug, env.notionPostDatabaseId);
+    const id = await getPostId(slug);
 
     if (!id) {
       return { status: 'not_found' };
