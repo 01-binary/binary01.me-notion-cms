@@ -15,7 +15,23 @@ interface NotionPageProperties {
 }
 
 const isNotionPageProperties = (obj: unknown): obj is NotionPageProperties => {
-  return typeof obj === 'object' && obj !== null;
+  if (typeof obj !== 'object' || obj === null) {
+    return false;
+  }
+
+  const record = obj as Record<string, unknown>;
+
+  // Name이 있으면 문자열이어야 함
+  if ('Name' in record && typeof record.Name !== 'string') {
+    return false;
+  }
+
+  // Desc가 있으면 문자열이어야 함
+  if ('Desc' in record && typeof record.Desc !== 'string') {
+    return false;
+  }
+
+  return true;
 };
 
 /**

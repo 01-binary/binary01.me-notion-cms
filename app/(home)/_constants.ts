@@ -25,3 +25,6 @@ export const DEFAULT_PAGE_SIZE = 8;
 
 export const DEFAULT_BLUR_BASE64 =
   'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNGM0Y0RjYiLz48L3N2Zz4=';
+
+// Skeleton
+export const SKELETON_BASE_CLASS = 'animate-pulse rounded-lg bg-gray-200 dark:bg-gray-700';
