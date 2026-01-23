@@ -31,24 +31,15 @@ const IntroSkeleton = () => {
             />
           </section>
           <section className="flex items-center gap-3">
-            <div
-              className={`
-                ${SKELETON_BASE_CLASS}
-                size-[26px] rounded-full
-              `}
-            />
-            <div
-              className={`
-                ${SKELETON_BASE_CLASS}
-                size-[26px] rounded-full
-              `}
-            />
-            <div
-              className={`
-                ${SKELETON_BASE_CLASS}
-                size-[26px] rounded-full
-              `}
-            />
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className={`
+                  ${SKELETON_BASE_CLASS}
+                  size-[26px] rounded-full
+                `}
+              />
+            ))}
           </section>
         </section>
       </article>

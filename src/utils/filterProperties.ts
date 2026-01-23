@@ -1,9 +1,5 @@
-import dayjs from 'dayjs';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-
 import { PageObjectResponse, PageProperties, SelectColor } from '@/interfaces';
-
-dayjs.extend(localizedFormat);
+import dayjs from '@/lib/dayjs';
 
 /**
  * Notion multi_select 속성에서 첫 번째 카테고리를 추출합니다.

@@ -24,7 +24,7 @@ const Intro = async () => {
           src={profileUrl}
           width={110}
           height={110}
-          alt={'Intro Picture'}
+          alt={`${siteConfig.author} 프로필 사진`}
           placeholder="blur"
           blurDataURL={DEFAULT_BLUR_BASE64}
         />

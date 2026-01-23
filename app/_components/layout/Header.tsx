@@ -31,12 +31,10 @@ const Header = () => {
 
           <ul className="flex items-center gap-2">
             {navLinkList.map(({ name, link }) => (
-              <Link
-                key={name}
-                href={link}
-                prefetch={false}
-              >
-                <li
+              <li key={name}>
+                <Link
+                  href={link}
+                  prefetch={false}
                   className="
                     cursor-pointer rounded-xl p-2 text-[18px] font-normal
                     transition-colors
@@ -44,8 +42,8 @@ const Header = () => {
                   "
                 >
                   {name}
-                </li>
-              </Link>
+                </Link>
+              </li>
             ))}
             <li>
               <ThemeSelect />

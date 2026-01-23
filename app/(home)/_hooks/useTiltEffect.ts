@@ -8,6 +8,18 @@ const CARD_PERSPECTIVE = 350;
 
 /**
  * 마우스 위치에 따른 3D 틸트 회전 각도를 계산합니다.
+ *
+ * 컨테이너를 반으로 나누어 선형 보간:
+ * - 왼쪽 절반 (0 → half): +MAX_TILT → 0 (왼쪽으로 기울어짐 → 평평)
+ * - 오른쪽 절반 (half → full): 0 → -MAX_TILT (평평 → 오른쪽으로 기울어짐)
+ *
+ * 수학 공식: y = slope * x + b (선형 방정식)
+ * - slope(기울기) = -MAX_TILT_ANGLE / halfSize
+ *
+ * @example
+ * calculateTiltAngle(0, 100)   // → +3 (왼쪽 끝)
+ * calculateTiltAngle(50, 100)  // → 0  (중앙)
+ * calculateTiltAngle(100, 100) // → -3 (오른쪽 끝)
  */
 const calculateTiltAngle = (mousePosition: number, containerSize: number): number => {
   const halfSize = containerSize / 2;
