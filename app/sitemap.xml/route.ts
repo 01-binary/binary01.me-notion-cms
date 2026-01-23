@@ -34,7 +34,7 @@ const generateSitemapXml = (notionPostsResponse: GetPageResponse[]): string => {
     .map((identifier) => {
       return `
     <url>
-      <loc>${siteConfig.url}/posts/${identifier.slug}</loc>
+      <loc>${siteConfig.url}/posts/${encodeURIComponent(identifier.slug)}</loc>
       <changefreq>daily</changefreq>
       <priority>0.7</priority>
       <lastmod>${identifier.published}</lastmod>

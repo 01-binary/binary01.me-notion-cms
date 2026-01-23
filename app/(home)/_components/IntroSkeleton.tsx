@@ -1,4 +1,4 @@
-const skeletonClassName = ['animate-pulse rounded-lg', 'bg-gray-200 dark:bg-gray-700'].join(' ');
+import { SKELETON_BASE_CLASS } from '../_constants';
 
 const IntroSkeleton = () => {
   return (
@@ -11,7 +11,7 @@ const IntroSkeleton = () => {
       >
         <div
           className={`
-            ${skeletonClassName}
+            ${SKELETON_BASE_CLASS}
             size-[110px] rounded-full
           `}
         />
@@ -19,36 +19,27 @@ const IntroSkeleton = () => {
           <section className="flex flex-col gap-2">
             <div
               className={`
-                ${skeletonClassName}
+                ${SKELETON_BASE_CLASS}
                 h-[34px] w-[120px]
               `}
             />
             <div
               className={`
-                ${skeletonClassName}
+                ${SKELETON_BASE_CLASS}
                 h-[24px] w-[200px]
               `}
             />
           </section>
           <section className="flex items-center gap-3">
-            <div
-              className={`
-                ${skeletonClassName}
-                size-[26px] rounded-full
-              `}
-            />
-            <div
-              className={`
-                ${skeletonClassName}
-                size-[26px] rounded-full
-              `}
-            />
-            <div
-              className={`
-                ${skeletonClassName}
-                size-[26px] rounded-full
-              `}
-            />
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className={`
+                  ${SKELETON_BASE_CLASS}
+                  size-[26px] rounded-full
+                `}
+              />
+            ))}
           </section>
         </section>
       </article>

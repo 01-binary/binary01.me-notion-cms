@@ -5,6 +5,13 @@ import { env } from '@/lib/env';
 import { filterCategoryProperties } from '@/utils/filterProperties';
 import notionClient from '@/utils/notionClient';
 
+/**
+ * Notion 데이터베이스에서 카테고리 목록을 가져옵니다.
+ *
+ * 각 카테고리별 포스트 수를 계산하고, 'All' 카테고리를 맨 앞에 추가합니다.
+ *
+ * @returns 포스트 수가 포함된 카테고리 배열
+ */
 export async function getCachedCategories(): Promise<Category[]> {
   'use cache';
   cacheTag('categories');

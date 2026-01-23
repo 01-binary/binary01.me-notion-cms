@@ -10,6 +10,13 @@ async function fetchNotionProfileUrlFn() {
   return formattedUrl;
 }
 
+/**
+ * Notion에서 프로필 이미지 URL을 가져옵니다.
+ *
+ * 'use cache'를 사용하여 최대 시간 동안 캐싱됩니다.
+ *
+ * @returns 프로필 이미지 URL
+ */
 export async function getCachedProfileUrl(): Promise<string> {
   'use cache';
   cacheTag('profile');
@@ -17,5 +24,3 @@ export async function getCachedProfileUrl(): Promise<string> {
 
   return fetchNotionProfileUrlFn();
 }
-
-export const fetchNotionProfileUrl = fetchNotionProfileUrlFn;

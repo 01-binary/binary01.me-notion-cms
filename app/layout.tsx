@@ -1,4 +1,4 @@
-// Global Styles - order matters: external first, then Tailwind
+// 전역 스타일 - 순서 중요: 외부 라이브러리 먼저, Tailwind는 마지막
 import 'notion-to-jsx/dist/index.css';
 import 'prismjs/themes/prism-tomorrow.css';
 import '@/assets/styles/index.css';

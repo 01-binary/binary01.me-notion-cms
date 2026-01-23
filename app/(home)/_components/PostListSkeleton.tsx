@@ -1,4 +1,4 @@
-const skeletonClassName = ['animate-pulse rounded-lg', 'bg-gray-200 dark:bg-gray-700'].join(' ');
+import { SKELETON_BASE_CLASS } from '../_constants';
 
 const imageContainerClassName = [
   'h-[190px] w-full rounded-2xl',
@@ -12,7 +12,7 @@ const PostCardSkeleton = () => {
     <li className="flex flex-col rounded-2xl">
       <div
         className={`
-          ${skeletonClassName}
+          ${SKELETON_BASE_CLASS}
           ${imageContainerClassName}
         `}
       />
@@ -20,13 +20,13 @@ const PostCardSkeleton = () => {
       <section className="flex flex-col gap-1 p-[10px]">
         <div
           className={`
-            ${skeletonClassName}
+            ${SKELETON_BASE_CLASS}
             h-[34px] w-[85%]
           `}
         />
         <div
           className={`
-            ${skeletonClassName}
+            ${SKELETON_BASE_CLASS}
             mt-1 h-[20px] w-[60%]
           `}
         />
@@ -34,13 +34,13 @@ const PostCardSkeleton = () => {
         <div className="flex items-center gap-2">
           <div
             className={`
-              ${skeletonClassName}
+              ${SKELETON_BASE_CLASS}
               h-[22px] w-[70px] rounded-sm
             `}
           />
           <div
             className={`
-              ${skeletonClassName}
+              ${SKELETON_BASE_CLASS}
               h-[18px] w-[80px]
             `}
           />

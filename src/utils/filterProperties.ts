@@ -1,9 +1,5 @@
-import dayjs from 'dayjs';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-
 import { PageObjectResponse, PageProperties, SelectColor } from '@/interfaces';
-
-dayjs.extend(localizedFormat);
+import dayjs from '@/lib/dayjs';
 
 /**
  * Notion multi_select 속성에서 첫 번째 카테고리를 추출합니다.
@@ -24,10 +20,17 @@ dayjs.extend(localizedFormat);
  * filterCategoryProperties({ type: 'rich_text', rich_text: [] });
  * // { id: '', name: '', color: 'default' }
  */
+const DEFAULT_CATEGORY = {
+  id: '',
+  name: '',
+  color: 'default',
+} as const satisfies { id: string; name: string; color: SelectColor };
+
 export const filterCategoryProperties = (target: PageProperties) => {
-  return target.type === 'multi_select'
-    ? target.multi_select[0]
-    : { id: '', name: '', color: 'default' as SelectColor };
+  if (target.type === 'multi_select' && target.multi_select.length > 0) {
+    return target.multi_select[0];
+  }
+  return DEFAULT_CATEGORY;
 };
 
 /**
@@ -61,7 +64,10 @@ export const filterTitleProperties = (target: PageProperties) => {
  * @returns 이미지 URL 또는 빈 문자열
  */
 export const filterCoverProperties = (target: PageObjectResponse['cover']) => {
-  return target?.type === 'file' ? target.file.url : (target?.external.url ?? '');
+  if (!target) return '';
+  if (target.type === 'file') return target.file.url;
+  if (target.type === 'external') return target.external.url;
+  return '';
 };
 
 /**
@@ -72,5 +78,6 @@ export const filterCoverProperties = (target: PageObjectResponse['cover']) => {
  * @returns 포맷팅된 날짜 문자열 (예: "January 20, 2026") 또는 빈 문자열
  */
 export const filterDateProperties = (target: PageProperties) => {
-  return target.type === 'date' ? dayjs(target.date?.start).format('LL') : '';
+  if (target.type !== 'date' || !target.date?.start) return '';
+  return dayjs(target.date.start).format('LL');
 };

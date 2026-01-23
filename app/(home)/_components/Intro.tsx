@@ -24,7 +24,7 @@ const Intro = async () => {
           src={profileUrl}
           width={110}
           height={110}
-          alt={'Intro Picture'}
+          alt={`${siteConfig.author} 프로필 사진`}
           placeholder="blur"
           blurDataURL={DEFAULT_BLUR_BASE64}
         />
@@ -45,16 +45,23 @@ const Intro = async () => {
             <Link
               href={`https://github.com/${siteConfig.github}`}
               target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub 프로필 방문"
             >
               <AiOutlineGithub size={'26px'} />
             </Link>
             <Link
               href={`https://www.linkedin.com/in/${siteConfig.linkedIn}`}
               target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn 프로필 방문"
             >
               <AiFillLinkedin size={'26px'} />
             </Link>
-            <Link href={`mailto:${siteConfig.mail}`}>
+            <Link
+              href={`mailto:${siteConfig.mail}`}
+              aria-label="이메일 보내기"
+            >
               <HiMail size={'26px'} />
             </Link>
           </section>
