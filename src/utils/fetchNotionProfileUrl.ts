@@ -17,5 +17,3 @@ export async function getCachedProfileUrl(): Promise<string> {
 
   return fetchNotionProfileUrlFn();
 }
-
-export const fetchNotionProfileUrl = fetchNotionProfileUrlFn;

@@ -48,5 +48,3 @@ export const env = {
   /** 블로그 URL (선택적) */
   blogUrl: getEnvVar('BLOG_URL', false),
 } as const;
-
-export type Env = typeof env;

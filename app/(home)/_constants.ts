@@ -1,4 +1,4 @@
-export const COLOR_TABLE = {
+const COLOR_TABLE = {
   purple: '#e9d5ff',
   yellow: '#fef9c3',
   green: '#bbf7d0',
@@ -11,7 +11,7 @@ export const COLOR_TABLE = {
   default: '#c8d6e5',
 } as const;
 
-export type CategoryColor = keyof typeof COLOR_TABLE;
+type CategoryColor = keyof typeof COLOR_TABLE;
 
 /** 카테고리 색상을 안전하게 가져옵니다 */
 export const getCategoryColor = (color: string | undefined): string =>
