@@ -1,4 +1,4 @@
-import { cacheLife, cacheTag, unstable_cache } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import type { GetPageResponse } from 'notion-to-utils';
 
 import type { PostMeta } from '@/interfaces';
@@ -7,7 +7,8 @@ import notionClient from '@/utils/notionClient';
 
 import getPostsMeta from './getPostsMeta';
 
-const fetchNotionPostsMetaFn = async (databaseId: string) => {
+// Route Handler용 (캐싱 없음 - Route의 revalidate로 캐싱)
+export async function fetchNotionPostsMeta(databaseId: string): Promise<GetPageResponse[]> {
   const response = await notionClient.dataSources.query({
     data_source_id: databaseId,
     filter:
@@ -43,16 +44,9 @@ const fetchNotionPostsMetaFn = async (databaseId: string) => {
   });
 
   return response.results as GetPageResponse[];
-};
+}
 
-export const cachedFetchNotionPostsMeta = unstable_cache(
-  fetchNotionPostsMetaFn,
-  ['posts-meta'],
-  { revalidate: 300 }, // 5 minutes
-);
-
-export const fetchNotionPostsMeta = fetchNotionPostsMetaFn;
-
+// 페이지 컴포넌트용 ('use cache' 캐싱)
 export async function getCachedPostsMeta(): Promise<PostMeta[]> {
   'use cache';
   cacheTag('posts');

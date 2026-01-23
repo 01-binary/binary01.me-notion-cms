@@ -1,19 +1,24 @@
 import type { Metadata } from 'next';
+import { cacheLife, cacheTag } from 'next/cache';
 import { siteConfig } from 'site.config';
 
 import { env } from '@/lib/env';
 import { buildSocialMetadata } from '@/utils/buildSocialMetadata';
-import { cachedFetchNotionProfileUrl } from '@/utils/fetchNotionProfileUrl';
+import { getCachedProfileUrl } from '@/utils/fetchNotionProfileUrl';
 import notionClient from '@/utils/notionClient';
 
 import AboutRenderer from './_components/AboutRenderer';
 
-// 페이지 단위 revalidation 설정 (Next.js 16: 리터럴 값만 허용)
-export const revalidate = 300; // 5 minutes
+async function getAboutPageBlocks() {
+  'use cache';
+  cacheTag('about');
+  cacheLife('minutes');
 
-// 페이지 메타데이터 생성
+  return notionClient.getPageBlocks(env.notionAboutId);
+}
+
 export async function generateMetadata(): Promise<Metadata> {
-  const profileUrl = await cachedFetchNotionProfileUrl();
+  const profileUrl = await getCachedProfileUrl();
   const pageUrl = `${siteConfig.url}/about`;
 
   return {
@@ -24,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const AboutPage = async () => {
-  const blocks = await notionClient.getPageBlocks(env.notionAboutId);
+  const blocks = await getAboutPageBlocks();
 
   return (
     <article>
