@@ -1,3 +1,6 @@
+/**
+ * Notion API 타입 및 블로그 도메인 타입 정의
+ */
 import {
   GetPageResponse,
   MultiSelectPropertyItemObjectResponse,
@@ -5,11 +8,17 @@ import {
 } from 'notion-to-utils';
 
 export type { GetPageResponse, PageObjectResponse };
+
+/** Notion multi_select 속성의 개별 항목 타입 */
 export type SelectPropertyResponse = MultiSelectPropertyItemObjectResponse['multi_select'][number];
+
+/** Notion select 색상 타입 */
 export type SelectColor = SelectPropertyResponse['color'];
 
+/** Notion 페이지의 개별 속성 타입 (discriminated union) */
 export type PageProperties = PageObjectResponse['properties'][string];
 
+/** 블로그 포스트 메타데이터 */
 export interface PostMeta {
   id: string;
   cover: string;
@@ -22,6 +31,7 @@ export interface PostMeta {
   blurImage?: string;
 }
 
+/** 카테고리 (포스트 수 포함) */
 export interface Category extends SelectPropertyResponse {
   count?: number;
 }

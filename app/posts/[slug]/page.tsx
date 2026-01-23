@@ -26,13 +26,11 @@ interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// 빌드 시점에 정적 경로 생성
 export async function generateStaticParams() {
   const posts = await getCachedPostsMeta();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-// 페이지 메타데이터 동적 생성
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
 

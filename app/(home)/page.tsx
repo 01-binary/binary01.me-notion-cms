@@ -11,7 +11,6 @@ import IntroSkeleton from './_components/IntroSkeleton';
 import PostListServer from './_components/PostListServer';
 import PostListSkeleton from './_components/PostListSkeleton';
 
-// 페이지 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
   const profileUrl = await getCachedProfileUrl();
   return buildSocialMetadata({ imageUrl: profileUrl });

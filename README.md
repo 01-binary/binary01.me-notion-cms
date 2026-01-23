@@ -1,63 +1,64 @@
-# NextJS Blog with Notion, Tailwindcss
+# binary01.me
 
-![intro](public/readme_intro.png)
+Notion을 CMS로 활용하는 개인 블로그
 
-## Intro
+[![Next.js](https://img.shields.io/badge/Next.js_16-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-Welcome to my personal blog built with NextJS, Notion API, and Tailwind CSS!
+<p align="center">
+  <img src="public/preview-light.png" width="49%" alt="Light Mode" />
+  <img src="public/preview-dark.png" width="49%" alt="Dark Mode" />
+</p>
 
-## Demo
+🔗 **Demo**: [binary01.me](https://binary01.me)
 
-- [My site](https://binary01.me)
+## ✨ 주요 기능
 
-## Features
+- **Notion CMS** - Notion 데이터베이스로 포스트 관리, 재배포 없이 콘텐츠 업데이트
+- **무한 스크롤** - 카테고리 필터링과 함께 동작하는 무한 스크롤
+- **이미지 최적화** - Plaiceholder로 blur placeholder 자동 생성
+- **다크 모드** - 시스템 설정 연동 + 수동 전환 지원
+- **댓글** - Giscus 기반 GitHub Discussions 댓글
 
-- Built with Next.js, TypeScript, Tailwind CSS, and Jotai
-- Supports responsive design
-- Quickly configurable with the `site.config.ts` file
-- Supports infinite scrolling
-- Fetches posts from Notion DB using Notion API
-- Allows post updates without redeployment using Next.js Revalidate when Notion DB changes
-- Image thumbnail previews using the `lqip-modern` library
-- Commenting feature with Giscus
+## 🛠 기술 스택
 
-## Installation
+| 분류 | 기술 |
+|------|------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript 5.8 |
+| Styling | Tailwind CSS 4 |
+| State | Jotai |
+| CMS | Notion API |
+| Optimization | React Compiler, Plaiceholder |
+| Comment | Giscus |
 
-1. Clone the repository:
+## 🚀 시작하기
 
-   ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   ```
+```bash
+# 의존성 설치
+pnpm install
 
-2. Navigate to the project directory:
+# 환경 변수 설정
+cp .env.example .env.local
+```
 
-   ```bash
-   cd your-repo-name
-   ```
+`.env.local` 설정:
 
-3. Install the dependencies:
+```bash
+NOTION_TOKEN=your_notion_token
+NOTION_POST_DATABASE_ID=your_database_id
+NOTION_ABOUT_ID=your_about_page_id
+NOTION_PROFILE_ID=your_profile_image_id
+BLOG_URL=https://your-domain.com
+```
 
-   ```bash
-   yarn
-   ```
+```bash
+# 개발 서버 실행
+pnpm dev
+```
 
-4. Set up the environment variables. Create a .env.local file and add your Notion API key and database ID:
+## 📝 License
 
-   ```bash
-   NOTION_TOKEN=your_notion_token
-   NOTION_POST_DATABASE_ID=your_notion_post_id
-   NOTION_ABOUT_ID=about_your_notion_about_id
-   BLOG_URL=your_blog_addr // ex: https://binary01.me
-   ```
-
-5. Run the development server:
-
-   ```bash
-   yarn dev
-   ```
-
-6. Open your browser and visit http://localhost:3000 to see the blog in action.
-
-## License
-
-MIT © [Lee Jinsoo](https://binary01.me)
+MIT © [Jinsoo Lee](https://binary01.me)

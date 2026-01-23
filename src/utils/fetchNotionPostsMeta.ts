@@ -7,7 +7,7 @@ import notionClient from '@/utils/notionClient';
 
 import getPostsMeta from './getPostsMeta';
 
-// 공통 쿼리 옵션 생성
+/** Notion 데이터베이스 쿼리용 공통 옵션을 생성합니다 */
 const createPostsQueryOptions = () => {
   const filter =
     process.env.NODE_ENV === 'production'
@@ -24,7 +24,14 @@ const createPostsQueryOptions = () => {
   return { filter, sorts };
 };
 
-// Route Handler용 (캐싱 없음 - Route의 revalidate로 캐싱)
+/**
+ * Notion에서 포스트 메타데이터를 가져옵니다. (Route Handler용)
+ *
+ * 캐싱 없이 직접 호출되며, Route의 revalidate로 캐싱됩니다.
+ *
+ * @param databaseId - Notion 데이터베이스 ID
+ * @returns Notion 페이지 응답 배열
+ */
 export async function fetchNotionPostsMeta(databaseId: string): Promise<GetPageResponse[]> {
   const response = await notionClient.dataSources.query({
     data_source_id: databaseId,
@@ -34,7 +41,13 @@ export async function fetchNotionPostsMeta(databaseId: string): Promise<GetPageR
   return response.results as GetPageResponse[];
 }
 
-// 페이지 컴포넌트용 ('use cache' 캐싱)
+/**
+ * Notion에서 포스트 메타데이터를 가져옵니다. (페이지 컴포넌트용)
+ *
+ * 'use cache'를 사용하여 분 단위로 캐싱됩니다.
+ *
+ * @returns 블로그 포스트 메타데이터 배열
+ */
 export async function getCachedPostsMeta(): Promise<PostMeta[]> {
   'use cache';
   cacheTag('posts');

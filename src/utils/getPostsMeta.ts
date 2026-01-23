@@ -9,6 +9,12 @@ import {
   filterTitleProperties,
 } from '@/utils/filterProperties';
 
+/**
+ * Notion 페이지 응답 배열을 PostMeta 배열로 변환합니다.
+ *
+ * @param notionPostsResponse - Notion API에서 받은 페이지 응답 배열
+ * @returns 블로그 포스트 메타데이터 배열
+ */
 const getPostsMeta = (notionPostsResponse: GetPageResponse[]) => {
   const postsMeta = notionPostsResponse.reduce<PostMeta[]>((acc, item) => {
     if (!('properties' in item)) return acc;
