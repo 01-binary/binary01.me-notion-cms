@@ -1,15 +1,15 @@
 /** Notion 카테고리 색상을 HEX 코드로 매핑 */
 const COLOR_TABLE = {
   purple: '#e9d5ff',
-  yellow: '#fef9c3',
+  yellow: '#fef08a',
   green: '#bbf7d0',
   blue: '#bfdbfe',
   pink: '#fbcfe8',
-  brown: '#eee0da',
+  brown: '#e7e5e4',
   red: '#fecaca',
   orange: '#fed7aa',
-  gray: '#f3f4f6',
-  default: '#c8d6e5',
+  gray: '#e5e7eb',
+  default: '#cbd5e1',
 } as const;
 
 type CategoryColor = keyof typeof COLOR_TABLE;
