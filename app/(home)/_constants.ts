@@ -1,22 +1,40 @@
-/** Notion 카테고리 색상을 HEX 코드로 매핑 */
-const COLOR_TABLE = {
-  purple: '#e9d5ff',
-  yellow: '#fef08a',
-  green: '#bbf7d0',
-  blue: '#bfdbfe',
-  pink: '#fbcfe8',
-  brown: '#e7e5e4',
-  red: '#fecaca',
-  orange: '#fed7aa',
-  gray: '#e5e7eb',
-  default: '#cbd5e1',
+/** Notion 카테고리 색상을 Tailwind 배경색 클래스로 매핑 */
+const BG_COLORS = {
+  purple: 'bg-purple-200',
+  yellow: 'bg-yellow-200',
+  green: 'bg-green-200',
+  blue: 'bg-blue-200',
+  pink: 'bg-pink-200',
+  brown: 'bg-stone-200',
+  red: 'bg-red-200',
+  orange: 'bg-orange-200',
+  gray: 'bg-gray-200',
+  default: 'bg-slate-200',
 } as const;
 
-type CategoryColor = keyof typeof COLOR_TABLE;
+/** Notion 카테고리 색상을 Tailwind 테두리색 클래스로 매핑 */
+const BORDER_COLORS = {
+  purple: 'border-purple-200',
+  yellow: 'border-yellow-200',
+  green: 'border-green-200',
+  blue: 'border-blue-200',
+  pink: 'border-pink-200',
+  brown: 'border-stone-200',
+  red: 'border-red-200',
+  orange: 'border-orange-200',
+  gray: 'border-gray-200',
+  default: 'border-slate-200',
+} as const;
 
-/** Notion 카테고리 색상 이름을 HEX 코드로 변환합니다 */
-export const getCategoryColor = (color: string | undefined): string =>
-  COLOR_TABLE[color as CategoryColor] ?? COLOR_TABLE.default;
+type CategoryColor = keyof typeof BG_COLORS;
+
+/** Notion 카테고리 색상 이름을 Tailwind 배경색 클래스로 변환합니다 */
+export const getCategoryBgClass = (color: string | undefined): string =>
+  BG_COLORS[color as CategoryColor] ?? BG_COLORS.default;
+
+/** Notion 카테고리 색상 이름을 Tailwind 테두리색 클래스로 변환합니다 */
+export const getCategoryBorderClass = (color: string | undefined): string =>
+  BORDER_COLORS[color as CategoryColor] ?? BORDER_COLORS.default;
 
 /** 카테고리 필터 초기값 ('All' = 전체 보기) */
 export const INITIAL_CATEGORY = 'All';

@@ -5,7 +5,7 @@ import { useAtomValue } from 'jotai';
 import type { Category } from '@/interfaces';
 
 import { selectedCategoryAtom } from '../_atoms';
-import { getCategoryColor } from '../_constants';
+import { getCategoryBorderClass } from '../_constants';
 import { useCategoryQueryParam } from '../_hooks';
 
 interface CategoryButtonProps {
@@ -23,7 +23,7 @@ const categoryButtonClassName = [
 
 const CategoryButton = ({ category, isSelected, onSelect }: CategoryButtonProps) => {
   const { name, color, count } = category;
-  const borderColor = isSelected ? getCategoryColor(color) : 'transparent';
+  const borderColorClass = isSelected ? getCategoryBorderClass(color) : 'border-transparent';
 
   const handleClick = () => {
     onSelect(name);
@@ -33,9 +33,11 @@ const CategoryButton = ({ category, isSelected, onSelect }: CategoryButtonProps)
     <li>
       <button
         type="button"
-        className={categoryButtonClassName}
+        className={`
+          ${categoryButtonClassName}
+          ${borderColorClass}
+        `}
         onClick={handleClick}
-        style={{ borderColor }}
         aria-pressed={isSelected}
       >
         {`${name} (${count})`}

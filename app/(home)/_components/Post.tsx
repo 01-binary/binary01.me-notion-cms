@@ -7,7 +7,7 @@ import { siteConfig } from 'site.config';
 
 import type { PostMeta } from '@/interfaces';
 
-import { DEFAULT_BLUR_BASE64, getCategoryColor } from '../_constants';
+import { DEFAULT_BLUR_BASE64, getCategoryBgClass } from '../_constants';
 import { useTiltEffect } from '../_hooks';
 
 interface PostProps {
@@ -75,8 +75,10 @@ const Post = ({ post }: PostProps) => {
           <div className="h-2" />
           <div className="flex items-center gap-2">
             <span
-              className="rounded-sm px-2 py-px text-[12px] text-gray-800"
-              style={{ backgroundColor: getCategoryColor(category?.color) }}
+              className={`
+                rounded-sm px-2 py-px text-[12px] text-gray-800
+                ${getCategoryBgClass(category?.color)}
+              `}
             >
               {category.name}
             </span>
