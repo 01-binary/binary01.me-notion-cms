@@ -2,9 +2,9 @@
  * Notion API 타입 및 블로그 도메인 타입 정의
  */
 import {
-  GetPageResponse,
-  MultiSelectPropertyItemObjectResponse,
-  PageObjectResponse,
+  type GetPageResponse,
+  type MultiSelectPropertyItemObjectResponse,
+  type PageObjectResponse,
 } from 'notion-to-utils';
 
 export type { GetPageResponse, PageObjectResponse };

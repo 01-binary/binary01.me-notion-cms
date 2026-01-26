@@ -1,0 +1,5 @@
+{
+  "eslint.useFlatConfig": true,
+  "eslint.probe": ["typescript", "typescriptreact"],
+  "eslint.validate": ["typescript", "typescriptreact"]
+}

@@ -4,7 +4,7 @@ import 'prismjs/themes/prism-tomorrow.css';
 import '@/assets/styles/index.css';
 
 import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { siteConfig } from 'site.config';
 
 import SiteLayout from './_components/layout';
