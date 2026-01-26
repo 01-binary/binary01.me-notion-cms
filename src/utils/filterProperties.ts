@@ -1,4 +1,4 @@
-import { PageObjectResponse, PageProperties, SelectColor } from '@/interfaces';
+import { type PageObjectResponse, type PageProperties, type SelectColor } from '@/interfaces';
 import dayjs from '@/lib/dayjs';
 
 /**

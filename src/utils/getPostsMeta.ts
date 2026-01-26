@@ -1,6 +1,6 @@
 import { formatNotionImageUrl } from 'notion-to-utils';
 
-import { GetPageResponse, PostMeta } from '@/interfaces';
+import { type GetPageResponse, type PostMeta } from '@/interfaces';
 import {
   filterCategoryProperties,
   filterCoverProperties,

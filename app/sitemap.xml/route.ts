@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { GetPageResponse } from 'notion-to-utils';
+import { type GetPageResponse } from 'notion-to-utils';
 import { siteConfig } from 'site.config';
 
 import { PostMeta } from '@/interfaces';

@@ -1,7 +1,7 @@
 import RSS from 'rss';
 import { siteConfig } from 'site.config';
 
-import { GetPageResponse } from '@/interfaces';
+import { type GetPageResponse } from '@/interfaces';
 import { env } from '@/lib/env';
 import { createXmlErrorResponse, createXmlResponse } from '@/utils/createXmlResponse';
 import { fetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
