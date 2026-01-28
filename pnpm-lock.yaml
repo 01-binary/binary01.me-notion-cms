@@ -27,8 +27,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       notion-to-utils:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.1.0
+        version: 2.1.0
       p-map:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1965,8 +1965,8 @@ packages:
       react: ^19.0.0
       react-dom: ^19.0.0
 
-  notion-to-utils@2.0.0:
-    resolution: {integrity: sha512-2jEGz3yLWAL60sVoVm7VMJVQ7Cz9U2sJKzzwurEU+aoxEeT7bEpq7m44lYYXqiCkzSyJTo+XaEwN0QGCbLBn2A==}
+  notion-to-utils@2.1.0:
+    resolution: {integrity: sha512-reXIW8Zisez/9Pk71PxrMPBgrktpSwvuXEt7IjQImieqK4ZmU8puIQwGTIWdZExp+hodl+tDl4nVr4ebs4IViA==}
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -4554,7 +4554,7 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  notion-to-utils@2.0.0:
+  notion-to-utils@2.1.0:
     dependencies:
       '@notionhq/client': 5.7.0
       open-graph-scraper: 6.11.0
