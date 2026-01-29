@@ -1,8 +1,8 @@
 import { cacheLife, cacheTag } from 'next/cache';
+import { extractValuesFromProperties } from 'notion-to-utils';
 
 import type { Category, GetPageResponse, SelectPropertyResponse } from '@/interfaces';
 import { env } from '@/lib/env';
-import { filterCategoryProperties } from '@/utils/filterProperties';
 import notionClient from '@/utils/notionClient';
 
 /**
@@ -56,9 +56,8 @@ export async function getCachedCategories(): Promise<Category[]> {
   const categories = notionPostsResponse
     .map((post) => {
       if (!('properties' in post)) return null;
-      const { Category } = post.properties;
-      const category = filterCategoryProperties(Category);
-      return category;
+      const extracted = extractValuesFromProperties(post.properties);
+      return extracted.Category as SelectPropertyResponse | null;
     })
     .filter((category): category is SelectPropertyResponse => category !== null);
 
