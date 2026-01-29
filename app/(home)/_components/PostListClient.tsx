@@ -1,18 +1,38 @@
 'use client';
 
+import { useSetAtom } from 'jotai';
+import { useRef } from 'react';
+
 import type { PostMeta } from '@/interfaces';
 
-import { useFilteredPosts } from '../_hooks';
+import { postPageResettableAtom } from '../_atoms';
+import { useFilteredPagedPosts } from '../_hooks';
+import useIntersectionObserver from '../_hooks/useIntersectionObserver';
 import Post from './Post';
 
 const ulClassName = ['grid grid-cols-1 gap-8', 'md:grid-cols-2'].join(' ');
+
+const LoadMoreTrigger = ({ onLoadMore }: { onLoadMore: () => void }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useIntersectionObserver(ref, {
+    onIntersect: (entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        onLoadMore();
+      }
+    },
+  });
+
+  return <div ref={ref} />;
+};
 
 interface PostListClientProps {
   initialPosts: PostMeta[];
 }
 
 const PostListClient = ({ initialPosts }: PostListClientProps) => {
-  const { pagedPosts, sentinelRef } = useFilteredPosts(initialPosts);
+  const pagedPosts = useFilteredPagedPosts(initialPosts);
+  const setPostPage = useSetAtom(postPageResettableAtom);
 
   return (
     <>
@@ -27,7 +47,7 @@ const PostListClient = ({ initialPosts }: PostListClientProps) => {
           ))}
         </ul>
       </section>
-      <div ref={sentinelRef} />
+      <LoadMoreTrigger onLoadMore={() => setPostPage((prev) => prev + 1)} />
     </>
   );
 };
