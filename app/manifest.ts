@@ -17,8 +17,8 @@ export default function manifest(): MetadataRoute.Manifest {
         type: 'image/png',
       },
       {
-        src: '/ms-icon-310x310.png',
-        sizes: '310x310',
+        src: '/icon-512x512.png',
+        sizes: '512x512',
         type: 'image/png',
       },
     ],
