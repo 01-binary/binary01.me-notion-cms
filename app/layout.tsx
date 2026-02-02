@@ -8,6 +8,7 @@ import { type ReactNode } from 'react';
 import { siteConfig } from 'site.config';
 
 import SiteLayout from './_components/layout';
+import ServiceWorkerRegister from './_components/ServiceWorkerRegister';
 import JotaiProvider from './_providers/JotaiProvider';
 import ThemeProvider from './_providers/ThemeProvider';
 
@@ -71,6 +72,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
+        <ServiceWorkerRegister />
         <JotaiProvider>
           <ThemeProvider>
             <SiteLayout>{children}</SiteLayout>
