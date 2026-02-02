@@ -31,6 +31,9 @@ export const metadata: Metadata = {
   },
   authors: [{ name: siteConfig.author }],
   description: siteConfig.seoDefaultDesc,
+  icons: {
+    apple: '/apple-icon-180x180.png',
+  },
   alternates: {
     canonical: `${siteConfig.url}`,
   },
