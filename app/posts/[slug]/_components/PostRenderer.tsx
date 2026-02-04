@@ -19,6 +19,10 @@ const PostRenderer = ({ blocks, title, cover }: PostRendererProps) => {
       title={title}
       cover={cover}
       isDarkMode={isDarkMode}
+      showToc
+      tocStyle={{
+        scrollOffset: 60,
+      }}
     />
   );
 };

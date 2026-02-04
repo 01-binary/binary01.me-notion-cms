@@ -24,8 +24,8 @@ importers:
         specifier: ^16.1.1
         version: 16.1.1(@babel/core@7.28.6)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       notion-to-jsx:
-        specifier: ^2.0.1
-        version: 2.0.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: ^2.1.4
+        version: 2.1.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       notion-to-utils:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1959,8 +1959,8 @@ packages:
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
 
-  notion-to-jsx@2.0.1:
-    resolution: {integrity: sha512-zKS3yHb4v2AuYn9Gv+kmO1SlIxIbtJOVXUtVONOtJ+q5iUO0OGi0Jk0DrT9SaQicKdev/x5zviWTiiMmCNJazg==}
+  notion-to-jsx@2.1.4:
+    resolution: {integrity: sha512-4C6YMsnpaScpoZb+aXhtlDjyNWGsak0lmxyPGvqrIl7Az9+N7xrjXiRqT1gzwiJDon6b/hy3Dc7cEbRwx+Fcog==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -4543,7 +4543,7 @@ snapshots:
 
   node-releases@2.0.19: {}
 
-  notion-to-jsx@2.0.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  notion-to-jsx@2.1.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@vanilla-extract/css': 1.18.0
       '@vanilla-extract/recipes': 0.5.7(@vanilla-extract/css@1.18.0)

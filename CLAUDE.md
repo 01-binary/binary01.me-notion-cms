@@ -2,6 +2,10 @@
 
 이 프로젝트의 코딩 컨벤션과 주의사항을 정리한 문서입니다.
 
+## 패키지 매니저
+
+이 프로젝트는 **pnpm**을 사용합니다. npm이나 yarn 대신 pnpm을 사용하세요.
+
 ## React Compiler 사용
 
 이 프로젝트는 **React Compiler**를 사용합니다. React Compiler가 자동으로 메모이제이션을 처리하므로:
