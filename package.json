@@ -16,7 +16,7 @@
     "dayjs": "^1.11.19",
     "jotai": "^2.16.2",
     "next": "^16.1.1",
-    "notion-to-jsx": "^2.1.4",
+    "notion-to-jsx": "^2.1.6",
     "notion-to-utils": "^2.1.1",
     "p-map": "^7.0.3",
     "plaiceholder": "^3.0.0",
