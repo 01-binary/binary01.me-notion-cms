@@ -1,19 +1,16 @@
 /**
  * Notion API 타입 및 블로그 도메인 타입 정의
  */
-import {
-  type GetPageResponse,
-  type MultiSelectPropertyItemObjectResponse,
-  type PageObjectResponse,
-} from 'notion-to-utils';
+import { type GetPageResponse, type PageObjectResponse } from 'notion-to-utils';
 
 export type { GetPageResponse, PageObjectResponse };
 
-/** Notion multi_select 속성의 개별 항목 타입 */
-export type SelectPropertyResponse = MultiSelectPropertyItemObjectResponse['multi_select'][number];
-
-/** Notion select 색상 타입 */
-export type SelectColor = SelectPropertyResponse['color'];
+/** Notion select 속성의 값 타입 */
+export interface SelectPropertyResponse {
+  id: string;
+  name: string;
+  color: string;
+}
 
 /** Notion 페이지의 개별 속성 타입 (discriminated union) */
 export type PageProperties = PageObjectResponse['properties'][string];
