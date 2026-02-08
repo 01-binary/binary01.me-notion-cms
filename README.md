@@ -51,7 +51,6 @@ NOTION_TOKEN=your_notion_token
 NOTION_POST_DATABASE_ID=your_database_id
 NOTION_ABOUT_ID=your_about_page_id
 NOTION_PROFILE_ID=your_profile_image_id
-BLOG_URL=https://your-domain.com
 ```
 
 ```bash

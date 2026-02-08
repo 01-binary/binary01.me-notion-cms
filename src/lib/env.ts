@@ -9,8 +9,7 @@ type EnvVarName =
   | 'NOTION_TOKEN'
   | 'NOTION_POST_DATABASE_ID'
   | 'NOTION_PROFILE_ID'
-  | 'NOTION_ABOUT_ID'
-  | 'BLOG_URL';
+  | 'NOTION_ABOUT_ID';
 
 /**
  * 환경변수를 가져옵니다. 필수 변수가 없으면 에러를 던집니다.
@@ -44,7 +43,4 @@ export const env = {
 
   /** Notion About 페이지 ID */
   notionAboutId: getEnvVar('NOTION_ABOUT_ID'),
-
-  /** 블로그 URL (선택적) */
-  blogUrl: getEnvVar('BLOG_URL', false),
 } as const;
