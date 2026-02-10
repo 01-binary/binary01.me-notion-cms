@@ -44,14 +44,14 @@ export async function fetchNotionPostsMeta(databaseId: string): Promise<GetPageR
 /**
  * Notion에서 포스트 메타데이터를 가져옵니다. (페이지 컴포넌트용)
  *
- * 'use cache'를 사용하여 분 단위로 캐싱됩니다.
+ * 'use cache'를 사용하여 시간 단위로 캐싱됩니다.
  *
  * @returns 블로그 포스트 메타데이터 배열
  */
 export async function getCachedPostsMeta(): Promise<PostMeta[]> {
   'use cache';
   cacheTag('posts');
-  cacheLife('minutes');
+  cacheLife('hoursForever');
 
   const response = await notionClient.dataSources.query({
     data_source_id: env.notionPostDatabaseId,

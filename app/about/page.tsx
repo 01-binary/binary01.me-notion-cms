@@ -12,7 +12,7 @@ import AboutRenderer from './_components/AboutRenderer';
 async function getAboutPageBlocks() {
   'use cache';
   cacheTag('about');
-  cacheLife('minutes');
+  cacheLife('daysForever');
 
   return notionClient.getPageBlocks(env.notionAboutId);
 }

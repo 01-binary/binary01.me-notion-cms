@@ -5,7 +5,7 @@ import notionClient from '@/utils/notionClient';
 export async function getCachedPageProperties(pageId: string) {
   'use cache';
   cacheTag('page-properties', pageId);
-  cacheLife('hours');
+  cacheLife('weeksForever');
 
   if (!pageId) {
     console.error('fetchPageProperties: pageId is undefined or empty');
