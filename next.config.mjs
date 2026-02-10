@@ -10,6 +10,23 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },
+  cacheLife: {
+    // hours + expire: never
+    hoursForever: {
+      stale: 300, // 5분
+      revalidate: 3600, // 1시간
+    },
+    // days + expire: never
+    daysForever: {
+      stale: 300, // 5분
+      revalidate: 86400, // 1일
+    },
+    // weeks + expire: never
+    weeksForever: {
+      stale: 300, // 5분
+      revalidate: 604800, // 1주
+    },
+  },
   experimental: {
     optimizePackageImports: ['dayjs'],
     useCache: true,

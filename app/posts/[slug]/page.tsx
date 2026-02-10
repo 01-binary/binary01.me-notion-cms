@@ -77,7 +77,7 @@ type FetchPostDataResult =
 async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
   'use cache';
   cacheTag('post', slug);
-  cacheLife('minutes');
+  cacheLife('daysForever');
 
   try {
     const id = await getPostId(slug);

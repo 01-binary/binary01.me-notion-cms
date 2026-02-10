@@ -15,7 +15,7 @@ import notionClient from '@/utils/notionClient';
 export async function getCachedCategories(): Promise<Category[]> {
   'use cache';
   cacheTag('categories');
-  cacheLife('minutes');
+  cacheLife('hoursForever');
 
   const response = await notionClient.dataSources.query({
     data_source_id: env.notionPostDatabaseId,
