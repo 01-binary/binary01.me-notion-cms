@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { type GetPageResponse } from 'notion-to-utils';
 import { siteConfig } from 'site.config';
 
-import { PostMeta } from '@/interfaces';
+import { type PostMeta } from '@/interfaces';
 import { env } from '@/lib/env';
 import { createXmlErrorResponse, createXmlResponse } from '@/utils/createXmlResponse';
 import { fetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
@@ -30,12 +30,14 @@ const getSitemapPostIdentifiers = (
 const generateSitemapXml = (notionPostsResponse: GetPageResponse[]): string => {
   const postIdentifiers = getSitemapPostIdentifiers(notionPostsResponse);
 
+  const now = dayjs();
   const postUrls = postIdentifiers
     .map((identifier) => {
+      const isRecent = now.diff(dayjs(identifier.published), 'day') <= 30;
       return `
     <url>
       <loc>${siteConfig.url}/posts/${encodeURIComponent(identifier.slug)}</loc>
-      <changefreq>daily</changefreq>
+      <changefreq>${isRecent ? 'weekly' : 'monthly'}</changefreq>
       <priority>0.7</priority>
       <lastmod>${identifier.published}</lastmod>
     </url>`;
@@ -46,7 +48,7 @@ const generateSitemapXml = (notionPostsResponse: GetPageResponse[]): string => {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${siteConfig.url}</loc>
-    <changefreq>daily</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <lastmod>${dayjs().format('YYYY-MM-DD')}</lastmod>
   </url>

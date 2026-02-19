@@ -5,12 +5,14 @@ export interface PostSEOData {
   description: string;
   keywords: string;
   coverUrl: string;
+  published: string;
 }
 
 interface NotionPageProperties {
   Name?: string;
   Desc?: string;
   Category?: { name?: string };
+  Date?: { start?: string | null };
   coverUrl?: string;
 }
 
@@ -47,6 +49,7 @@ export const extractPostMetadata = (
       description: siteConfig.seoDefaultDesc,
       keywords: '',
       coverUrl: '',
+      published: '',
     };
   }
 
@@ -55,5 +58,6 @@ export const extractPostMetadata = (
     description: properties.Desc || siteConfig.seoDefaultDesc,
     keywords: properties.Category?.name || '',
     coverUrl: properties.coverUrl || '',
+    published: properties.Date?.start || '',
   };
 };

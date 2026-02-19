@@ -25,9 +25,9 @@ const Header = () => {
             p-3
           "
         >
-          <h1 className="text-[20px] font-medium">
+          <p className="text-[20px] font-medium">
             <Link href={'/'}>{siteConfig.blogName}</Link>
-          </h1>
+          </p>
 
           <ul className="flex items-center gap-2">
             {navLinkList.map(({ name, link }) => (
