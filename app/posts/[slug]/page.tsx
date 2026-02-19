@@ -123,9 +123,9 @@ const PostPage = async ({ params }: PostPageProps) => {
     '@type': 'BlogPosting',
     headline: seo.title,
     description: seo.description,
-    author: { '@type': 'Person', name: siteConfig.author },
+    author: { '@type': 'Person', name: siteConfig.author, url: siteConfig.url },
     url: `${siteConfig.url}/posts/${slug}`,
-    ...(seo.published && { datePublished: seo.published }),
+    ...(seo.published && { datePublished: `${seo.published}T00:00:00+09:00` }),
     ...(seo.coverUrl && { image: seo.coverUrl }),
   };
 
