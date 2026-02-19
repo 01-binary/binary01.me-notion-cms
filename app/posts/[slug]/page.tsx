@@ -118,8 +118,23 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   const { blocks, seo } = result;
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: seo.title,
+    description: seo.description,
+    author: { '@type': 'Person', name: siteConfig.author },
+    url: `${siteConfig.url}/posts/${slug}`,
+    ...(seo.published && { datePublished: seo.published }),
+    ...(seo.coverUrl && { image: seo.coverUrl }),
+  };
+
   return (
     <article>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <PostRenderer
         blocks={blocks}
         title={seo.title}
