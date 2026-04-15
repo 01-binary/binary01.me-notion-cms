@@ -1,15 +1,11 @@
 import RSS from 'rss';
 import { siteConfig } from 'site.config';
 
-import { type GetPageResponse } from '@/interfaces';
-import { env } from '@/lib/env';
+import { type PostMeta } from '@/interfaces';
 import { createXmlErrorResponse, createXmlResponse } from '@/utils/createXmlResponse';
-import { fetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
-import getPostsMeta from '@/utils/getPostsMeta';
+import { getCachedPostsMeta } from '@/utils/fetchNotionPostsMeta';
 
-export const revalidate = 300; // 5 minutes
-
-const generateRssFeed = (notionPostsResponse: GetPageResponse[]) => {
+const generateRssFeed = (postsMeta: PostMeta[]) => {
   const feedOptions = {
     title: `${siteConfig.homeTitle} | ${siteConfig.blogName}`,
     description: siteConfig.seoDefaultDesc,
@@ -20,7 +16,7 @@ const generateRssFeed = (notionPostsResponse: GetPageResponse[]) => {
   };
 
   const feed = new RSS(feedOptions);
-  getPostsMeta(notionPostsResponse).forEach(({ title, description, slug, published }) => {
+  postsMeta.forEach(({ title, description, slug, published }) => {
     feed.item({
       title,
       description,
@@ -34,8 +30,8 @@ const generateRssFeed = (notionPostsResponse: GetPageResponse[]) => {
 
 export async function GET() {
   try {
-    const databaseItems = await fetchNotionPostsMeta(env.notionPostDatabaseId);
-    const rssXml = generateRssFeed(databaseItems);
+    const postsMeta = await getCachedPostsMeta();
+    const rssXml = generateRssFeed(postsMeta);
     return createXmlResponse(rssXml);
   } catch (error) {
     return createXmlErrorResponse('Could not generate RSS feed.', error);

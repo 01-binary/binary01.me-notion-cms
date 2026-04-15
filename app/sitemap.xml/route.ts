@@ -1,22 +1,14 @@
 import dayjs from 'dayjs';
-import { type GetPageResponse } from 'notion-to-utils';
 import { siteConfig } from 'site.config';
 
 import { type PostMeta } from '@/interfaces';
-import { env } from '@/lib/env';
 import { createXmlErrorResponse, createXmlResponse } from '@/utils/createXmlResponse';
-import { fetchNotionPostsMeta } from '@/utils/fetchNotionPostsMeta';
-import getPostsMeta from '@/utils/getPostsMeta';
-
-export const revalidate = 600; // 10 minutes
+import { getCachedPostsMeta } from '@/utils/fetchNotionPostsMeta';
 
 type SitemapPostIdentifier = Pick<PostMeta, 'slug' | 'published'>;
 
-const getSitemapPostIdentifiers = (
-  notionPostsResponse: GetPageResponse[],
-): SitemapPostIdentifier[] => {
-  const posts = getPostsMeta(notionPostsResponse);
-  return posts
+const getSitemapPostIdentifiers = (postsMeta: PostMeta[]): SitemapPostIdentifier[] => {
+  return postsMeta
     .map((post) => {
       const { slug, published } = post;
       const formattedPublished = published ? dayjs(published).format('YYYY-MM-DD') : '';
@@ -27,8 +19,8 @@ const getSitemapPostIdentifiers = (
     );
 };
 
-const generateSitemapXml = (notionPostsResponse: GetPageResponse[]): string => {
-  const postIdentifiers = getSitemapPostIdentifiers(notionPostsResponse);
+const generateSitemapXml = (postsMeta: PostMeta[]): string => {
+  const postIdentifiers = getSitemapPostIdentifiers(postsMeta);
 
   const now = dayjs();
   const postUrls = postIdentifiers
@@ -66,8 +58,8 @@ const generateSitemapXml = (notionPostsResponse: GetPageResponse[]): string => {
 
 export async function GET() {
   try {
-    const databaseItems = await fetchNotionPostsMeta(env.notionPostDatabaseId);
-    const sitemapXml = generateSitemapXml(databaseItems);
+    const postsMeta = await getCachedPostsMeta();
+    const sitemapXml = generateSitemapXml(postsMeta);
     return createXmlResponse(sitemapXml);
   } catch (error) {
     return createXmlErrorResponse('Could not generate sitemap.', error);
