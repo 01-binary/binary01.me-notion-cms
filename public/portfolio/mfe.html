@@ -1,0 +1,705 @@
+<title>Micro Frontend 백오피스 플랫폼</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ink: #1b1f26;
+    --sub: #5b6470;
+    --faint: #8a93a0;
+    --paper: #f7f8fa;
+    --panel: #ffffff;
+    --line: #e4e7ec;
+    --accent: #0b7a63;
+    --accent-ink: #085c4b;
+    --accent-soft: #e4f2ec;
+    --code-bg: #14181f;
+    --code-ink: #d7dde6;
+    --warn: #b45309;
+    --warn-soft: #fdf1e2;
+    --danger: #c2402a;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+    --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: var(--sans); background: var(--paper); color: var(--ink);
+    line-height: 1.7; font-size: 16px;
+    word-break: keep-all; overflow-wrap: break-word;
+  }
+  .page { max-width: 880px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  h1 { font-size: 34px; line-height: 1.25; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+  p, li, figcaption { text-wrap: pretty; }
+  h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 10px; text-wrap: balance; }
+  h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 6px; }
+  p  { color: var(--sub); }
+  strong { color: var(--ink); font-weight: 700; }
+  section { margin-top: 72px; }
+
+  .kicker {
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .kicker::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+
+  code {
+    font-family: var(--mono); font-size: 0.88em;
+    background: #eceff3; color: #3a4250; padding: 1px 6px; border-radius: 5px;
+  }
+
+  .hero-role { margin-top: 14px; color: var(--sub); font-size: 15.5px; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 32px; }
+  .metric { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .metric b { display: block; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .metric span { font-size: 13px; color: var(--sub); line-height: 1.45; display: block; margin-top: 2px; }
+  .metric small { display: block; margin-top: 6px; font-family: var(--mono); font-size: 11px; color: var(--faint); }
+
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 640px) { .pair { grid-template-columns: 1fr; } }
+  .pair > div { min-width: 0; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+  .panel h3 { display: flex; gap: 8px; align-items: baseline; }
+  .panel.before h3 { color: var(--warn); }
+  .panel.after h3 { color: var(--accent-ink); }
+  .route { margin-top: 12px; font-family: var(--mono); font-size: 12px; color: var(--sub); }
+  .route i { font-style: normal; color: var(--faint); padding: 0 4px; }
+  .route-note { margin-top: 8px; font-size: 12.5px; line-height: 1.5; }
+  .warn-note { color: var(--warn); }
+  .ok-note { color: var(--accent-ink); }
+
+  /* 미니 창 목업 */
+  .mini-win { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+  .mini-win + .mini-win { margin-top: 8px; }
+  .win-bar { display: flex; align-items: center; gap: 8px; background: #eef0f4; padding: 6px 10px; font-family: var(--mono); font-size: 10.5px; color: var(--sub); }
+  .win-bar i { width: 8px; height: 8px; border-radius: 50%; background: #d3d8df; flex: none; }
+  .win-body { padding: 8px 10px; font-size: 11px; color: var(--faint); font-family: var(--mono); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .win-split { display: grid; grid-template-columns: 104px 1fr; min-height: 118px; }
+  .win-menu { border-right: 1px solid var(--line); padding: 8px 0; background: #fbfcfd; }
+  .win-menu span { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--sub); padding: 4px 10px; white-space: nowrap; }
+  .win-menu i { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .win-content { padding: 12px; display: grid; gap: 7px; align-content: start; }
+  .win-content i { height: 9px; border-radius: 5px; background: #edf0f3; display: block; }
+
+  pre.mini-term { background: var(--code-bg); color: var(--code-ink); font-family: var(--mono); font-size: 11.5px; line-height: 1.75; border-radius: 8px; padding: 10px 12px; overflow-x: auto; margin: 8px 0 0; }
+  pre.mini-term .ok { color: #7ee0c3; }
+  pre.mini-term .dim { color: #6b7688; }
+
+  /* flow */
+  .flow { margin-top: 24px; display: grid; gap: 0; }
+  .node { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; min-width: 0; }
+  .node.hosty { border-top: 3px solid var(--ink); }
+  .node.remotey { border-top: 3px solid var(--accent); }
+  .node .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+  .node h3 { margin-top: 2px; }
+  .node p { font-size: 13.5px; line-height: 1.55; margin-top: 4px; }
+  .flow-arrow {
+    text-align: center; color: var(--faint); font-family: var(--mono); font-size: 12px;
+    padding: 10px 0; display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .flow-arrow::before, .flow-arrow::after { content: "│"; color: var(--line); }
+  .layerlist { margin-top: 10px; display: grid; gap: 6px; }
+  .layer { display: flex; gap: 10px; align-items: baseline; font-size: 13px; color: var(--sub); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; }
+  .layer b { font-family: var(--mono); font-size: 12px; color: var(--accent-ink); font-weight: 500; white-space: nowrap; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip {
+    font-family: var(--mono); font-size: 11px; color: var(--sub);
+    border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; background: #fff;
+  }
+  .chip.ext { border-style: dashed; }
+
+  /* 시뮬레이션 (세로) */
+  .sim-wrap { margin: 22px 0 0; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .demo-bar { display: flex; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; align-items: center; }
+  .demo-btn {
+    font-family: var(--mono); font-size: 12.5px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--paper); color: var(--sub);
+    border-radius: 999px; padding: 5px 14px;
+  }
+  .demo-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .play-btn { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .play-btn:disabled { opacity: 0.5; cursor: default; }
+  .sim-status { font-family: var(--mono); font-size: 12px; color: var(--accent-ink); }
+  .sim { display: flex; flex-direction: column; gap: 0; padding: 20px 18px; max-width: 600px; margin: 0 auto; }
+  .sim-panel {
+    border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px;
+    background: var(--paper); transition: opacity 0.4s, border-color 0.4s, box-shadow 0.4s; min-width: 0;
+  }
+  .sim-panel.pending { opacity: 0.4; }
+  .sim-panel.on { opacity: 1; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .sim-panel .tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+  .sim-body { margin-top: 8px; font-size: 13px; }
+  .mono-body { font-family: var(--mono); font-size: 12px; line-height: 1.7; color: #3a4250; overflow-x: auto; white-space: nowrap; }
+  .mono-body .g { color: var(--accent-ink); }
+  .mono-body .dim { color: var(--faint); }
+  .sim-arrow { align-self: center; padding: 5px 0; font-family: var(--mono); font-size: 11px; color: var(--faint); display: flex; align-items: center; gap: 7px; }
+  .sim-arrow::after { content: "↓"; font-size: 15px; color: var(--line); transition: color 0.3s; }
+  .sim-arrow.on::after { color: var(--accent); }
+  .sim-arrow.on { color: var(--accent-ink); }
+  .sim-arrow b { font-weight: 500; }
+  .demo-note { padding: 12px 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--sub); }
+
+  /* 빌드 매트릭스 */
+  .dep-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+  @media (max-width: 520px) { .dep-matrix { grid-template-columns: 1fr; } }
+  .dep-row {
+    position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    font-family: var(--mono); font-size: 11.5px; color: var(--sub);
+    background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 6px 10px;
+    transition: opacity 0.35s, border-color 0.35s;
+  }
+  .dep-row .st { font-size: 10px; color: var(--faint); white-space: nowrap; }
+  .dep-row.skip { opacity: 0.4; }
+  .dep-row.build { border-color: var(--accent); }
+  .dep-row.build .st, .dep-row.done .st { color: var(--accent-ink); }
+  .dep-row .pb { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--accent); transition: width 1.6s linear; }
+  .dep-row.build .pb { width: 100%; }
+
+  /* 산출물 파일 행 */
+  .file-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; font-size: 12px; }
+  .fbadge { font-family: var(--mono); font-size: 10px; border-radius: 999px; padding: 1px 8px; }
+  .fbadge.nc { background: var(--accent-soft); color: var(--accent-ink); }
+  .fbadge.lc { background: #eceff3; color: var(--sub); }
+  .fswap { font-family: var(--mono); font-size: 11.5px; color: var(--sub); }
+  .fswap s { color: var(--faint); }
+  .fswap b { color: var(--accent-ink); font-weight: 500; border-radius: 4px; padding: 0 3px; transition: background 0.3s; }
+  .fswap.flash b { background: #ffe9a8; }
+  .fdim { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+
+  /* Host 미니 UI 버전 칩 */
+  .ver { font-family: var(--mono); font-size: 10px; color: var(--sub); background: #eceff3; border-radius: 999px; padding: 1px 8px; transition: background 0.3s, color 0.3s; }
+  .ver.new { background: var(--accent-soft); color: var(--accent-ink); }
+  #hm-banner { transition: background 0.3s; border-radius: 6px; }
+  #hm-banner.clicked { background: var(--accent-soft); font-weight: 700; color: var(--ink); }
+
+  /* 장애 격리 인터랙티브 */
+  .iso { display: grid; grid-template-columns: 168px 1fr; min-height: 300px; }
+  @media (max-width: 640px) { .iso { grid-template-columns: 1fr; } }
+  .iso-snb { border-right: 1px solid var(--line); background: #fbfcfd; padding: 12px 0; }
+  @media (max-width: 640px) { .iso-snb { border-right: 0; border-bottom: 1px solid var(--line); display: flex; overflow-x: auto; padding: 8px; } }
+  .iso-menu {
+    display: flex; align-items: center; gap: 8px; width: 100%;
+    font-family: var(--sans); font-size: 13.5px; color: var(--sub);
+    background: none; border: 0; text-align: left; padding: 9px 16px; cursor: pointer; white-space: nowrap;
+  }
+  .iso-menu[aria-current="true"] { color: var(--ink); font-weight: 700; background: var(--accent-soft); }
+  .iso-menu .dot { width: 7px; height: 7px; border-radius: 50%; background: #b9c1cb; flex: none; }
+  .iso-menu.crashed .dot { background: var(--danger); }
+  .iso-stage { padding: 18px 20px; }
+  .iso-title { font-size: 14.5px; font-weight: 700; margin-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+  .iso-badge { font-family: var(--mono); font-size: 10.5px; color: var(--accent-ink); background: var(--accent-soft); border-radius: 999px; padding: 1px 8px; }
+  .iso-fallback {
+    border: 1.5px dashed #e2b08e; background: var(--warn-soft); border-radius: 12px;
+    padding: 22px 18px; text-align: center;
+  }
+  .iso-fallback b { display: block; color: var(--warn); font-size: 14px; }
+  .iso-fallback span { display: block; font-size: 12.5px; color: #8a6a45; margin-top: 4px; }
+  .iso-retry { margin-top: 12px; font-family: var(--sans); font-size: 13px; font-weight: 700; cursor: pointer; border: 0; background: var(--ink); color: #fff; border-radius: 9px; padding: 8px 18px; }
+  .iso-loading { text-align: center; color: var(--faint); font-size: 13px; padding: 30px 0; font-family: var(--mono); }
+  .mk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .mk-card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+  .mk-thumb { height: 40px; }
+  .mk-card i { display: block; height: 8px; border-radius: 4px; background: #edf0f3; margin: 9px 10px; }
+  .mk-card i:last-child { width: 55%; margin-top: -2px; }
+  .mk-rows { display: grid; gap: 8px; }
+  .mk-row { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; background: #fff; }
+  .mk-label { height: 9px; border-radius: 5px; background: #edf0f3; flex: 1; }
+  .mk-switch { width: 32px; height: 18px; border-radius: 999px; background: var(--accent); position: relative; flex: none; }
+  .mk-switch::after { content: ""; position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; }
+  .mk-switch.off { background: #cdd4dc; }
+  .mk-switch.off::after { right: auto; left: 2px; }
+  .mk-chip { font-family: var(--mono); font-size: 10px; padding: 1px 9px; border-radius: 999px; flex: none; }
+  .mk-chip.run { background: var(--accent-soft); color: var(--accent-ink); }
+  .mk-chip.wait { background: #fdf1e2; color: var(--warn); }
+  .mk-chip.done { background: #eceff3; color: var(--sub); }
+  .mk-avatar { width: 24px; height: 24px; border-radius: 50%; flex: none; }
+
+  /* Context 다이어그램 */
+  .ctx { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 640px) { .ctx { grid-template-columns: 1fr; } }
+  .ctx > div { min-width: 0; }
+  .ctx-label { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .ctx-label.bad { color: var(--warn); }
+  .ctx-label.good { color: var(--accent-ink); }
+  .ctx-box { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .ctx-bundle { border: 1.5px solid #cdd4dc; border-radius: 9px; padding: 9px 12px; font-family: var(--mono); font-size: 11.5px; color: var(--sub); }
+  .ctx-bundle b { color: var(--ink); font-weight: 500; }
+  .ctx-bundle + .ctx-bundle { margin-top: 8px; }
+  .ctx-bundle .cA { color: #b45309; }
+  .ctx-bundle .cB { color: #7c3aed; }
+  .ctx-verdict { margin-top: 10px; font-size: 12.5px; }
+  .ctx-single { border-color: var(--accent); background: var(--accent-soft); }
+
+  pre.codeblock {
+    margin-top: 18px; background: var(--code-bg); color: var(--code-ink);
+    font-family: var(--mono); font-size: 13px; line-height: 1.75;
+    border-radius: 12px; padding: 18px 20px; overflow-x: auto;
+  }
+  pre.codeblock .c { color: #6b7688; }
+  pre.codeblock .g { color: #7ee0c3; }
+  pre.codeblock .y { color: #e5c07b; }
+
+  table.guards { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14px; }
+  table.guards th, table.guards td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.guards th { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); font-weight: 500; }
+  table.guards td:first-child { white-space: nowrap; font-weight: 700; }
+  table.guards td { color: var(--sub); line-height: 1.55; }
+  .table-scroll { overflow-x: auto; }
+
+  .incident { margin-top: 18px; background: var(--warn-soft); border-radius: 12px; padding: 16px 20px; font-size: 14px; color: #7c4a10; line-height: 1.65; }
+  .incident b { color: #7c4a10; }
+
+  .chart-caption { font-size: 13px; color: var(--faint); margin-top: 10px; }
+  .ck { list-style: none; margin-top: 8px; }
+  .ck li { padding: 6px 0 6px 24px; position: relative; color: var(--sub); font-size: 14px; line-height: 1.6; }
+  .ck li::before { content: "✓"; position: absolute; left: 2px; color: var(--accent); font-weight: 700; }
+  footer { margin-top: 88px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .chat-head { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; color: var(--faint); }
+  .chat-head .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media print {
+    body { background: #fff; }
+    .page { padding: 0; max-width: none; }
+    section { break-inside: avoid; margin-top: 40px; }
+    .demo-bar { display: none; }
+    .sim-panel { opacity: 1 !important; }
+  }
+</style>
+
+<div class="page">
+
+  <!-- ═══ HERO ═══ -->
+  <header>
+    <div class="kicker">Case Study · Micro Frontend Platform</div>
+    <h1>하나의 도메인, 열 개의 독립 배포 —<br>Micro Frontend 백오피스 플랫폼</h1>
+    <p class="hero-role" style="margin-top:16px">
+      팀마다 백오피스가 따로 있어 운영자는 여러 URL과 로그인을 오갔고,<br>
+      하나로 합치자니 한 줄 변경에도 전체 빌드 25분을 기다려야 했습니다.
+    </p>
+    <p class="hero-role" style="margin-top:10px">
+      Module Federation으로 <strong>화면은 런타임에 합치고, 빌드·배포는 팀별로 분리</strong>했습니다.
+    </p>
+    <p style="margin-top:14px; font-size:13.5px; color:var(--faint)">
+      자비스앤빌런즈(삼쩜삼) · 플랫폼 설계·구축·운영 (기여도 90%) · 온보딩 체계 설계 — 프론트엔드 개발자가 아닌 구성원들이 어드민 10여 개 직접 제작
+    </p>
+
+    <div class="metrics">
+      <div class="metric"><b>Remote 10개</b><span>모노레포 6 + 별도 레포 4</span><small>별도 레포는 프론트엔드 팀 밖에서 제작</small></div>
+      <div class="metric"><b>25분 → 3분</b><span>CI/CD — 변경된 앱만 선택 빌드</span><small>turbo-ignore</small></div>
+      <div class="metric"><b>12개 그룹</b><span>단일 도메인에서 운영되는 대메뉴</span><small>Role 기반 권한 필터</small></div>
+      <div class="metric"><b>싱글턴 4개</b><span>react · dom · router · query 단일 인스턴스 공유</span><small>MF shared</small></div>
+    </div>
+  </header>
+
+  <!-- ═══ 1. PROBLEM ═══ -->
+  <section>
+    <div class="kicker">01 · Problem</div>
+    <h2>흩어지면 운영이 느리고, 합치면 배포가 느립니다</h2>
+    <div class="pair">
+      <div class="panel before">
+        <h3>Before — 어드민이 팀마다 따로</h3>
+        <div class="mini-win"><div class="win-bar"><i></i>콘텐츠 어드민</div><div class="win-body"><span>🔒 별도 로그인</span><span>UI 제각각</span></div></div>
+        <div class="mini-win"><div class="win-bar"><i></i>대리점 어드민</div><div class="win-body"><span>🔒 별도 로그인</span><span>권한 제각각</span></div></div>
+        <div class="mini-win"><div class="win-bar"><i></i>앱 어드민 <span style="opacity:.6">+ N개…</span></div><div class="win-body"><span>🔒 별도 로그인</span><span>URL 제각각</span></div></div>
+        <p class="route-note warn-note">⚠ 합치면? 한 팀의 한 줄 변경에도 전체 빌드 25분 + 배포 대기 줄</p>
+      </div>
+      <div class="panel after">
+        <h3>After — 한 화면에 모든 팀</h3>
+        <div class="mini-win">
+          <div class="win-bar"><i></i>통합 어드민 — 로그인 1번</div>
+          <div class="win-split">
+            <div class="win-menu">
+              <span><i style="background:#0b7a63"></i>콘텐츠 관리</span>
+              <span><i style="background:#3b6fd4"></i>모바일 앱</span>
+              <span><i style="background:#c98a1b"></i>핵심 서비스</span>
+              <span><i style="background:#7c5cd6"></i>업무 큐</span>
+              <span><i style="background:#fff; border:1.5px dashed #98a2b0"></i>계정·권한</span>
+              <span style="color:var(--faint)">…12개 그룹</span>
+            </div>
+            <div class="win-content"><i></i><i style="width:80%"></i><i style="width:62%"></i><i style="width:71%"></i></div>
+          </div>
+        </div>
+        <p class="route-note ok-note">색점 하나가 팀(remote) 하나 — 화면은 하나지만 배포는 여전히 팀별, 변경된 앱만 3분</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 2. ARCHITECTURE ═══ -->
+  <section>
+    <div class="kicker">02 · Architecture</div>
+    <h2>Host는 뼈대를, Remote는 화면만</h2>
+    <p>Host가 인증·레이아웃·라우팅·권한을 소유하고, Remote는 <code>./App</code> 진입점 하나만 노출합니다.</p>
+
+    <div class="flow">
+      <div class="node hosty">
+        <span class="tag">Host — 공통 기능 소유</span>
+        <h3>로그인부터 메뉴 권한까지, 공통은 전부 Host가</h3>
+        <div class="layerlist">
+          <div class="layer"><b>인증</b>로그인·유저 API 처리 → Role 확정 — 로그인 1번을 모든 remote가 공유</div>
+          <div class="layer"><b>권한 메뉴</b>Role 기반 재귀 필터로 대메뉴 12그룹 구성 — 권한 없는 메뉴는 아예 안 보임</div>
+          <div class="layer"><b>레이아웃</b>GNB · SNB · 서브헤더 · 테마 — remote는 콘텐츠 영역만 채움</div>
+          <div class="layer"><b>remote 로드</b>lazy(지연 로드) + Error Boundary(장애 격리·재시도) + Suspense(로딩)</div>
+        </div>
+        <p style="margin-top:10px">공유 싱글턴 4개: <code>react</code> <code>react-dom</code> <code>react-router</code> <code>react-query</code> — 열 개의 앱이 하나의 React 트리·라우터·쿼리 캐시를 씁니다</p>
+      </div>
+      <div class="flow-arrow">런타임에 remoteEntry.js 로드 — 빌드 타임 결합 없음</div>
+      <div class="node remotey">
+        <span class="tag">Remote ×10 — 팀별 독립 개발·배포</span>
+        <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap">
+          <h3 style="margin-bottom:0">자기 도메인 화면 + 내부 라우팅만 책임</h3>
+          <span style="font-family:var(--mono); font-size:11px; color:var(--faint); white-space:nowrap">── 모노레포 &nbsp;·&nbsp; ┄ 별도 레포</span>
+        </div>
+        <div class="chips">
+          <span class="chip">콘텐츠·에셋</span><span class="chip">모바일 앱</span><span class="chip">핵심 서비스</span><span class="chip">제휴 채널</span><span class="chip">업무 큐</span><span class="chip">상담 시스템</span>
+          <span class="chip ext">계정·권한</span><span class="chip ext">모니터링</span><span class="chip ext">개발자 도구</span><span class="chip ext">데이터 수집</span>
+        </div>
+        <p style="margin-top:8px">점선 remote는 <strong>프론트엔드 팀 밖에서 개발·배포되는 어드민</strong> — 레포가 달라도 같은 화면에서 동작합니다</p>
+        <p style="margin-top:6px">모든 remote는 host 없이 <strong>단독 실행도 가능</strong>합니다 — 각 팀은 자기 앱만 띄워서 개발합니다</p>
+      </div>
+    </div>
+
+    <!-- 독립 배포 시뮬레이션 -->
+    <div class="sim-wrap">
+      <div class="demo-bar">
+        <button class="demo-btn play-btn" id="sim-play">▶ 한 팀이 배포하면 일어나는 일</button>
+        <span class="sim-status" id="sim-status"></span>
+      </div>
+      <div class="sim" id="sim">
+        <div class="sim-panel" data-step="0">
+          <span class="tag">① 콘텐츠팀 — push</span>
+          <div class="sim-body mono-body">fix: 콘텐츠 카드 정렬 버그 수정 <span class="dim">— 1개 파일</span></div>
+        </div>
+        <div class="sim-arrow" data-step="1"><b>CI 매트릭스 — 10개 앱</b></div>
+        <div class="sim-panel" data-step="1">
+          <span class="tag">② turbo-ignore — 변경된 앱만 빌드</span>
+          <div class="dep-matrix" id="dep-matrix"></div>
+        </div>
+        <div class="sim-arrow" data-step="2"><b>CDN 업로드</b></div>
+        <div class="sim-panel" data-step="2">
+          <span class="tag">③ 콘텐츠 remote 산출물 교체</span>
+          <div class="file-row"><code>remoteEntry.js</code><span class="fbadge nc">no-cache</span><span class="fswap" id="entry-swap"><s>entry.a1f3</s> → <b>entry.b7e2</b></span></div>
+          <div class="file-row"><code>chunk-[hash].js</code><span class="fbadge lc">장기 캐시</span><span class="fdim">변경 없는 청크는 그대로 재사용</span></div>
+        </div>
+        <div class="sim-arrow" data-step="3"><b>사용자 다음 진입</b></div>
+        <div class="sim-panel" data-step="3">
+          <span class="tag">④ Host — 재배포 없이 신버전</span>
+          <div class="mini-win" style="margin-top:8px">
+            <div class="win-bar"><i></i>통합 어드민 <span class="fdim" style="margin-left:auto">Host 재배포 0회</span></div>
+            <div class="win-split">
+              <div class="win-menu">
+                <span id="hm-banner"><i style="background:#0b7a63"></i>콘텐츠 관리</span>
+                <span><i style="background:#3b6fd4"></i>모바일 앱</span>
+                <span><i style="background:#7c5cd6"></i>업무 큐</span>
+              </div>
+              <div class="win-content">
+                <div style="display:flex; justify-content:space-between; align-items:center">
+                  <span style="font-size:11.5px; font-weight:700; color:var(--ink)">콘텐츠 목록</span>
+                  <span class="ver" id="hver">v1.7</span>
+                </div>
+                <i></i><i style="width:78%"></i><i style="width:60%"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-note">변경된 앱만 빌드하고, 새 버전은 사용자의 다음 진입 때 바로 반영되며, Host는 그대로 둡니다 — 이 세 가지가 독립 배포를 만듭니다.</div>
+    </div>
+  </section>
+
+  <!-- ═══ 3. FAULT ISOLATION ═══ -->
+  <section>
+    <div class="kicker">03 · Fault Isolation</div>
+    <h2>한 팀의 실수가 다른 팀 화면을 멈추지 못하게</h2>
+    <p>Remote마다 Error Boundary로 감싸 로드 실패·렌더 에러를 그 화면 안에 가둡니다.</p>
+
+    <div class="sim-wrap">
+      <div class="chat-head"><span class="dot"></span>장애 격리 시뮬레이션 — Error Boundary 동작 재구성</div>
+      <div class="demo-bar">
+        <button class="demo-btn" id="iso-crash">💥 콘텐츠 remote 로드를 실패시켜 보기</button>
+        <span class="sim-status" id="iso-status"></span>
+      </div>
+      <div class="iso">
+        <nav class="iso-snb" id="iso-snb" aria-label="시뮬레이션 메뉴">
+          <button class="iso-menu" data-app="banner" aria-current="true"><span class="dot"></span>콘텐츠 관리</button>
+          <button class="iso-menu" data-app="app"><span class="dot"></span>모바일 앱</button>
+          <button class="iso-menu" data-app="queue"><span class="dot"></span>업무 큐</button>
+          <button class="iso-menu" data-app="staff"><span class="dot"></span>계정·권한</button>
+        </nav>
+        <div class="iso-stage" id="iso-stage"></div>
+      </div>
+      <div class="demo-note">문제가 생긴 remote만 Fallback으로 바뀌고, 다른 메뉴는 그대로 동작합니다. <strong>다시 시도</strong>는 실제 구현처럼 리마운트(key 교체)로 remote 모듈 로드부터 다시 수행합니다.</div>
+    </div>
+  </section>
+
+  <!-- ═══ 4. DEEP-DIVE ═══ -->
+  <section>
+    <div class="kicker">04 · Deep-dive — Inheritance</div>
+    <h2>공통 인프라는 Host가 주고, Remote는 물려받습니다</h2>
+    <p>공유 싱글턴 4개 — React 트리·라우터·쿼리 캐시가 전부 같은 상속 구조입니다.<br>대표 사례가 QueryClient입니다: <strong>Host 안에서는 상속해 캐시를 공유하고, 단독 실행이면 자체 생성</strong>합니다.</p>
+
+<pre class="codeblock"><span class="c">// remote App.tsx — 자기 Provider보다 위의 Context를 읽는다</span>
+const standaloneQueryClient = new QueryClient()
+
+const App = () => {
+  <span class="c">// Host 안이면 Host의 클라이언트를 상속해 캐시 공유, standalone이면 자체 생성</span>
+  const queryClient = useContext(QueryClientContext) ?? standaloneQueryClient
+  return &lt;<span class="g">QueryClientProvider</span> client={queryClient}&gt;...&lt;/<span class="g">QueryClientProvider</span>&gt;
+}</pre>
+
+    <p style="margin-top:22px">단, 조건이 하나 있습니다 — Host와 Remote가 <strong>같은 react-query 인스턴스</strong>를 써야 합니다. 인스턴스가 다르면 Context도 달라서 상속이 끊기기 때문입니다.</p>
+
+    <div class="ctx">
+      <div>
+        <span class="ctx-label bad">싱글턴이 아니면 — 상속 자체가 불가능</span>
+        <div class="ctx-box">
+          <div class="ctx-bundle">Host 번들 — react-query <b class="cA">사본 A</b> → Context <b class="cA">A</b>로 제공</div>
+          <div class="ctx-bundle">Remote 번들 — react-query <b class="cB">사본 B</b> → Context <b class="cB">B</b>를 조회</div>
+          <p class="ctx-verdict warn-note">⚠ Remote의 훅이 Host의 Provider를 찾지 못합니다 — 서로 다른 Context를 보고 있기 때문</p>
+        </div>
+      </div>
+      <div>
+        <span class="ctx-label good">싱글턴이면 — Context가 하나라 상속 성립</span>
+        <div class="ctx-box">
+          <div class="ctx-bundle ctx-single">MF shared — react-query <b>단일 인스턴스</b> → Context도 하나</div>
+          <div class="ctx-bundle">react · react-dom · react-router도 같은 원리로 공유</div>
+          <p class="ctx-verdict ok-note">MF shared의 본질은 버전 협상이 아니라 <strong>모듈 인스턴스 공유</strong>입니다</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:26px">상속의 실질 효과 — 쿼리 키가 remote 사이에서 공유됩니다</h3>
+    <div class="panel" style="margin-top:10px">
+<div class="mono-body" style="white-space:pre">콘텐츠 remote    useQuery(['auth/me'])  ──┐
+업무 큐 remote   useQuery(['auth/me'])  ──┴─→ <span class="g">네트워크 요청 1번</span> <span class="dim">— 두 번째는 캐시 히트</span></div>
+      <p style="margin-top:10px; font-size:13.5px">열 개의 remote가 공통으로 부르는 API(유저·권한·공통 코드)가 화면을 오갈 때마다 다시 호출되던 것이, 상속 후에는 <strong>한 번의 요청과 캐시 재사용</strong>으로 바뀝니다.<br><strong>자기 도메인 키만 무효화</strong>하는 컨벤션으로 관리하고, 진짜 격리가 필요한 앱은 shared 미등록으로 opt-out합니다.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 5. RELIABILITY ═══ -->
+  <section>
+    <div class="kicker">05 · Reliability</div>
+    <h2>독립 배포를 안전하게 만드는 원칙들</h2>
+    <p>실제 사고를 겪으며 만든 규칙들입니다. 지키는 일은 사람의 주의가 아니라 CI와 설정에 맡겼습니다.</p>
+
+    <div class="incident">
+      <b>사고 기록 — 캐럿(^) 하나가 만든 전체 흰 화면</b><br>
+      별도 레포의 remote가 MF 플러그인을 <code>^1.8.1</code>로 선언했습니다. 캐럿은 "1.x 최신이면 아무거나"라는 뜻이라, 설치 시점에 1.20이 깔렸습니다.<br>
+      Host(1.8.1)와 remote(1.20)가 서로 다른 버전의 MF 런타임으로 만나자 — <strong>에러 로그 한 줄 없이 화면 전체가 하얗게 떴습니다.</strong><br>
+      React 버전으로 같은 사고를 한 번 더 겪고 나서, "공유 라이브러리는 정확한 버전으로 고정하고, remote는 Host보다 높은 버전을 쓰지 않는다"를 원칙으로 만들었습니다.
+    </div>
+
+    <div class="table-scroll">
+      <table class="guards">
+        <thead><tr><th>장치</th><th>지키는 것</th></tr></thead>
+        <tbody>
+          <tr><td>버전 불일치 차단</td><td>모노레포 앱들은 루트 <code>pnpm.overrides</code>로 버전을 한 곳에서 통일하고, 프론트 팀이 직접 관리하지 않는 별도 레포는 <strong>CI가 검사해 어긋나면 빌드 실패 + 슬랙 알림</strong> (사고 2건 후 원칙화)</td></tr>
+          <tr><td>remoteEntry no-cache</td><td>remote를 배포해도 구버전이 로드되는 함정 — 엔트리만 캐시 제외, 청크는 해시로 장기 캐시</td></tr>
+          <tr><td>브랜치 프리뷰 + 자동 회수</td><td>브랜치를 올리면 그 브랜치만의 <strong>프리뷰 주소가 자동으로 생기고</strong>, 브랜치를 지우면 프리뷰와 배포 리소스도 자동으로 정리됩니다 (CloudFront Multi-Tenant)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══ 6. PLATFORM GROWTH ═══ -->
+  <section>
+    <div class="kicker">06 · Self-serve</div>
+    <h2>프론트엔드 개발자가 아니어도 어드민을 만듭니다</h2>
+    <p>플랫폼이 공통 문제를 미리 풀어두면, 각 팀에게 남는 일은 자기 화면뿐입니다.</p>
+
+    <div class="pair">
+      <div class="panel">
+        <h3>플랫폼이 미리 제공하는 것</h3>
+        <ul class="ck">
+          <li>로그인·인증 — 템플릿에 이미 연결돼 있음</li>
+          <li>공통 레이아웃 · 메뉴 권한</li>
+          <li>배포 파이프라인 — 설정 파일 한 줄이면 CI에 편입</li>
+          <li>Module Federation 연결 설정</li>
+          <li>온보딩 가이드 + Claude Code 스킬</li>
+        </ul>
+      </div>
+      <div class="panel after">
+        <h3>팀이 할 일</h3>
+        <ul class="ck">
+          <li>자기 도메인 화면 개발 — 그게 전부입니다</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="margin-top:18px">그 결과 프론트엔드 개발자가 아닌 구성원들이 <strong>10개에 달하는 어드민을 대부분 질문 없이 직접 만들었고</strong>, 회사 전체 구성원이 사용하고 있습니다.</p>
+  </section>
+
+  <footer>
+    <div style="width:100%; font-family:var(--mono); font-size:11.5px; margin-bottom:10px">
+      TypeScript · React 19 · Vite · @module-federation/vite · React Router 7 · React Query 5 · Turborepo · GitHub Actions · CloudFront Multi-Tenant
+    </div>
+    <span>이진수 — Frontend Engineer</span>
+    <span>github.com/01-binary · binary01.me</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ── 독립 배포 파이프라인 시뮬레이션 ── */
+    var playBtn = document.getElementById('sim-play');
+    var status = document.getElementById('sim-status');
+    var panels = document.querySelectorAll('.sim-panel');
+    var arrows = document.querySelectorAll('.sim-arrow');
+    var APPS10 = ['콘텐츠', 'Host', '모바일 앱', '핵심 서비스', '제휴 채널', '업무 큐', '상담 시스템', '내부 Host', '제휴(내부)', '실험실'];
+    var matrix = document.getElementById('dep-matrix');
+    APPS10.forEach(function (name) {
+      var row = document.createElement('div');
+      row.className = 'dep-row';
+      row.innerHTML = '<span>' + name + '</span><span class="st">대기</span><i class="pb"></i>';
+      matrix.appendChild(row);
+    });
+    var rows = matrix.querySelectorAll('.dep-row');
+    var entrySwap = document.getElementById('entry-swap');
+    var hver = document.getElementById('hver');
+    var hmBanner = document.getElementById('hm-banner');
+
+    function stepOn(n) {
+      panels.forEach(function (p) { if (p.dataset.step === String(n)) { p.classList.remove('pending'); p.classList.add('on'); } });
+      arrows.forEach(function (a) { if (a.dataset.step === String(n)) a.classList.add('on'); });
+    }
+    function resetSim() {
+      document.querySelectorAll('.sim .on').forEach(function (el) { el.classList.remove('on'); });
+      rows.forEach(function (r, i) {
+        r.classList.remove('skip', 'build', 'done');
+        r.querySelector('.st').textContent = '대기';
+        r.querySelector('.pb').style.width = '';
+      });
+      entrySwap.classList.remove('flash');
+      hver.textContent = 'v1.7'; hver.classList.remove('new');
+      hmBanner.classList.remove('clicked');
+    }
+    function finishStates() {
+      rows.forEach(function (r, i) {
+        if (i === 0) { r.classList.add('build', 'done'); r.querySelector('.st').textContent = '✓ 완료 3분'; }
+        else { r.classList.add('skip'); r.querySelector('.st').textContent = '– skip'; }
+      });
+      entrySwap.classList.add('flash');
+      hver.textContent = 'v1.8'; hver.classList.add('new');
+      hmBanner.classList.add('clicked');
+    }
+    function playSim() {
+      resetSim();
+      if (reduced) { [0, 1, 2, 3].forEach(stepOn); finishStates(); playBtn.textContent = '↺ 다시 재생'; return; }
+      panels.forEach(function (p) { p.classList.add('pending'); });
+      playBtn.disabled = true; status.textContent = '';
+      // ① push
+      setTimeout(function () { stepOn(0); }, 0);
+      // ② 매트릭스: 전체 검사 → 9개 skip, 콘텐츠만 빌드 진행바 → 완료
+      setTimeout(function () {
+        stepOn(1);
+        rows.forEach(function (r) { r.querySelector('.st').textContent = '검사 중…'; });
+      }, 800);
+      setTimeout(function () {
+        rows.forEach(function (r, i) {
+          if (i === 0) { r.classList.add('build'); r.querySelector('.st').textContent = '● 빌드 중'; }
+          else { r.classList.add('skip'); r.querySelector('.st').textContent = '– skip'; }
+        });
+      }, 1400);
+      setTimeout(function () {
+        rows[0].classList.add('done');
+        rows[0].querySelector('.st').textContent = '✓ 완료 3분';
+      }, 3100);
+      // ③ CDN: 엔트리 해시 교체
+      setTimeout(function () {
+        stepOn(2);
+        entrySwap.classList.add('flash');
+        setTimeout(function () { entrySwap.classList.remove('flash'); }, 800);
+      }, 3500);
+      // ④ Host UI: 메뉴 클릭 → 신버전
+      setTimeout(function () { stepOn(3); hmBanner.classList.add('clicked'); }, 4400);
+      setTimeout(function () {
+        hver.textContent = 'v1.8'; hver.classList.add('new');
+        playBtn.disabled = false; playBtn.textContent = '↺ 다시 재생';
+        status.textContent = '완료 — Host 재배포 0회 · 다른 팀 대기 0분';
+      }, 5000);
+    }
+    playBtn.addEventListener('click', playSim);
+    var autoPlayed = false;
+    if (!reduced && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !autoPlayed) { autoPlayed = true; obs.disconnect(); setTimeout(playSim, 500); }
+        });
+      }, { threshold: 0.6 }).observe(document.getElementById('sim'));
+    }
+
+    /* ── 장애 격리 인터랙티브 ── */
+    var APPS = { banner: '콘텐츠 관리', app: '모바일 앱', queue: '업무 큐', staff: '계정·권한' };
+    var APP_UI = {
+      banner:
+        '<div class="mk-grid">' +
+        '<div class="mk-card"><div class="mk-thumb" style="background:#dcefe8"></div><i></i><i></i></div>' +
+        '<div class="mk-card"><div class="mk-thumb" style="background:#e2e9fb"></div><i></i><i></i></div>' +
+        '<div class="mk-card"><div class="mk-thumb" style="background:#fbeede"></div><i></i><i></i></div>' +
+        '</div>',
+      app:
+        '<div class="mk-rows">' +
+        '<div class="mk-row"><span class="mk-label" style="max-width:150px"></span><span class="mk-switch"></span></div>' +
+        '<div class="mk-row"><span class="mk-label" style="max-width:110px"></span><span class="mk-switch"></span></div>' +
+        '<div class="mk-row"><span class="mk-label" style="max-width:170px"></span><span class="mk-switch off"></span></div>' +
+        '</div>',
+      queue:
+        '<div class="mk-rows">' +
+        '<div class="mk-row"><span class="mk-label" style="max-width:160px"></span><span class="mk-chip run">처리 중</span></div>' +
+        '<div class="mk-row"><span class="mk-label" style="max-width:120px"></span><span class="mk-chip wait">대기</span></div>' +
+        '<div class="mk-row"><span class="mk-label" style="max-width:180px"></span><span class="mk-chip done">완료</span></div>' +
+        '</div>',
+      staff:
+        '<div class="mk-rows">' +
+        '<div class="mk-row"><span class="mk-avatar" style="background:#9db8e8"></span><span class="mk-label" style="max-width:120px"></span><span class="mk-chip run">관리자</span></div>' +
+        '<div class="mk-row"><span class="mk-avatar" style="background:#94ccb8"></span><span class="mk-label" style="max-width:150px"></span><span class="mk-chip done">편집자</span></div>' +
+        '<div class="mk-row"><span class="mk-avatar" style="background:#e3b98e"></span><span class="mk-label" style="max-width:100px"></span><span class="mk-chip done">뷰어</span></div>' +
+        '</div>',
+    };
+    var current = 'banner';
+    var crashed = {};
+    var stage = document.getElementById('iso-stage');
+    var isoStatus = document.getElementById('iso-status');
+    var crashBtn = document.getElementById('iso-crash');
+
+    function renderStage() {
+      var name = APPS[current];
+      if (crashed[current]) {
+        stage.innerHTML =
+          '<div class="iso-fallback"><b>⚠ ' + name + ' 화면을 불러오지 못했어요</b>' +
+          '<span>remote 로드 실패 — 이 화면만 격리되었고, 다른 메뉴는 정상입니다</span>' +
+          '<button class="iso-retry" id="iso-retry">다시 시도</button></div>';
+        document.getElementById('iso-retry').addEventListener('click', retry);
+      } else {
+        stage.innerHTML =
+          '<div class="iso-title">' + name + ' <span class="iso-badge">remote 정상</span></div>' + APP_UI[current];
+      }
+      document.querySelectorAll('.iso-menu').forEach(function (m) {
+        m.setAttribute('aria-current', String(m.dataset.app === current));
+        m.classList.toggle('crashed', !!crashed[m.dataset.app]);
+      });
+    }
+    function retry() {
+      stage.innerHTML = '<div class="iso-loading">리마운트 — remote 모듈 다시 로드 중…</div>';
+      setTimeout(function () {
+        crashed[current] = false;
+        isoStatus.textContent = '복구 완료 — 재시도는 key 교체 리마운트';
+        renderStage();
+      }, reduced ? 0 : 900);
+    }
+    document.querySelectorAll('.iso-menu').forEach(function (m) {
+      m.addEventListener('click', function () { current = m.dataset.app; renderStage(); });
+    });
+    crashBtn.addEventListener('click', function () {
+      crashed.banner = true;
+      current = 'banner';
+      isoStatus.textContent = '콘텐츠 remote 로드 실패 — 다른 메뉴를 눌러보세요';
+      renderStage();
+    });
+    renderStage();
+  })();
+</script>

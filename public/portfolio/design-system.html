@@ -1,0 +1,765 @@
+<title>Figma → Code 자동화 파이프라인</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="ds-demo.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ink: #1b1f26;
+    --sub: #5b6470;
+    --faint: #8a93a0;
+    --paper: #f7f8fa;
+    --panel: #ffffff;
+    --line: #e4e7ec;
+    --accent: #0b7a63;
+    --accent-ink: #085c4b;
+    --accent-soft: #e4f2ec;
+    --code-bg: #14181f;
+    --code-ink: #d7dde6;
+    --warn: #b45309;
+    --warn-soft: #fdf1e2;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+    --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .page { max-width: 880px; margin: 0 auto; padding: 56px 24px 96px; }
+  .measure { max-width: none; }
+
+  /* ── type scale ── */
+  h1 { font-size: 34px; line-height: 1.25; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+  p, li, figcaption { text-wrap: pretty; }
+  h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 10px; text-wrap: balance; }
+  h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 6px; }
+  p  { color: var(--sub); }
+  strong { color: var(--ink); font-weight: 700; }
+  section { margin-top: 72px; }
+
+  .kicker {
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .kicker::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+
+  .chip {
+    font-family: var(--mono); font-size: 0.86em; font-weight: 500;
+    background: var(--accent-soft); color: var(--accent-ink);
+    padding: 1px 7px; border-radius: 5px; white-space: nowrap;
+  }
+  code {
+    font-family: var(--mono); font-size: 0.88em;
+    background: #eceff3; color: #3a4250; padding: 1px 6px; border-radius: 5px;
+  }
+
+  /* ── hero ── */
+  .hero-role { margin-top: 14px; color: var(--sub); font-size: 15.5px; }
+  .metrics {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px; margin-top: 32px;
+  }
+  .metric {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .metric b {
+    display: block; font-size: 26px; font-weight: 700; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums; color: var(--ink);
+  }
+  .metric span { font-size: 13px; color: var(--sub); line-height: 1.45; display: block; margin-top: 2px; }
+  .metric small { display: block; margin-top: 6px; font-family: var(--mono); font-size: 11px; color: var(--faint); }
+
+  /* ── problem / lists ── */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 640px) { .pair { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
+  }
+  .panel h3 { display: flex; gap: 8px; align-items: baseline; }
+  .panel ul { list-style: none; margin-top: 8px; }
+  .panel li { padding: 5px 0 5px 18px; position: relative; color: var(--sub); font-size: 14.5px; line-height: 1.6; }
+  .panel li::before { content: "·"; position: absolute; left: 4px; color: var(--faint); font-weight: 700; }
+  .panel.before h3 { color: var(--warn); }
+  .panel.after h3 { color: var(--accent-ink); }
+
+  /* ── before/after 전달 경로 목업 ── */
+  .slack-msg { display: flex; gap: 10px; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; margin-top: 8px; }
+  .slack-msg .avatar { width: 30px; height: 30px; border-radius: 8px; background: #f3ecdf; display: flex; align-items: center; justify-content: center; flex: none; }
+  .slack-body { line-height: 1.55; color: var(--ink); }
+  .slack-ch { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+  .route { margin-top: 12px; font-family: var(--mono); font-size: 12px; color: var(--sub); }
+  .route i { font-style: normal; color: var(--faint); padding: 0 4px; }
+  .route-note { margin-top: 8px; font-size: 12.5px; line-height: 1.5; }
+  .warn-note { color: var(--warn); }
+  .ok-note { color: var(--accent-ink); }
+  pre.mini-term { background: var(--code-bg); color: var(--code-ink); font-family: var(--mono); font-size: 11.5px; line-height: 1.75; border-radius: 8px; padding: 10px 12px; overflow-x: auto; margin: 8px 0 0; }
+  pre.mini-term .ok { color: #7ee0c3; }
+
+  /* ── validator 실패 터미널 ── */
+  pre.terminal { margin-top: 18px; background: var(--code-bg); color: var(--code-ink); font-family: var(--mono); font-size: 12.5px; line-height: 1.8; border-radius: 12px; padding: 16px 20px; overflow-x: auto; }
+  pre.terminal .err { color: #ff8a80; }
+  pre.terminal .c { color: #6b7688; }
+
+  /* ── Dev Mode before/after ── */
+  .cc-body { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px 20px; }
+  @media (max-width: 640px) { .cc-body { grid-template-columns: 1fr; } }
+  .cc-body > div { min-width: 0; }
+  .cc-label { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .cc-label.bad { color: var(--warn); }
+  .cc-label.good { color: var(--accent-ink); }
+  .cc-dim { opacity: 0.65; }
+
+  /* ── AI 채팅 목업 ── */
+  .chat-wrap { margin-top: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .chat-head { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; color: var(--faint); }
+  .chat-head .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+  .who { font-size: 10.5px; font-family: var(--mono); color: var(--faint); padding: 0 6px; }
+  .who-r { align-self: flex-end; }
+  .chat { padding: 16px 20px; display: flex; flex-direction: column; gap: 5px; }
+  .chat .msg { font-size: 13.5px; line-height: 1.6; padding: 9px 14px; border-radius: 14px; max-width: min(480px, 88%); }
+  .chat .user { align-self: flex-end; background: var(--ink); color: #fff; border-bottom-right-radius: 4px; }
+  .chat .ai { align-self: flex-start; background: var(--panel); border: 1px solid var(--line); color: var(--sub); border-bottom-left-radius: 4px; }
+  .chat .ai b { color: var(--accent-ink); }
+  .chat .ai pre { margin-top: 6px; background: var(--code-bg); color: var(--code-ink); font-family: var(--mono); font-size: 11.5px; padding: 8px 10px; border-radius: 8px; overflow-x: auto; }
+  .chat .ai pre .g { color: #7ee0c3; }
+  .chat .ai pre .y { color: #e5c07b; }
+
+  /* ── flow diagram ── */
+  .flow { margin-top: 24px; display: grid; gap: 0; }
+  .flow-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 640px) { .flow-row { grid-template-columns: 1fr; } }
+  .node {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 18px;
+  }
+  .node.figma { border-top: 3px solid var(--ink); }
+  .node.pkg { border-top: 3px solid var(--accent); }
+  .node.dest { border-top: 3px solid var(--faint); }
+  .node .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+  .node h3 { margin-top: 2px; }
+  .node p { font-size: 13.5px; line-height: 1.55; margin-top: 4px; }
+  .io { margin-top: 10px; min-width: 0; }
+  .io-in {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+  }
+  .io-badge {
+    font-family: var(--mono); font-size: 10px; color: var(--sub);
+    border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px; background: #fff;
+  }
+  .io-minibtn {
+    display: inline-block; background: #15b077; color: #fff; font-size: 11.5px; font-weight: 700;
+    border-radius: 7px; padding: 4px 12px; flex: none;
+  }
+  .io-cmd { font-family: var(--mono); font-size: 10.5px; color: var(--accent-ink); padding: 5px 2px; }
+  pre.io-out {
+    background: var(--code-bg); color: var(--code-ink); font-family: var(--mono);
+    font-size: 11px; line-height: 1.7; border-radius: 8px; padding: 10px 12px; overflow-x: auto; margin: 0;
+  }
+  pre.io-out .y { color: #e5c07b; }
+  pre.io-out .g { color: #7ee0c3; }
+  .io-cap { font-size: 12.5px !important; color: var(--faint) !important; margin-top: 8px !important; }
+  .flow-arrow {
+    text-align: center; color: var(--faint); font-family: var(--mono); font-size: 12px;
+    padding: 10px 0; display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .flow-arrow::before, .flow-arrow::after { content: "│"; color: var(--line); }
+  .dest-row { display: grid; grid-template-columns: 1fr; gap: 14px; }
+
+  /* ── pipeline simulation ── */
+  .sim-wrap { margin: 22px 0 26px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .sim-status { font-family: var(--mono); font-size: 12px; color: var(--accent-ink); }
+  .sim {
+    display: flex; flex-direction: column; gap: 0;
+    padding: 20px 18px; max-width: 560px; margin: 0 auto;
+  }
+  .sim-panel {
+    border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px;
+    background: var(--paper); transition: opacity 0.4s, border-color 0.4s, box-shadow 0.4s;
+    min-width: 0;
+  }
+  .sim-panel.pending { opacity: 0.4; }
+  .sim-panel.on { opacity: 1; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .sim-panel .tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+  .sim-body { margin-top: 8px; font-size: 13px; }
+  .mono-body { font-family: var(--mono); font-size: 12px; line-height: 1.7; color: #3a4250; overflow-x: auto; white-space: nowrap; }
+  .mono-body .dim { color: var(--faint); }
+  .mono-body .keep { font-style: normal; font-family: var(--sans); font-size: 11px; color: var(--accent-ink); }
+  .sim-val { font-weight: 700; border-radius: 4px; padding: 0 3px; transition: background 0.3s; }
+  .sim-val.flash { background: #ffe9a8; }
+  .sim-check { display: inline-block; margin-top: 4px; font-size: 11px; color: var(--accent-ink); opacity: 0; transition: opacity 0.4s; }
+  .sim-check.on { opacity: 1; }
+  .sim-varrow { display: flex; align-items: center; gap: 8px; }
+  .swatch { width: 22px; height: 22px; border-radius: 6px; background: #15b077; border: 1px solid rgba(0,0,0,0.12); transition: background 0.45s; flex: none; }
+  code.plain { background: none; padding: 0; font-size: 12px; color: #3a4250; }
+  .sim-caption { margin-top: 8px; font-size: 11.5px; color: var(--faint); opacity: 0; transition: opacity 0.4s; }
+  .sim-caption.on { opacity: 1; color: var(--accent-ink); }
+  .sim-arrow {
+    align-self: center; padding: 5px 0; font-family: var(--mono); font-size: 11px; color: var(--faint);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .sim-arrow::after { content: "↓"; font-size: 15px; color: var(--line); transition: color 0.3s; }
+  .sim-arrow.on::after { color: var(--accent); }
+  .sim-arrow.on { color: var(--accent-ink); }
+  .sim-arrow b { font-weight: 500; }
+  .sim-btn {
+    display: block; width: 100%; border: 0; cursor: default; font-family: var(--sans);
+    background: var(--sim-primary, #15b077); color: #fff; font-size: 13.5px; font-weight: 700;
+    border-radius: 9px; padding: 10px 0; transition: background 0.45s;
+  }
+
+  /* ── demo ── */
+  .demo-wrap { margin-top: 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .demo-bar { display: flex; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; align-items: center; }
+  .demo-bar span { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-right: 4px; }
+  .demo-btn {
+    font-family: var(--mono); font-size: 12.5px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--paper); color: var(--sub);
+    border-radius: 999px; padding: 5px 14px;
+  }
+  .demo-btn[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .demo-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .play-btn { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .play-btn:disabled { opacity: 0.5; cursor: default; }
+
+  .demo {
+    /* semantic tokens (light / default brand) */
+    --t-bg: #f4f6f8;
+    --t-surface: #ffffff;
+    --t-surface-primary: #15b077;
+    --t-text: #20242b;
+    --t-text-sub: #6b7480;
+    --t-on-primary: #ffffff;
+    --t-stroke: #e2e6eb;
+    /* component tokens — semantic 참조를 보존 (실제 파이프라인과 동일 구조) */
+    --t-button-surface: var(--t-surface-primary);
+    --t-button-label: var(--t-on-primary);
+    --t-badge-bg: color-mix(in srgb, var(--t-surface-primary) 14%, var(--t-surface));
+    --t-badge-text: var(--t-surface-primary);
+    background: var(--t-bg); padding: 30px 18px;
+    display: flex; justify-content: center; transition: background 0.25s;
+  }
+  .demo[data-mode="dark"] {
+    --t-bg: #14181f; --t-surface: #1e242e; --t-text: #e8ecf1;
+    --t-text-sub: #98a2b0; --t-stroke: #2b323e;
+  }
+  .demo[data-brand="luckies"] { --t-surface-primary: #d97a06; }
+  .demo-card {
+    width: 300px; background: var(--t-surface); border: 1px solid var(--t-stroke);
+    border-radius: 16px; padding: 22px; transition: background 0.25s, border-color 0.25s;
+  }
+  .demo-card .badge {
+    display: inline-block; font-size: 12px; font-weight: 700;
+    background: var(--t-badge-bg); color: var(--t-badge-text);
+    border-radius: 999px; padding: 3px 10px; transition: 0.25s;
+  }
+  .demo-card h4 { color: var(--t-text); font-size: 17px; margin-top: 12px; transition: color 0.25s; }
+  .demo-card p { color: var(--t-text-sub); font-size: 13.5px; margin-top: 4px; line-height: 1.55; transition: color 0.25s; }
+  .demo-card .cta {
+    display: block; width: 100%; margin-top: 18px; border: 0; cursor: pointer;
+    background: var(--t-button-surface); color: var(--t-button-label);
+    font-family: var(--sans); font-size: 15px; font-weight: 700;
+    border-radius: 12px; padding: 13px 0; transition: background 0.25s;
+  }
+  .demo-note { padding: 12px 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--sub); }
+  .demo-note code { font-size: 0.85em; }
+
+  /* ── compress visual (120 → 19) ── */
+  .compress { margin-top: 22px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 18px; align-items: start; }
+  .compress > div { min-width: 0; }
+  @media (max-width: 640px) { .compress { grid-template-columns: 1fr; } }
+  .dotgrid { display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; }
+  .dotgrid i { aspect-ratio: 1; border-radius: 2px; background: #cdd4dc; }
+  .dotgrid i:nth-child(7n) { background: #b3bcc7; }
+  .compress figcaption { font-size: 13px; color: var(--sub); margin-top: 10px; line-height: 1.5; }
+
+  /* ── code block ── */
+  pre.codeblock {
+    margin-top: 18px; background: var(--code-bg); color: var(--code-ink);
+    font-family: var(--mono); font-size: 13px; line-height: 1.75;
+    border-radius: 12px; padding: 18px 20px; overflow-x: auto;
+  }
+  pre.codeblock .c { color: #6b7688; }
+  pre.codeblock .g { color: #7ee0c3; }
+  pre.codeblock .y { color: #e5c07b; }
+
+  /* ── adoption chart ── */
+  .barchart { margin-top: 20px; display: grid; gap: 9px; }
+  .bar-row { display: grid; grid-template-columns: 128px 1fr 70px; gap: 12px; align-items: center; }
+  .bar-row .name { font-family: var(--mono); font-size: 12.5px; color: var(--ink); text-align: right; }
+  .bar-track { background: #ebeef2; border-radius: 5px; height: 18px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--accent); border-radius: 5px; opacity: 0.9; }
+  .bar-row .val { font-family: var(--mono); font-size: 12px; color: var(--sub); font-variant-numeric: tabular-nums; }
+  .chart-caption { font-size: 13px; color: var(--faint); margin-top: 10px; }
+
+  /* ── guard table ── */
+  table.guards { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14px; }
+  table.guards th, table.guards td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.guards th { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); font-weight: 500; }
+  table.guards td:first-child { white-space: nowrap; font-weight: 700; }
+  table.guards td { color: var(--sub); line-height: 1.55; }
+  .table-scroll { overflow-x: auto; }
+
+  /* ── 터미널 애니메이션 ── */
+  .term-anim .tl { display: block; opacity: 0; transition: opacity 0.25s; }
+  .term-anim .tl.show { opacity: 1; }
+  .term-anim.static .tl { opacity: 1; }
+
+  /* ── 실사용 화면 재구성 ── */
+  .shot-body { display: grid; grid-template-columns: auto 1fr; gap: 24px; padding: 22px; align-items: center; }
+  @media (max-width: 640px) { .shot-body { grid-template-columns: 1fr; justify-items: center; } }
+  .phone {
+    width: 280px; background: #fff; border: 1px solid var(--line); border-radius: 22px;
+    padding: 18px 18px 16px; box-shadow: 0 6px 24px rgba(20, 30, 40, 0.08); flex: none;
+  }
+  .phone-nav { color: #444; font-size: 17px; padding-bottom: 10px; }
+  .phone-title { font-size: 17.5px; font-weight: 700; color: #20242b; line-height: 1.4; margin-bottom: 16px; }
+  .p-label { display: block; font-size: 11px; color: #8a93a0; margin: 10px 0 4px; }
+  .p-input {
+    border: 1.5px solid #e2e6eb; border-radius: 10px; padding: 9px 12px;
+    font-size: 14px; color: #20242b; background: #fff;
+  }
+  .p-active { border-color: #15b077; }
+  .p-rrn { display: flex; align-items: center; gap: 6px; }
+  .p-dash { color: #b6bec8; }
+  .p-dots { font-size: 8px; color: #b6bec8; letter-spacing: 2px; }
+  .p-caret { display: inline-block; width: 1.5px; height: 14px; background: #15b077; vertical-align: -2px; animation: caret 1s steps(1) infinite; }
+  @keyframes caret { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .p-caret { animation: none; } }
+  .p-cta {
+    margin-top: 18px; background: #15b077; color: #fff; text-align: center;
+    font-size: 14.5px; font-weight: 700; border-radius: 12px; padding: 12px 0;
+  }
+  .shot-note { font-size: 13.5px; color: var(--sub); line-height: 1.65; min-width: 0; }
+
+  /* ── video slot ── */
+  .video-slot {
+    margin-top: 20px; border: 1.5px dashed #c4cbd4; border-radius: 12px;
+    padding: 34px 20px; text-align: center; color: var(--faint); background: #fdfdfe;
+  }
+  .video-slot b { display: block; color: var(--sub); font-size: 14.5px; }
+  .video-slot span { font-size: 12.5px; font-family: var(--mono); }
+
+  .honest { margin-top: 18px; background: var(--warn-soft); border-radius: 12px; padding: 16px 20px; font-size: 14px; color: #7c4a10; line-height: 1.65; }
+  .honest b { color: #7c4a10; }
+
+  footer { margin-top: 88px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media print {
+    body { background: #fff; }
+    .page { padding: 0; max-width: none; }
+    section { break-inside: avoid; margin-top: 40px; }
+    .demo-bar, .video-slot { display: none; }
+    .sim-caption, .sim-check { opacity: 1; }
+    .sim-panel { opacity: 1 !important; }
+  }
+</style>
+
+<div class="page">
+
+  <!-- ═══ HERO ═══ -->
+  <header>
+    <div class="kicker">Case Study · Design System Infra</div>
+    <h1>Figma에서 코드까지 —<br>디자인 시스템 자동화 파이프라인</h1>
+    <p class="hero-role" style="margin-top:16px">
+      디자이너가 토큰을 바꾸면 슬랙으로 전달받아 손으로 옮겨 적었고, 빠뜨린 건 QA에서 발견됐습니다.<br>
+      "이걸 왜 사람이 하지?"가 시작이었습니다.
+    </p>
+    <p class="hero-role" style="margin-top:10px">
+      Figma를 <strong>SSOT</strong>로 두는 파이프라인을 만들고,<br>
+      그 위에 <strong>신규 디자인 시스템</strong>을 구축해 전사 웹 프로덕트에 적용 중입니다.
+    </p>
+    <p style="margin-top:14px; font-size:13.5px; color:var(--faint)">
+      자비스앤빌런즈(삼쩜삼) · FE 3인 팀 · 파이프라인 설계·구현 주도 (기여도 80%) · 디자이너와 토큰 컨벤션 공동 정의
+    </p>
+
+    <div class="metrics">
+      <div class="metric"><b>571개 ×2</b><span>Light/Dark CSS 변수 자동 빌드</span><small>validator가 CI에서 강제</small></div>
+      <div class="metric"><b>65종</b><span>컴포넌트 스펙 JSON 자동 추출</span><small>variant·슬롯 스타일 포함</small></div>
+      <div class="metric"><b>51종</b><span>Figma Code Connect 매핑</span><small>디자이너 화면에 실제 코드 노출</small></div>
+      <div class="metric"><b>8개 앱</b><span>전사 웹 프로덕트 실사용 중</span><small>최대 채택 앱: 42개 파일 · 20종</small></div>
+    </div>
+  </header>
+
+  <!-- ═══ 1. PROBLEM ═══ -->
+  <section>
+    <div class="kicker">01 · Problem</div>
+    <h2>모든 변경이 사람 손을 거쳤습니다</h2>
+    <div class="pair">
+      <div class="panel before">
+        <h3>Before</h3>
+        <div class="slack-msg">
+          <span class="avatar">🎨</span>
+          <div class="slack-body"><b>디자이너</b> <span class="slack-ch">#design-update</span><br>버튼 색 바꿨어요! 반영 부탁드려요 🙏</div>
+        </div>
+        <div class="route">Figma <i>→</i> 슬랙 <i>→</i> 사람 눈 <i>→</i> 코드</div>
+        <p class="route-note warn-note">⚠ 어디까지 반영됐는지 아무도 모름</p>
+      </div>
+      <div class="panel after">
+        <h3>After</h3>
+<pre class="mini-term">$ pnpm figma:pull &amp;&amp; pnpm build
+<span class="ok">✓</span> 571 tokens → CSS / Tailwind
+<span class="ok">✓</span> validator 571/571</pre>
+        <div class="route">Figma <i>→</i> CLI <i>→</i> 코드</div>
+        <p class="route-note ok-note">누락이 있으면 QA가 아니라 빌드가 알려줍니다</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 2. ARCHITECTURE ═══ -->
+  <section>
+    <div class="kicker">02 · Architecture</div>
+    <h2>값의 파이프라인, 구조의 파이프라인</h2>
+    <!-- ── 파이프라인 시연: 값이 실제로 흘러가는 시뮬레이션 ── -->
+    <div class="sim-wrap">
+      <div class="demo-bar">
+        <button class="demo-btn play-btn" id="sim-play">▶ 디자이너가 색을 바꾸면 일어나는 일</button>
+        <span class="sim-status" id="sim-status"></span>
+      </div>
+      <div class="sim" id="sim">
+        <div class="sim-panel" data-step="0">
+          <span class="tag">① Figma — 디자이너</span>
+          <div class="sim-body">
+            <div class="sim-varrow"><i class="swatch" id="sw-figma"></i><code class="plain">surface-primary</code></div>
+            <div class="sim-caption" data-cap="0">변수 값 변경</div>
+          </div>
+        </div>
+        <div class="sim-arrow" data-step="1"><b>figma:pull</b></div>
+        <div class="sim-panel" data-step="1">
+          <span class="tag">② 토큰 JSON</span>
+          <div class="sim-body mono-body">"surface-primary":<br>&nbsp;&nbsp;{ "value": <span class="sim-val" id="val-json">"#15B077"</span> }</div>
+        </div>
+        <div class="sim-arrow" data-step="2"><b>build</b></div>
+        <div class="sim-panel" data-step="2">
+          <span class="tag">③ 빌드된 CSS</span>
+          <div class="sim-body mono-body">--surface-primary: <span class="sim-val" id="val-css">#15b077</span>;<br><span class="dim">--button-surface: var(--surface-primary); <i class="keep">← 수정 없음</i></span><br><span class="sim-check" id="sim-check">✓ validator 571/571</span></div>
+        </div>
+        <div class="sim-arrow" data-step="3"><b>배포</b></div>
+        <div class="sim-panel" data-step="3">
+          <span class="tag">④ 프로덕트</span>
+          <div class="sim-body">
+            <button class="sim-btn" id="sim-product-btn" tabindex="-1">환급액 조회하기</button>
+            <div class="sim-caption" data-cap="3">코드 수정 0줄</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-note">같은 이름 <code>surface-primary</code>가 Figma 변수 → JSON → CSS 변수 → 컴포넌트까지 네 계층을 그대로 관통합니다 — 번역 과정이 없으니 어긋날 곳도 없습니다.</div>
+    </div>
+
+    <div class="flow" id="flow">
+      <div class="node figma">
+        <span class="tag">Source of Truth</span>
+        <h3>Figma</h3>
+        <p>Variables(토큰 컬렉션 4계층) + ComponentSet(컴포넌트 정의)</p>
+      </div>
+      <div class="flow-arrow">Variables API&nbsp;&nbsp;·&nbsp;&nbsp;REST API</div>
+      <div class="flow-row">
+        <div class="node pkg">
+          <span class="tag">Pipeline A — 값</span>
+          <h3>디자인 토큰 자동 빌드</h3>
+          <div class="io">
+            <div class="io-in">
+              <i class="swatch" style="width:16px;height:16px;border-radius:4px"></i>
+              <code class="plain">surface-primary</code>
+              <span class="io-badge">Light</span><span class="io-badge">Dark</span>
+            </div>
+            <div class="io-cmd">figma:pull → build&nbsp;&nbsp;↓</div>
+            <pre class="io-out">:root { --surface-primary: <span class="y">#15b077</span> }
+.dark { --surface-primary: <span class="y">#0e8a5f</span> }</pre>
+          </div>
+          <p class="io-cap">CSS 변수 <strong>571개 ×2 모드</strong> + Tailwind v4 <code>@theme</code> — 누락은 validator가 빌드 실패로 차단</p>
+        </div>
+        <div class="node pkg">
+          <span class="tag">Pipeline B — 구조</span>
+          <h3>컴포넌트 스펙 자동 추출</h3>
+          <div class="io">
+            <div class="io-in">
+              <span class="io-minibtn">Button</span>
+              <code class="plain">variant=primary · size=large</code>
+            </div>
+            <div class="io-cmd">figma:extract&nbsp;&nbsp;↓</div>
+            <pre class="io-out">"variant=primary, size=large, …": {
+  "base": { "fill": <span class="g">"$surface-primary"</span> }
+}</pre>
+          </div>
+          <p class="io-cap">variant·슬롯별 스타일을 담은 <strong>스펙 JSON 65종</strong> — 구현의 단일 참조점</p>
+        </div>
+      </div>
+      <div class="flow-arrow">npm 패키지로 버저닝·배포 → 이를 기반으로 신규 디자인 시스템 구현 (tailwind-variants · React 19)</div>
+      <div class="dest-row">
+        <div class="node dest">
+          <span class="tag">→ 구현하는 사람·AI</span>
+          <h3>Code Connect 51종 + Claude Code 스킬</h3>
+          <div class="io">
+            <div class="io-in"><span class="io-badge">Figma Dev Mode</span><span class="io-badge">Claude Code</span></div>
+            <div class="io-cmd">시안 선택 · "만들어줘"&nbsp;&nbsp;↓</div>
+            <pre class="io-out">&lt;<span class="g">Button</span> variant=<span class="y">"primary"</span> size=<span class="y">"large"</span>&gt;</pre>
+          </div>
+          <p class="io-cap">시안을 raw CSS/div로 다시 만들지 않도록, 사람에게도 AI에게도 <strong>실제 컴포넌트 코드</strong>를 바로 제공</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══ 3. MULTI-BRAND ═══ -->
+  <section>
+    <div class="kicker">03 · Pipeline A — Tokens &amp; Theming</div>
+    <h2>시맨틱 토큰 54개만 덮어쓰면 브랜드가 바뀝니다</h2>
+    <p class="measure">버튼 색은 <code>#15b077</code> 같은 값이 아니라 <strong>"시맨틱 토큰을 따라간다"</strong>로 저장돼 있습니다 (<code>var()</code> 참조).<br>그래서 시맨틱 토큰 54개만 갈아끼우면 그걸 따라가는 모든 컴포넌트가 함께 바뀝니다. 직접 눌러보세요.</p>
+
+    <div class="chat-wrap">
+      <div class="chat-head"><span class="dot"></span>실제 컴포넌트 구동 중 — 빌드된 디자인 시스템 컴포넌트 + 토큰 CSS 번들 · 인증 서비스 '정보 입력' 화면 구성</div>
+      <div id="ds-demo-root" style="min-height:430px"></div>
+      <div class="demo-note">실제 컴포넌트입니다 — 직접 입력해보세요.<br>주민번호 마스킹 · 클리어 버튼 · error 상태까지 서비스와 동일하게 동작합니다.<br>Brand를 전환해도 바뀌는 건 시맨틱 토큰 값뿐 — 컴포넌트 코드는 수정되지 않습니다.</div>
+    </div>
+
+    <pre class="codeblock"><span class="c">/* 빌드 산출물 — 컴포넌트 토큰은 참조를 보존한다 */</span>
+:root { --surface-primary: <span class="y">#15b077</span>; }
+[data-theme="brand-b"] { --surface-primary: <span class="y">#d97a06</span>; }  <span class="c">/* 시맨틱 54개만 오버라이드 */</span>
+
+--primary-enabled-button-surface: <span class="g">var(--surface-primary)</span>;  <span class="c">/* hex로 굳히지 않음 → 브랜드가 바뀌면 따라감 */</span></pre>
+  </section>
+
+  <!-- ═══ 4. SPEC PIPELINE ═══ -->
+  <section>
+    <div class="kicker">04 · Pipeline B — Spec Extraction</div>
+    <h2>Figma를 열어 옮겨 적는 일을 없앴습니다</h2>
+    <p class="measure">버튼 하나의 상태 조합이 120개(variant 5 × 형태 2 × 크기 4 × 상태 3) — 이걸 하나씩 클릭해 옮겨 적는 게 구현에서 가장 오래 걸리는 일이었습니다.</p>
+
+    <figure class="compress">
+      <div>
+        <div class="dotgrid" aria-hidden="true"></div>
+        <figcaption><strong>Before</strong> — 점 하나가 조합 하나. 120번 클릭해서 눈으로 옮겨 적기</figcaption>
+      </div>
+      <div>
+<pre class="codeblock" style="margin-top:0; font-size:12px"><span class="c">// After — 명령 한 번으로 생성되는 spec.json</span>
+"size=small, state=enabled,
+ value=selected": {
+  "switch-track": {
+    "fill": <span class="g">"$surface-primary"</span>,
+    "cornerRadius": 999
+  },
+  "switch-thumb": {
+    "fill": <span class="g">"$icon-basic-inverse"</span>
+  }
+}</pre>
+        <figcaption><strong>After</strong> — 120개 조합의 스타일이 파일 하나로. 구현할 때 Figma를 열지 않고 이것만 봅니다</figcaption>
+      </div>
+    </figure>
+
+    <p class="measure" style="margin-top:20px">디자인이 바뀌면 <strong>이 파일의 diff로 드러납니다</strong> — 디자인 변경도 코드처럼 리뷰됩니다. 코드 생성까지는 자동화하지 않았습니다 — 인터페이스·접근성은 스펙만으로 판단할 수 없어, 사람이 결정합니다.</p>
+
+    <div class="chat-wrap">
+      <div class="chat-head"><span class="dot"></span>figma:sync — 65종 재동기화 (실제 출력 형식 재구성)</div>
+<pre class="terminal term-anim" id="sync-term" style="margin:0; border-radius:0"><span class="tl">$ pnpm figma:sync</span>
+<span class="tl">발견된 spec.json 파일: 65개</span>
+<span class="tl">571개의 디자인 토큰 로드 완료</span>
+<span class="tl">🔄 Button/spec.json 동기화 중...       <span class="c">⏭  변경사항 없음</span></span>
+<span class="tl">🔄 Switch/spec.json 동기화 중...       <span class="g">✅ 완료 (스타일 2건 갱신)</span></span>
+<span class="tl">🔄 Input/spec.json 동기화 중...        <span class="c">⏭  변경사항 없음</span></span>
+<span class="tl"><span class="c">… 62개 생략 …</span></span>
+<span class="tl">동기화 완료: <span class="g">1개 갱신</span>, 64개 변경 없음, 0개 실패</span></pre>
+    </div>
+  </section>
+
+  <!-- ═══ 5. GUARDRAILS ═══ -->
+  <section>
+    <div class="kicker">05 · Deterministic Gates</div>
+    <h2>어기면 빌드가 깨지게 만들었습니다</h2>
+    <p class="measure">"잘 지켜달라"는 부탁 대신, 사람·AI·시간이 만드는 드리프트를 각 계층의 검증 게이트가 막습니다.</p>
+<pre class="terminal">$ pnpm build
+<span class="err">✗ css-validator</span> — missing token: surface-tertiary <span class="c">(570/571)</span>
+<span class="err">build failed</span></pre>
+    <div class="table-scroll">
+      <table class="guards">
+        <thead><tr><th>게이트</th><th>지키는 것</th><th>어기면</th></tr></thead>
+        <tbody>
+          <tr><td>토큰 validator</td><td>소스 토큰 ↔ 생성된 CSS 변수 1:1 (571개 전수 대조)</td><td>빌드 실패</td></tr>
+          <tr><td>참조 치환 검사</td><td>깨진 토큰 참조가 CSS로 새어 나가 조용히 무효화되는 것</td><td>빌드 실패</td></tr>
+          <tr><td>자체 ESLint 룰</td><td>슬롯 오버라이드를 뒤따르는 <code>className</code>이 조용히 덮어쓰는 것 (타입이 못 잡아 lint가 맡음)</td><td>린트 에러</td></tr>
+          <tr><td>Code Connect 검사기</td><td>Figma 속성 rename·옵션 변경으로 51종 매핑이 어긋나는 것</td><td>exit 1</td></tr>
+          <tr><td>스킬 문서 검증</td><td>가이드 문서의 prop·값 ↔ 배포 타입(d.ts) 불일치, 예제 코드 컴파일 실패</td><td>CI 에러</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══ 6. NON-HUMAN CONSUMERS ═══ -->
+  <section>
+    <div class="kicker">06 · Code Connect &amp; AI Skill</div>
+    <h2>코드를 소비하는 건 사람 개발자만이 아닙니다</h2>
+
+    <h3 style="margin-top:20px">시안을 구현하는 개발자에게 — Code Connect 51종</h3>
+    <p class="measure" style="font-size:14.5px">Dev Mode에서 시안을 클릭했을 때 보이는 코드를 바꿉니다.</p>
+    <div class="chat-wrap">
+      <div class="chat-head"><span class="dot"></span>Figma Dev Mode — 시안에서 Button 선택</div>
+      <div class="cc-body">
+        <div>
+          <span class="cc-label bad">Code Connect 없이</span>
+<pre class="io-out cc-dim">display: flex;
+padding: 13px 20px;
+background: #15B077;
+border-radius: 12px; …</pre>
+          <p class="route-note warn-note">CSS 덩어리를 보고 raw CSS로 재구현 → 시스템 우회</p>
+        </div>
+        <div>
+          <span class="cc-label good">Code Connect 매핑 후</span>
+<pre class="io-out">&lt;<span class="g">Button</span> variant=<span class="y">"primary"</span> size=<span class="y">"large"</span>&gt;
+  환급액 조회하기
+&lt;/<span class="g">Button</span>&gt;</pre>
+          <p class="route-note ok-note">이 코드를 그대로 복사해 쓰면 됩니다</p>
+        </div>
+      </div>
+    </div>
+    <p class="chart-caption">매핑 초안은 스크립트가 생성하고 판단만 사람이 검토 — Figma 속성이 바뀌어 어긋나면 자체 드리프트 검사기가 CI에서 차단</p>
+
+    <h3 style="margin-top:30px">시안을 구현하는 AI에게 — Claude Code 스킬</h3>
+    <p class="measure" style="font-size:14.5px">사용 가이드 35편을 스킬로 배포해, AI가 raw div 대신 시스템 컴포넌트로 구현하게 합니다.</p>
+    <div class="chat-wrap">
+      <div class="chat-head"><span class="dot"></span>Claude Code — 사내 디자인 시스템 스킬 활성화됨</div>
+      <div class="chat">
+        <span class="who who-r">개발자</span>
+        <div class="msg user">이 시안대로 버튼 만들어줘</div>
+        <span class="who">AI</span>
+        <div class="msg ai">시스템 컴포넌트로 구현합니다<pre>&lt;<span class="g">Button</span> variant=<span class="y">"primary"</span> size=<span class="y">"large"</span>&gt;</pre></div>
+        <span class="who who-r">개발자</span>
+        <div class="msg user">여기에 캘린더도 넣어줘</div>
+        <span class="who">AI</span>
+        <div class="msg ai">캘린더는 시스템에 없는 컴포넌트예요 — 임의로 만들지 않고 <b>확인을 요청</b>합니다</div>
+      </div>
+    </div>
+    <p class="chart-caption">가이드의 prop·예제 코드는 배포 타입 정의(d.ts) 기준으로 자동 검증됩니다 — 05 게이트와 같은 구조</p>
+  </section>
+
+  <!-- ═══ 7. ADOPTION ═══ -->
+  <section>
+    <div class="kicker">07 · Adoption</div>
+    <h2>만드는 것보다 채택되는 것이 임팩트</h2>
+    <p class="measure">전사 웹 앱 18개 중 8개가 실사용 중입니다.</p>
+
+    <div class="barchart" role="img" aria-label="앱별 디자인 시스템 사용 파일 수 차트">
+      <div class="bar-row"><span class="name">인증(auth)</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="val">42 files</span></div>
+      <div class="bar-row"><span class="name">병원비 환급</span><div class="bar-track"><div class="bar-fill" style="width:81%"></div></div><span class="val">34 files</span></div>
+      <div class="bar-row"><span class="name">리워드(mnt)</span><div class="bar-track"><div class="bar-fill" style="width:76%"></div></div><span class="val">32 files</span></div>
+      <div class="bar-row"><span class="name">공통(common)</span><div class="bar-track"><div class="bar-fill" style="width:71%"></div></div><span class="val">30 files</span></div>
+      <div class="bar-row"><span class="name">보험테크</span><div class="bar-track"><div class="bar-fill" style="width:29%"></div></div><span class="val">12 files</span></div>
+      <div class="bar-row"><span class="name">그 외 3개 앱</span><div class="bar-track"><div class="bar-fill" style="width:19%; opacity:0.5"></div></div><span class="val">8 files</span></div>
+    </div>
+    <p class="chart-caption">앱별 시스템 컴포넌트 import 파일 수 (2026-09 기준) · 사용 컴포넌트 최다 앱은 22종 사용</p>
+
+    <p class="chart-caption">차트 1위 '인증' 앱의 실제 화면 구성은 03의 라이브 데모에서 직접 조작해볼 수 있습니다</p>
+
+  </section>
+
+  <footer>
+    <div style="width:100%; font-family:var(--mono); font-size:11.5px; margin-bottom:10px">
+      TypeScript · React 19 · Style Dictionary · tailwind-variants · Figma API (Variables / REST / Code Connect / Webhook)
+    </div>
+    <span>이진수 — Frontend Engineer</span>
+    <span>github.com/01-binary · binary01.me</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var dots = document.querySelector('.dotgrid');
+    for (var i = 0; i < 120; i++) dots.appendChild(document.createElement('i'));
+
+    /* 파이프라인 시뮬레이션: 디자이너의 값 변경이 JSON → CSS → 컴포넌트로 전파 */
+    var GREEN = { hex: '#15b077', up: '"#15B077"' };
+    var ORANGE = { hex: '#d97a06', up: '"#D97A06"' };
+    var current = GREEN;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var playBtn = document.getElementById('sim-play');
+    var status = document.getElementById('sim-status');
+    var panels = document.querySelectorAll('.sim-panel');
+    var arrows = document.querySelectorAll('.sim-arrow');
+    var caps = document.querySelectorAll('.sim-caption');
+    var check = document.getElementById('sim-check');
+
+    function stepOn(n, next) {
+      panels.forEach(function (p) { if (p.dataset.step === String(n)) p.classList.add('on'); });
+      arrows.forEach(function (a) { if (a.dataset.step === String(n)) a.classList.add('on'); });
+      caps.forEach(function (c) { if (c.dataset.cap === String(n)) c.classList.add('on'); });
+      if (n === 0) document.getElementById('sw-figma').style.background = next.hex;
+      if (n === 1) swapVal('val-json', next.up);
+      if (n === 2) { swapVal('val-css', next.hex); setTimeout(function () { check.classList.add('on'); }, 350); }
+      if (n === 3) document.getElementById('sim-product-btn').style.background = next.hex;
+    }
+    function swapVal(id, text) {
+      var el = document.getElementById(id);
+      el.textContent = text;
+      el.classList.add('flash');
+      setTimeout(function () { el.classList.remove('flash'); }, 700);
+    }
+    function playSim() {
+      var next = current === GREEN ? ORANGE : GREEN;
+      [].forEach.call(document.querySelectorAll('.sim .on'), function (el) { el.classList.remove('on'); });
+      check.classList.remove('on');
+      if (reduced) { [0, 1, 2, 3].forEach(function (n) { stepOn(n, next); }); current = next; playBtn.textContent = '↺ 다시 재생'; return; }
+      panels.forEach(function (p) { p.classList.add('pending'); });
+      playBtn.disabled = true;
+      status.textContent = '';
+      [0, 1, 2, 3].forEach(function (n, idx) {
+        setTimeout(function () {
+          panels.forEach(function (p) { if (p.dataset.step === String(n)) p.classList.remove('pending'); });
+          stepOn(n, next);
+          if (n === 3) {
+            playBtn.disabled = false;
+            playBtn.textContent = '↺ 다시 재생';
+            status.textContent = '완료 — 코드 수정 없이 도달. 다시 누르면 원래 색으로';
+          }
+        }, idx * 850);
+      });
+      current = next;
+    }
+    playBtn.addEventListener('click', playSim);
+
+    /* figma:sync 터미널: 화면 진입 시 한 줄씩 출력 */
+    var term = document.getElementById('sync-term');
+    if (term) {
+      var lines = term.querySelectorAll('.tl');
+      if (reduced || !('IntersectionObserver' in window)) {
+        term.classList.add('static');
+      } else {
+        var termPlayed = false;
+        new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting && !termPlayed) {
+              termPlayed = true;
+              obs.disconnect();
+              lines.forEach(function (l, i) {
+                setTimeout(function () { l.classList.add('show'); }, 300 + i * 380);
+              });
+            }
+          });
+        }, { threshold: 0.5 }).observe(term);
+      }
+    }
+    /* 시뮬레이션 영역이 화면에 들어오면 1회 자동재생 (모션 축소 설정 시 제외) */
+    var autoPlayed = false;
+    if (!reduced && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !autoPlayed) {
+            autoPlayed = true;
+            obs.disconnect();
+            setTimeout(playSim, 500);
+          }
+        });
+      }, { threshold: 0.6 }).observe(document.getElementById('sim'));
+    }
+  })();
+</script>
+<script defer src="ds-demo.js"></script>

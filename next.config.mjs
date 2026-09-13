@@ -31,6 +31,12 @@ const nextConfig = {
     optimizePackageImports: ['dayjs'],
     useCache: true,
   },
+  async rewrites() {
+    return [
+      { source: '/portfolio/design-system', destination: '/portfolio/design-system.html' },
+      { source: '/portfolio/mfe', destination: '/portfolio/mfe.html' },
+    ];
+  },
 };
 
 export default nextConfig;
