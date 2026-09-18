@@ -19,8 +19,49 @@ import {
   type PostSEOData,
 } from './_utils';
 
-// 요청 레벨 중복제거를 위한 React.cache 래퍼
-const getPostId = cache((slug: string) => getCachedIdBySlug(slug, env.notionPostDatabaseId));
+type FetchPostDataResult =
+  | { status: 'success'; blocks: NotionBlock[]; seo: PostSEOData }
+  | { status: 'not_found' };
+
+/**
+ * 포스트 데이터를 병렬로 가져옵니다.
+ *
+ * 일시적인 실패(429, 네트워크 오류 등)는 잡지 않고 그대로 던집니다.
+ * 'use cache' 안에서 잡아 not_found로 바꾸면 실패한 결과가 daysForever로 캐시되어
+ * 멀쩡한 글이 하루 동안 404로 서빙되기 때문입니다.
+ *
+ * @returns Discriminated union으로 success/not_found 상태를 구분합니다.
+ */
+async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
+  'use cache';
+  cacheTag('post', slug);
+  cacheLife('daysForever');
+
+  const id = await getCachedIdBySlug(slug, env.notionPostDatabaseId);
+
+  if (!id) {
+    return { status: 'not_found' };
+  }
+
+  const [blocks, properties] = await Promise.all([
+    notionClient.getPageBlocks(id),
+    getCachedPageProperties(id),
+  ]);
+
+  // notion-to-utils는 블록 조회 실패를 빈 배열로 돌려주므로, 비어 있으면 실패로 간주합니다
+  if (blocks.length === 0) {
+    throw new Error(`Failed to fetch blocks for post "${slug}" (page ${id})`);
+  }
+
+  return {
+    status: 'success',
+    blocks,
+    seo: extractPostMetadata(properties),
+  };
+}
+
+// generateMetadata와 페이지 렌더가 같은 요청 안에서 결과를 공유하도록 하는 React.cache 래퍼
+const getPostData = cache(fetchPostData);
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -33,84 +74,31 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
+  const result = await getPostData(slug);
 
-  try {
-    const id = await getPostId(slug);
-
-    if (!id) {
-      return {
-        title: 'Not Found',
-        description: 'This post could not be found.',
-      };
-    }
-
-    const properties = await getCachedPageProperties(id);
-    const seo = extractPostMetadata(properties);
-    const pageUrl = `${siteConfig.url}/posts/${slug}`;
-
-    return {
-      title: seo.title,
-      description: seo.description,
-      keywords: seo.keywords,
-      alternates: { canonical: pageUrl },
-      ...buildSocialMetadata({ imageUrl: seo.coverUrl, pageUrl }),
-    };
-  } catch (error) {
-    console.error(`Error fetching metadata for slug ${slug}:`, error);
+  if (result.status !== 'success') {
     return {
       title: 'Not Found',
       description: 'This post could not be found.',
     };
   }
-}
 
-type FetchPostDataResult =
-  | { status: 'success'; blocks: NotionBlock[]; seo: PostSEOData }
-  | { status: 'not_found' }
-  | { status: 'error'; message: string };
+  const { seo } = result;
+  const pageUrl = `${siteConfig.url}/posts/${slug}`;
 
-/**
- * 포스트 데이터를 병렬로 가져옵니다.
- *
- * @returns Discriminated union으로 success/not_found/error 상태를 구분합니다.
- */
-async function fetchPostData(slug: string): Promise<FetchPostDataResult> {
-  'use cache';
-  cacheTag('post', slug);
-  cacheLife('daysForever');
-
-  try {
-    const id = await getPostId(slug);
-
-    if (!id) {
-      return { status: 'not_found' };
-    }
-
-    const [blocks, properties] = await Promise.all([
-      notionClient.getPageBlocks(id),
-      getCachedPageProperties(id),
-    ]);
-
-    if (!blocks || blocks.length === 0) {
-      return { status: 'not_found' };
-    }
-
-    return {
-      status: 'success',
-      blocks,
-      seo: extractPostMetadata(properties, ''),
-    };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    console.error(`Error fetching post data for slug ${slug}:`, error);
-    return { status: 'error', message };
-  }
+  return {
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: { canonical: pageUrl },
+    ...buildSocialMetadata({ imageUrl: seo.coverUrl, pageUrl }),
+  };
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
 
-  const result = await fetchPostData(slug);
+  const result = await getPostData(slug);
 
   if (result.status !== 'success') {
     notFound();

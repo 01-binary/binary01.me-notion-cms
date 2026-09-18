@@ -14,7 +14,14 @@ async function getAboutPageBlocks() {
   cacheTag('about');
   cacheLife('daysForever');
 
-  return notionClient.getPageBlocks(env.notionAboutId);
+  const blocks = await notionClient.getPageBlocks(env.notionAboutId);
+
+  // notion-to-utils는 블록 조회 실패를 빈 배열로 돌려주므로, 실패가 캐시되지 않도록 throw 합니다
+  if (blocks.length === 0) {
+    throw new Error(`Failed to fetch blocks for about page (${env.notionAboutId})`);
+  }
+
+  return blocks;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
