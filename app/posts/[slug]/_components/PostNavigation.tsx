@@ -64,7 +64,7 @@ const PostNavigation = async ({ slug }: PostNavigationProps) => {
     <nav
       aria-label="이전 글, 다음 글"
       className="
-        mt-10 grid grid-cols-1 gap-4
+        mt-10 mb-12 grid grid-cols-1 gap-4
         md:grid-cols-2
       "
     >
