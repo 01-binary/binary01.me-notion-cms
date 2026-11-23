@@ -45,6 +45,12 @@ const generateSitemapXml = (postsMeta: PostMeta[]): string => {
     <lastmod>${dayjs().format('YYYY-MM-DD')}</lastmod>
   </url>
   <url>
+    <loc>${siteConfig.url}/posts</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>${dayjs().format('YYYY-MM-DD')}</lastmod>
+  </url>
+  <url>
     <loc>${siteConfig.url}/about</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
