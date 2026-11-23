@@ -11,6 +11,7 @@ import { getCachedPostsMeta } from '@/utils/fetchNotionPostsMeta';
 import notionClient from '@/utils/notionClient';
 
 import Giscus from './_components/Giscus';
+import PostNavigation from './_components/PostNavigation';
 import PostRenderer from './_components/PostRenderer';
 import {
   extractPostMetadata,
@@ -129,6 +130,7 @@ const PostPage = async ({ params }: PostPageProps) => {
         cover={seo.coverUrl}
       />
       <div className="mx-auto max-w-[900px] px-4">
+        <PostNavigation slug={slug} />
         <Giscus />
       </div>
     </article>

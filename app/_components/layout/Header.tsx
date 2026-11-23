@@ -5,6 +5,10 @@ import ThemeSelect from '../ThemeSelect';
 
 const navLinkList = [
   {
+    name: 'posts',
+    link: '/posts',
+  },
+  {
     name: 'about',
     link: '/about',
   },
